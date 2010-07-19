@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006-2009 rPath, Inc.
+# Copyright (c) 2010 rPath, Inc.
 #
 # All Rights Reserved
 #
@@ -88,9 +88,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('workspace-cloud-client')
 
         r.add('rbuilder')
-        r.add('rbuilder-dashboard')
         r.add('rbuilder-ui')
-        r.add('catalog-client')
 
         # Postgres
         r.add('django-db-postgres')
@@ -225,7 +223,13 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                 # rBuilder components from the build label
                 ('buildlabel', [
                         'anaconda-custom',
-                        'catalog-client',
+                        'jobmaster',
+                        'media-template',
+                        'rbuilder',
+                        'rbuilder-mcp',
+                        'splashy-theme',
+                      ]),
+                ('master_label', [
                         'catalog-service',
                         'conary',
                         'conary-build',
@@ -234,16 +238,11 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'conary-rest',
                         'conary-web-common-upsrv',
                         'firewall-rules',
-                        'jobmaster',
                         'mcp',
                         'mcp-server',
-                        'media-template',
                         'pcreator',
                         'pyovf',
                         'raa-branding-custom',
-                        'rbuilder',
-                        'rbuilder-dashboard',
-                        'rbuilder-mcp',
                         'rbuilder-ui',
                         'rmake',
                         'rmake-multinode-server',
@@ -251,10 +250,12 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'repodata',
                         'restlib',
                         'rpath-capsule-indexer',
+                        'rpath-job',
+                        'rpath-models',
                         'rpath-product-definition',
                         'rpath-storage',
                         'rpath-xmllib',
-                        'splashy-theme',
+                        'smartform',
                         'updateservice',
                         'updateservice-appliance',
                         'updateservice-postgresql',
@@ -294,10 +295,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                 ('pgbouncer_version',       ['pgbouncer']),
                 ('pgsql_label',             ['postgresql', 'postgresql-contrib', 'postgresql-server']),
               ]:
-            if macro not in r.macros:
-                continue
             for package in packages:
-                pkgVersion = r.macros[macro]
+                pkgVersion = r.macros.get(macro, '')
                 if '[' in package:
                     x = package.index('[')
                     package, flavor = package[:x], package[x:]
@@ -325,11 +324,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         if 'productDefinitionSearchPath' in r.macros:
             path = r.macros.productDefinitionSearchPath.split('\n')
         else:
-            rapaVersion =   r.macros.get('rapa_label', 'products.rpath.com@rpath:rapa-3')
+            rapaVersion =   r.macros.get('rapa_label', 'conary.rpath.com@rpl:2')
             rPLVersion =    r.macros.get('distro_version', 'conary.rpath.com@rpl:2')
 
             path = [
-                'libcap=conary.rpath.com@rpl:2-devel', # until RPL-3137
                 'group-rapa=%s' % rapaVersion,
                 'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
               ]

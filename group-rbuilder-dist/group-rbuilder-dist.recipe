@@ -1,0 +1,376 @@
+#
+# Copyright (c) 2006-2009 rPath, Inc.
+#
+# All Rights Reserved
+#
+
+from conary.lib import log
+
+loadSuperClass('group-appliance', 'conary.rpath.com@rpl:2')
+class GroupRbuilderDist(ApplianceGroupRecipe):
+    name = 'group-rbuilder-dist'
+    version = '5.5.0'
+
+    # group-rbuilder-dist is a trove bucket, not an image group, so disable
+    # most checks.  See below for the actual image group definitions.
+    imageGroup = False
+    depCheck = False
+    autoResolve = False
+    checkPathConflicts = False
+
+    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
+
+    def setup(r):
+        r.setApplianceSearchPath()
+
+        ## group-core - Platform used by all products of this recipe
+        r.addAppliancePlatform()
+
+        # Replace conary
+        r.replace('conary', groupName='group-core')
+        r.add('conary-build')
+        r.add('conary-repository')
+        r.add('conary-policy')
+
+        r.replace('iproute') # need one with `ip link add`
+        r.add('iftop')
+        r.add('less:runtime')
+        r.add('mailx')
+        r.add('nano:runtime')
+        r.add('openssh-client')
+        r.add('openssh-server')
+        r.add('rsync')
+        r.add('sendmail')
+        r.add('strace')
+        r.add('sysstat')
+        r.add('tcpdump')
+        r.add('wget')
+        r.add('which')
+        r.add('dstat')
+        r.add('vim')
+        r.replace('splashy-theme') # replaced by rbuilder
+
+        # Appliance Platform Agent
+        r.add('group-rapa')
+        r.add('rapa-console')
+
+        # Maintenance tools and monitoring
+        r.add('yp-tools')
+        r.add('ypbind')
+        r.add('patch')
+        r.add('net-snmp')
+        r.add('net-snmp-server')
+        r.add('nrpe', '/contrib.rpath.org@rpl:devel/2.0-7-1')
+        r.add('info-nagios', '/contrib.rpath.org@rpl:devel/0-1-1')
+        r.add('nagios-plugins', '/contrib.rpath.org@rpl:devel/1.4.2-2-1')
+        r.add('open-vm-tools')
+        r.add('rdiff-backup')
+        r.add('screen')
+        r.add('sudo')
+        r.add('lsof')
+
+        ## group-rbuilder - Mint Web Front-end
+        r.ourStartGroup('group-rbuilder', r.name, topLevel = False)
+
+        r.add('conary-web-common')
+        r.add('httpd')
+        r.add('make')
+        r.add('mod_ssl')
+        r.add('mod_python')
+        r.add('PIL', flavor = 'use: !tk')
+        r.add('samba:runtime')
+        r.add('simplejson')
+        r.add('sqlite:runtime')
+
+        r.add('MochiKit')
+        r.add('rmake')
+        r.add('yui')
+        r.add('workspace-cloud-client')
+
+        r.add('rbuilder')
+        r.add('rbuilder-dashboard')
+        r.add('rbuilder-ui')
+        r.add('catalog-client')
+
+        # Postgres
+        r.add('django-db-postgres')
+        r.add('postgresql-server')
+        r.add('postgresql')
+        r.add('psycopg2')
+        r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
+        r.add('pgbouncer:runtime')
+        # We need locale data for compatibility with postgresql data
+        # stores initialized in rPL 1.
+        r.add('glibc:locale')
+
+        # MCP
+        r.ourStartGroup('group-mcp', r.name, topLevel = False)
+        r.add('mcp')
+        r.add('mcp-server')
+
+        ## group-rmake - rMake Multinode Server and Configuration.
+        r.ourStartGroup('group-rmake', r.name, topLevel=False)
+        r.add('rmake')
+        r.add('rmake-multinode-server')
+        r.add('rmake-node')
+        r.add('group-rpm')
+        r.add('rpm', 'cantwait.rpath.org@rpl:2')  # Fallback RPM
+
+        ## group-extras
+        # NB: These are not installed on the appliance, but kept to simplify
+        # release management.
+        r.ourStartGroup('group-extras', r.name, topLevel=False, byDefault=False,
+                        checkPathConflicts=False)
+        r.add('anaconda-custom')
+        r.add('media-template')
+
+        ## group-updateservice -- core packages for updateservice
+        r.ourStartGroup('group-updateservice', r.name, topLevel=False)
+        r.add('conary')
+        r.add('conary-repository')
+        r.add('conary-web-common')
+        r.add('conary-web-common-upsrv')
+        r.add('updateservice')
+        r.add('conary-rest')
+        r.add('restlib')
+        r.add('xobj:python')
+        r.add('postgresql-server')
+        r.add('postgresql')
+        r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
+        r.add('httpd')
+        r.add('make')
+        r.add('mod_ssl')
+        r.add('mod_python')
+        r.add('samba:runtime')
+        r.add('sqlite:runtime')
+        # NOTE: the following packages should be able to coexist
+        # with other services on an appliance (e.g., for US2US),
+        # but currently there are system-wide config changes which
+        # prevent this.  Need to split some things out of here.
+        r.add('raa-branding-custom')
+        r.add('updateservice-appliance')
+        r.add('updateservice-postgresql')
+
+        ###### PRODUCTS ######
+        ## group-rbuilder-appliance - rBuilder Appliance
+        r.ourStartGroup('group-rbuilder-appliance', r.name, topLevel = True)
+        r.addNewGroup('group-core', groupName='group-rbuilder-appliance')
+        r.addNewGroup('group-rbuilder', groupName='group-rbuilder-appliance')
+        r.addNewGroup('group-mcp', groupName='group-rbuilder-appliance')
+        r.addNewGroup('group-rmake', groupName='group-rbuilder-appliance')
+        r.add('jobmaster', groupName='group-rbuilder-appliance')
+        # jobmaster requires binutils for templategen in some cases
+        r.add('binutils', groupName='group-rbuilder-appliance')
+        r.add('rbuilder-mcp')
+        r.addPreUpdateScript('prescript.sh', groupName='group-rbuilder-appliance')
+        r.addPostInstallScript(contents='''#!/bin/bash
+            /usr/share/rbuilder/scripts/group-script
+            ''', groupName='group-rbuilder-appliance')
+        r.addPostUpdateScript(contents='''#!/bin/bash
+            /usr/share/rbuilder/scripts/group-script
+            ''', groupName='group-rbuilder-appliance')
+
+        ## group-updateservice-appliance - rPath Update Service
+        r.ourStartGroup('group-updateservice-appliance', r.name, topLevel = True)
+        r.addNewGroup('group-core', groupName='group-updateservice-appliance')
+        r.addNewGroup('group-updateservice', groupName='group-updateservice-appliance')
+        r.add('firewall-rules')
+        r.addPostInstallScript(contents='''#!/bin/sh
+            /srv/conary/bin/migrate-config
+            /srv/conary/bin/migrate-repos
+            exit 0
+            ''', groupName='group-updateservice-appliance')
+        r.addPostUpdateScript(contents='''#!/bin/sh
+            /srv/conary/bin/migrate-config
+            /srv/conary/bin/migrate-repos
+            exit 0
+            ''', groupName='group-updateservice-appliance')
+
+        if PackageFlags.rbuilder.rbo:
+            ## group-jobmaster-standalone - Standalone Jobmaster
+            r.ourStartGroup('group-jobmaster-standalone', r.name, topLevel = True)
+            r.addNewGroup('group-core')
+            r.add('jobmaster')
+            r.add('binutils')
+            r.add('rbuilder-mcp')
+
+            ## group-mcp-standalone - Standalone MCP
+            r.ourStartGroup('group-mcp-standalone', r.name, topLevel = True)
+            r.addNewGroup('group-core')
+            r.addNewGroup('group-mcp')
+
+            ## group-rbuilder-standalone - Standalone rBuilder
+            r.ourStartGroup('group-rbuilder-standalone', r.name, topLevel = True)
+            r.addNewGroup('group-core')
+            r.addNewGroup('group-rbuilder')
+            r.addNewGroup('group-mcp', byDefault=False) # Optional MCP
+
+    def getInitialSearchPath(r):
+        """
+        We don't want to ever implicitly use the build label. Any troves
+        from the build label must be specified as such in the search path
+        or in C{r.add()}.
+        """
+        return []
+
+    def getAdditionalSearchPath(r):
+        """
+        Set a package search path from a plethora of macros. This covers all
+        the product components and dependencies that aren't part of the
+        platform, e.g. everything except rPA, rPL, and rLS.
+        """
+        # Place new packages in the correct section, sorted alphabetically.
+        packageSearchPath = []
+        for macro, packages in [
+                # rBuilder components from the build label
+                ('buildlabel', [
+                        'anaconda-custom',
+                        'catalog-client',
+                        'catalog-service',
+                        'conary',
+                        'conary-build',
+                        'conary-policy',
+                        'conary-repository',
+                        'conary-rest',
+                        'conary-web-common-upsrv',
+                        'firewall-rules',
+                        'jobmaster',
+                        'mcp',
+                        'mcp-server',
+                        'media-template',
+                        'pcreator',
+                        'pyovf',
+                        'raa-branding-custom',
+                        'rbuilder',
+                        'rbuilder-dashboard',
+                        'rbuilder-mcp',
+                        'rbuilder-ui',
+                        'rmake',
+                        'rmake-multinode-server',
+                        'rmake-node',
+                        'repodata',
+                        'restlib',
+                        'rpath-capsule-indexer',
+                        'rpath-product-definition',
+                        'rpath-storage',
+                        'rpath-xmllib',
+                        'splashy-theme',
+                        'updateservice',
+                        'updateservice-appliance',
+                        'updateservice-postgresql',
+                        'xobj',
+                      ]),
+
+                # Other components
+                ('globus_label',            ['workspace-cloud-client']),
+                ('xen_label',               ['XenAPI']),
+                ('rpm_label',               ['group-rpm']),
+
+                # Platform overrides/extras
+                ('contrib_label', [
+                        'boto',
+                        'decorator',
+                        'django',
+                        'django-db-postgres',
+                        'django-db-sqlite3',
+                        'django-rest-interface',
+                        'dstat',
+                        'iftop',
+                        'iproute', # need one with `ip link add`
+                        'libevent',
+                        'librsync', # dep of rdiff-backup
+                        'MochiKit[~MochiKit.packed]',
+                        'psycopg2',
+                        'python-ctypes',
+                        'python-markdown',
+                        'pywbem',
+                        'PyYAML',
+                        'rdiff-backup',
+                        'SQLAlchemy',
+                        'xz', # rpm depends on xz:lib, which rPL 2 omits
+                        'yui',
+                    ]),
+                ('java_label',              ['sun-jdk', 'sun-jre']),
+                ('pgbouncer_version',       ['pgbouncer']),
+                ('pgsql_label',             ['postgresql', 'postgresql-contrib', 'postgresql-server']),
+              ]:
+            if macro not in r.macros:
+                continue
+            for package in packages:
+                pkgVersion = r.macros[macro]
+                if '[' in package:
+                    x = package.index('[')
+                    package, flavor = package[:x], package[x:]
+                    packageSearchPath.append('%s=%s%s' % (
+                            package, pkgVersion, flavor))
+                else:
+                    packageSearchPath.append('%s=%s' % (package, pkgVersion))
+
+        if not r._lightInstance:
+            log.info("Package search path:")
+            for entry in packageSearchPath:
+                log.info(" %s", entry)
+            # HACK: only return the CNY-3286 search path for real cooks until
+            # 2.1.0 is fully released; this makes it possible to commit recipe
+            # changes without needing a checkout.
+            return [packageSearchPath]
+        else:
+            return packageSearchPath
+
+    def getAppliancePlatformSearchPath(r):
+        """
+        Derive a platform search path from some input macros, unless one
+        was supplied in a rbuild-compatible form.
+        """
+        if 'productDefinitionSearchPath' in r.macros:
+            path = r.macros.productDefinitionSearchPath.split('\n')
+        else:
+            rapaVersion =   r.macros.get('rapa_label', 'products.rpath.com@rpath:rapa-3')
+            rPLVersion =    r.macros.get('distro_version', 'conary.rpath.com@rpl:2')
+
+            path = [
+                'libcap=conary.rpath.com@rpl:2-devel', # until RPL-3137
+                'group-rapa=%s' % rapaVersion,
+                'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
+              ]
+
+        if not r._lightInstance:
+            log.info("Platform search path:")
+            for entry in path:
+                log.info(" %s", entry)
+        return path
+
+    def setApplianceSearchPath(r):
+        if 'searchPathOverride' in r.macros:
+            path = r.macros.searchPathOverride.split('\n')
+            r.setSearchPath(*path)
+
+            # Set PDSP for addAppliancePlatform() to use
+            r.macros.productDefinitionSearchPath = '\n'.join(path)
+        else:
+            ApplianceGroupRecipe.setApplianceSearchPath(r)
+
+    def ourStartGroup(r, name, parentGroup, topLevel=False, byDefault=True,
+            checkPathConflicts=True):
+        # creates group named "name", adds it to the toplevel group,
+        # and sets the current group to that name.  calls to r.add()
+        # will use the current group by default.
+
+        # note: byDefault applies to whether the group is included by
+        # default in its parent group, not whether the troves in
+        # the group are added by default. (use the setByDefault() command
+        # to get that)
+
+        # get all the the default for the new group from its parent group.
+        if parentGroup:
+            r.setDefaultGroup(parentGroup)
+
+        r.createGroup(name, autoResolve=topLevel, depCheck=topLevel,
+                        checkOnlyByDefaultDeps=True,
+                        checkPathConflicts=checkPathConflicts)
+
+        if parentGroup:
+            r.addNewGroup(name, groupName=parentGroup, byDefault=byDefault)
+        r.setDefaultGroup(name)
+
+        r.removeComponents(r.unwantedComponents)

@@ -282,12 +282,17 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',
                         'psycopg2',
+                        'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
+                        'python-dateutil',
                         'python-markdown',
+                        'python-twisted',
+                        'python-zopeinterface', # dep of python-twisted
                         'pywbem',
                         'PyYAML',
                         'rdiff-backup',
                         'SQLAlchemy',
+                        'vobject',
                         'xz', # rpm depends on xz:lib, which rPL 2 omits
                         'yui',
                     ]),

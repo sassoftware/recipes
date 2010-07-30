@@ -280,7 +280,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'libevent',
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',
-                        'psycopg2',
                         'python-ctypes',
                         'python-markdown',
                         'pywbem',
@@ -292,7 +291,12 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                     ]),
                 ('java_label',              ['sun-jdk', 'sun-jre']),
                 ('pgbouncer_version',       ['pgbouncer']),
-                ('pgsql_label',             ['postgresql', 'postgresql-contrib', 'postgresql-server']),
+                ('pgsql_label', [
+                        'postgresql',
+                        'postgresql-contrib',
+                        'postgresql-server',
+                        'psycopg2',
+                        ]),
               ]:
             if macro not in r.macros:
                 continue

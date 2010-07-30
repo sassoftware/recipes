@@ -281,7 +281,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'libevent',
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',
-                        'psycopg2',
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
                         'python-dateutil',
@@ -298,7 +297,12 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                     ]),
                 ('java_label',              ['sun-jdk', 'sun-jre']),
                 ('pgbouncer_version',       ['pgbouncer']),
-                ('pgsql_label',             ['postgresql', 'postgresql-contrib', 'postgresql-server']),
+                ('pgsql_label', [
+                        'postgresql',
+                        'postgresql-contrib',
+                        'postgresql-server',
+                        'psycopg2',
+                        ]),
               ]:
             for package in packages:
                 pkgVersion = r.macros.get(macro, '')

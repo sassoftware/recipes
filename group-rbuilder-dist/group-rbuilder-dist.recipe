@@ -247,6 +247,9 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'rmake',
                         'rmake-multinode-server',
                         'rmake-node',
+                        'rmake3',
+                        'rmake3-multinode-server',
+                        'rmake3-node',
                         'repodata',
                         'restlib',
                         'rpath-capsule-indexer',
@@ -286,6 +289,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'python-dateutil',
                         'python-markdown',
                         'python-twisted',
+                        'python-txpostgres', # dep of rmake
+                        'python-wokkel', # dep of rmake3
                         'python-zopeinterface', # dep of python-twisted
                         'pywbem',
                         'PyYAML',

@@ -111,6 +111,9 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rmake')
         r.add('rmake-multinode-server')
         r.add('rmake-node')
+        r.add('rmake3')
+        r.add('rmake3-multinode-server')
+        r.add('rmake3-node')
         r.add('group-rpm')
         r.add('rpm', 'cantwait.rpath.org@rpl:2')  # Fallback RPM
 

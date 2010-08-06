@@ -60,9 +60,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('patch')
         r.add('net-snmp')
         r.add('net-snmp-server')
-        r.add('nrpe', '/contrib.rpath.org@rpl:devel/2.0-7-1')
-        r.add('info-nagios', '/contrib.rpath.org@rpl:devel/0-1-1')
-        r.add('nagios-plugins', '/contrib.rpath.org@rpl:devel/1.4.2-2-1')
+        r.add('nrpe')
+        r.add('nagios-plugins')
         r.add('open-vm-tools')
         r.add('rdiff-backup')
         r.add('screen')
@@ -77,7 +76,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('make')
         r.add('mod_ssl')
         r.add('mod_python')
-        r.add('PIL', flavor = 'use: !tk')
+        r.add('PIL')
         r.add('samba:runtime')
         r.add('simplejson')
         r.add('sqlite:runtime')
@@ -106,20 +105,16 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('jabberd')
         r.add('mcp')
         r.add('mcp-server')
-        r.add('rmake3')
-        r.add('rmake3-multinode-server')
-        r.add('rmake3-node')
 
-        ## group-rmake - rMake Multinode Server and Configuration.
-        r.ourStartGroup('group-rmake', r.name, topLevel=False)
+        ## rMake Multinode Server and Configuration.
         r.add('rmake')
         r.add('rmake-multinode-server')
         r.add('rmake-node')
         r.add('rmake3')
         r.add('rmake3-multinode-server')
         r.add('rmake3-node')
-        r.add('group-rpm')
         r.add('rpm', 'cantwait.rpath.org@rpl:2')  # Fallback RPM
+        r.add('group-rpm')
 
         ## group-extras
         # NB: These are not installed on the appliance, but kept to simplify
@@ -162,10 +157,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.addNewGroup('group-core', groupName='group-rbuilder-appliance')
         r.addNewGroup('group-rbuilder', groupName='group-rbuilder-appliance')
         r.addNewGroup('group-mcp', groupName='group-rbuilder-appliance')
-        r.addNewGroup('group-rmake', groupName='group-rbuilder-appliance')
         r.add('jobmaster', groupName='group-rbuilder-appliance')
-        # jobmaster requires binutils for templategen in some cases
-        r.add('binutils', groupName='group-rbuilder-appliance')
         r.add('rbuilder-mcp')
         r.addPreUpdateScript('prescript.sh', groupName='group-rbuilder-appliance')
         r.addPostInstallScript(contents='''#!/bin/bash
@@ -191,19 +183,20 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
             exit 0
             ''', groupName='group-updateservice-appliance')
 
-        if PackageFlags.rbuilder.rbo:
-            ## group-jobmaster-standalone - Standalone Jobmaster
+        # xen flavor is unnecessary for rBO, so turn these off to save
+        # build time.
+        if not Use.xen:
+            ## group-jobmaster-standalone - Standalone Jobmaster (rBO only, not a product!)
             r.ourStartGroup('group-jobmaster-standalone', r.name, topLevel = True)
             r.addNewGroup('group-core')
             r.add('jobmaster')
-            r.add('binutils')
             r.add('rbuilder-mcp')
 
-            ## group-rbuilder-standalone - Standalone rBuilder
+            ## group-rbuilder-standalone - Standalone rBuilder (rBO only, not a product!)
             r.ourStartGroup('group-rbuilder-standalone', r.name, topLevel = True)
             r.addNewGroup('group-core')
             r.addNewGroup('group-rbuilder')
-            r.addNewGroup('group-mcp', byDefault=False) # Optional MCP
+            r.addNewGroup('group-mcp')
 
     def getInitialSearchPath(r):
         """
@@ -281,6 +274,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'django-db-sqlite3',
                         'django-rest-interface',
                         'dstat',
+                        'info-nagios',
                         'info-jabber',
                         'iftop',
                         'iproute', # need one with `ip link add`
@@ -289,6 +283,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'libgsasl', # dep of jabberd
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',
+                        'nagios-plugins',
+                        'nrpe',
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
                         'python-dateutil',

@@ -103,8 +103,12 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         # MCP
         r.ourStartGroup('group-mcp', r.name, topLevel = False)
+        r.add('jabberd')
         r.add('mcp')
         r.add('mcp-server')
+        r.add('rmake3')
+        r.add('rmake3-multinode-server')
+        r.add('rmake3-node')
 
         ## group-rmake - rMake Multinode Server and Configuration.
         r.ourStartGroup('group-rmake', r.name, topLevel=False)
@@ -195,11 +199,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
             r.add('binutils')
             r.add('rbuilder-mcp')
 
-            ## group-mcp-standalone - Standalone MCP
-            r.ourStartGroup('group-mcp-standalone', r.name, topLevel = True)
-            r.addNewGroup('group-core')
-            r.addNewGroup('group-mcp')
-
             ## group-rbuilder-standalone - Standalone rBuilder
             r.ourStartGroup('group-rbuilder-standalone', r.name, topLevel = True)
             r.addNewGroup('group-core')
@@ -282,8 +281,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'django-db-sqlite3',
                         'django-rest-interface',
                         'dstat',
+                        'info-jabber',
                         'iftop',
                         'iproute', # need one with `ip link add`
+                        'jabberd',
                         'libevent',
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',

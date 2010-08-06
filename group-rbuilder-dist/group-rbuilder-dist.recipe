@@ -286,6 +286,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'iproute', # need one with `ip link add`
                         'jabberd',
                         'libevent',
+                        'libgsasl', # dep of jabberd
                         'librsync', # dep of rdiff-backup
                         'MochiKit[~MochiKit.packed]',
                         'pyOpenSSL', # dep of python-twisted
@@ -300,6 +301,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'PyYAML',
                         'rdiff-backup',
                         'SQLAlchemy',
+                        'udns', # dep of jabberd
                         'vobject',
                         'xz', # rpm depends on xz:lib, which rPL 2 omits
                         'yui',

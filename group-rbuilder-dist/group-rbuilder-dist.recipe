@@ -83,6 +83,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         r.add('MochiKit')
         r.add('rmake')
+        r.add('rpath-repeater')
         r.add('yui')
         r.add('workspace-cloud-client')
 

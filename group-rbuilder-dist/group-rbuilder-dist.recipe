@@ -251,6 +251,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'rpath-job',
                         'rpath-models',
                         'rpath-product-definition',
+                        'rpath-repeater',
                         'rpath-storage',
                         'rpath-xmllib',
                         'smartform',

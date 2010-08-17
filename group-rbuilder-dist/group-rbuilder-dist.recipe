@@ -92,8 +92,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         # Postgres
         r.add('django-db-postgres')
-        r.add('postgresql-server')
-        r.add('postgresql')
+        r.add('postgresql:runtime')
         r.add('psycopg2')
         r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
         r.add('pgbouncer:runtime')
@@ -135,8 +134,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('conary-rest')
         r.add('restlib')
         r.add('xobj:python')
-        r.add('postgresql-server')
-        r.add('postgresql')
+        r.add('postgresql:runtime')
         r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
         r.add('httpd')
         r.add('make')
@@ -287,6 +285,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'MochiKit[~MochiKit.packed]',
                         'nagios-plugins',
                         'nrpe',
+                        'psycopg2',
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
                         'python-dateutil',
@@ -306,12 +305,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                     ]),
                 ('java_label',              ['sun-jdk', 'sun-jre']),
                 ('pgbouncer_version',       ['pgbouncer']),
-                ('pgsql_label', [
-                        'postgresql',
-                        'postgresql-contrib',
-                        'postgresql-server',
-                        'psycopg2',
-                        ]),
+                ('pgsql_label',             ['postgresql']),
               ]:
             for package in packages:
                 pkgVersion = r.macros.get(macro, '')

@@ -92,7 +92,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         # Postgres
         r.add('django-db-postgres')
-        r.add('postgresql:runtime')
+        r.add('postgresql:bin')
         r.add('psycopg2')
         r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
         r.add('pgbouncer:runtime')
@@ -134,7 +134,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('conary-rest')
         r.add('restlib')
         r.add('xobj:python')
-        r.add('postgresql:runtime')
+        r.add('postgresql:bin')
         r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
         r.add('httpd')
         r.add('make')

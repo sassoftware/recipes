@@ -270,6 +270,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'boto',
                         'decorator',
                         'django',
+                        'django-db-mysql',
                         'django-db-postgres',
                         'django-db-sqlite3',
                         'django-rest-interface',
@@ -282,6 +283,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'libevent',
                         'libgsasl', # dep of jabberd
                         'librsync', # dep of rdiff-backup
+                        'markdown', # dep of django
                         'MochiKit[~MochiKit.packed]',
                         'nagios-plugins',
                         'nrpe',

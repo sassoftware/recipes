@@ -270,7 +270,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'boto',
                         'decorator',
                         'django',
-                        'django-db-mysql',
                         'django-db-postgres',
                         'django-db-sqlite3',
                         'django-rest-interface',

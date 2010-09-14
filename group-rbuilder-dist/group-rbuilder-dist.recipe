@@ -122,6 +122,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.ourStartGroup('group-extras', r.name, topLevel=False, byDefault=False,
                         checkPathConflicts=False)
         r.add('anaconda-custom')
+        r.add('anaconda-custom-updateservice')
         r.add('media-template')
 
         ## group-updateservice -- core packages for updateservice
@@ -129,7 +130,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('conary')
         r.add('conary-repository')
         r.add('conary-web-common')
-        r.add('conary-web-common-upsrv')
         r.add('updateservice')
         r.add('conary-rest')
         r.add('restlib')
@@ -148,7 +148,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # prevent this.  Need to split some things out of here.
         r.add('raa-branding-custom')
         r.add('updateservice-appliance')
-        r.add('updateservice-postgresql')
 
         ###### PRODUCTS ######
         ## group-rbuilder-appliance - rBuilder Appliance
@@ -170,7 +169,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.ourStartGroup('group-updateservice-appliance', r.name, topLevel = True)
         r.addNewGroup('group-core', groupName='group-updateservice-appliance')
         r.addNewGroup('group-updateservice', groupName='group-updateservice-appliance')
-        r.add('firewall-rules')
         r.addPostInstallScript(contents='''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
@@ -230,8 +228,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'conary-policy',
                         'conary-repository',
                         'conary-rest',
-                        'conary-web-common-upsrv',
-                        'firewall-rules',
                         'mcp',
                         'mcp-server',
                         'pcreator',
@@ -256,7 +252,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'smartform',
                         'updateservice',
                         'updateservice-appliance',
-                        'updateservice-postgresql',
                         'xobj',
                       ]),
 

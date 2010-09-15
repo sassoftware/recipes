@@ -146,7 +146,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # with other services on an appliance (e.g., for US2US),
         # but currently there are system-wide config changes which
         # prevent this.  Need to split some things out of here.
-        r.add('raa-branding-custom')
         r.add('updateservice-appliance')
 
         ###### PRODUCTS ######
@@ -233,7 +232,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'mcp-server',
                         'pcreator',
                         'pyovf',
-                        'raa-branding-custom',
                         'rbuilder-ui',
                         'rmake',
                         'rmake-multinode-server',

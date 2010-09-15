@@ -168,6 +168,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.ourStartGroup('group-updateservice-appliance', r.name, topLevel = True)
         r.addNewGroup('group-core', groupName='group-updateservice-appliance')
         r.addNewGroup('group-updateservice', groupName='group-updateservice-appliance')
+        r.add('rmake3')
+        r.add('rmake3-node')
         r.addPostInstallScript(contents='''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos

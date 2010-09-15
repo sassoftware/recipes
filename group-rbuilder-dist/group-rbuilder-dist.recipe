@@ -222,6 +222,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'splashy-theme',
                       ]),
                 ('master_label', [
+                        'anaconda-custom-updateservice',
                         'catalog-service',
                         'conary',
                         'conary-build',

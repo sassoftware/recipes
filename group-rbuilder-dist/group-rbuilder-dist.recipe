@@ -86,6 +86,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rpath-repeater')
         r.add('yui')
         r.add('workspace-cloud-client')
+        r.add('wmiclient')
 
         r.add('rbuilder')
         r.add('rbuilder-ui')
@@ -171,6 +172,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rmake3')
         r.add('rmake3-node')
         r.add('rpath-repeater')
+        r.add('wmiclient')
         r.addPostInstallScript(contents='''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
@@ -254,6 +256,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'smartform',
                         'updateservice',
                         'updateservice-appliance',
+                        'wmiclient',
                         'xobj',
                       ]),
 

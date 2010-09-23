@@ -99,6 +99,9 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # We need locale data for compatibility with postgresql data
         # stores initialized in rPL 1.
         r.add('glibc:locale')
+        # Legacy postgres for migrations
+        r.add('postgresql:lib', 'postgres.rpath.org@rpl:postgres-8.2-devel')
+        r.add('postgresql:runtime', 'postgres.rpath.org@rpl:postgres-8.2-devel')
 
         # MCP
         r.ourStartGroup('group-mcp', r.name, topLevel = False)

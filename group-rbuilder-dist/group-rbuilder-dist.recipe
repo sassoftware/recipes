@@ -86,6 +86,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rpath-repeater')
         r.add('yui')
         r.add('workspace-cloud-client')
+        r.add('robj')
         r.add('wmiclient')
 
         r.add('rbuilder')
@@ -137,6 +138,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('updateservice')
         r.add('conary-rest')
         r.add('restlib')
+        r.add('robj')
         r.add('xobj:python')
         r.add('postgresql:bin')
         r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
@@ -249,6 +251,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'rmake3-node',
                         'repodata',
                         'restlib',
+                        'robj',
                         'rpath-capsule-indexer',
                         'rpath-job',
                         'rpath-models',

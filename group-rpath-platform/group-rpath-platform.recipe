@@ -58,10 +58,7 @@ XenAPI
     def setup(r):
         r.setGroupSearchPath()
 
-        for pkg in r.packages.split('\n'):
-            pkg = pkg.strip()
-            if not pkg or pkg.startswith('#'):
-                continue
+        for pkg in r.packageManifest:
             r.add(pkg)
 
     def setGroupSearchPath(r):
@@ -69,3 +66,10 @@ XenAPI
             path = r.macros.searchPathOverride.split('\n')
             r.setSearchPath(*path)
 
+    @property
+    def packageManifest(r):
+        for pkg in r.packages.split('\n'):
+            pkg = pkg.strip()
+            if not pkg or pkg.startswith('#'):
+                continue
+            yield pkg

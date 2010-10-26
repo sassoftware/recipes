@@ -43,11 +43,28 @@ SQLAlchemy
 vobject
 webunit
 XenAPI
+
+# non-python contrib packages
+MochiKit
+dstat
+iftop
+info-jabber
+info-nagios
+iproute
+jabberd
+libevent
+libgsasl
+librsync
+nagios-plugins
+nrpe
+udns
+xz
+yui
 """
 
     def setup(r):
         r.setGroupSearchPath()
-        r.addAll('group-os', flatten=True)
+        #r.addAll('group-os', flatten=True)
 
         for pkg in r.packageManifest:
             r.add(pkg)
@@ -56,6 +73,7 @@ XenAPI
         r.setSearchPath(
             'contrib.rpath.org@rpl:2-py26',
             'conary.rpath.com@rpl:2-py26-devel',
+            'contrib.rpath.org@rpl:2',
         )
 
     @property

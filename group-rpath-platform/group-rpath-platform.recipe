@@ -15,8 +15,6 @@ class GroupRbuilderDist(GroupRecipe):
     autoResolve = False
     checkPathConflicts = False
 
-    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
-
     packages = """
 # Contrib packages
 boto

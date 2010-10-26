@@ -1,0 +1,60 @@
+#
+# Copyright (c) 2010 rPath, Inc.
+#
+# All Rights Reserved
+#
+
+class GroupRbuilderDist(GroupRecipe):
+    name = 'group-rpath-platform'
+    version = '5.5.0'
+
+    # group-rpath-platform is a trove bucket, not an image group, so disable
+    # most checks.  See below for the actual image group definitions.
+    imageGroup = False
+    depCheck = False
+    autoResolve = False
+    checkPathConflicts = False
+
+    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
+
+    packages = """
+boto
+decorator
+django
+django-cache-memcached
+django-db-mysql
+django-db-postgres
+django-db-sqlite3
+django-rest-interface
+psycopg2
+pyOpenSSL
+python-ctypes
+python-dateutil
+python-markdown
+python-memcached
+python-twisted
+python-txpostgres
+python-wokkel
+python-zopeinterface
+pywbem
+PyYAML
+rdiff-backup
+renderPM
+reportlab
+SQLAlchemy
+vobject
+webunit
+XenAPI
+"""
+
+    def setup(r):
+        r.add('conary')
+        r.add('conary-build')
+        r.add('conary-repository')
+        r.add('conary-policy')
+
+        for pkg in r.packages.split('\n'):
+            pkg = pkg.strip()
+            if not pkg:
+                continue
+            r.add(pkg)

@@ -81,8 +81,8 @@ gcc-java=conary.rpath.com@rpl:2
         r.setGroupSearchPath()
         #r.addAll('group-os', flatten=True)
 
-        for pkg in r.packageManifest:
-            r.add(pkg)
+        for pkg, versionStr in r.packageManifest:
+            r.add(pkg, versionStr)
 
     def setGroupSearchPath(r):
         r.setSearchPath(
@@ -97,4 +97,7 @@ gcc-java=conary.rpath.com@rpl:2
             pkg = pkg.strip()
             if not pkg or pkg.startswith('#'):
                 continue
-            yield pkg
+            arr = pkg.split('=', 1)
+            if len(arr) == 1:
+                yield pkg, None
+            yield arr[0], arr[1]

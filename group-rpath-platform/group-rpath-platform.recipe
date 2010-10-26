@@ -18,16 +18,8 @@ class GroupRbuilderDist(GroupRecipe):
     unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
 
     packages = """
-# Base packages
-conary
-conary-build
-conary-repository
-conary-policy
-python
-
 # Contrib packages
 boto
-decorator
 django
 django-cache-memcached
 django-db-mysql
@@ -57,6 +49,7 @@ XenAPI
 
     def setup(r):
         r.setGroupSearchPath()
+        r.addAll('group-os')
 
         for pkg in r.packageManifest:
             r.add(pkg)

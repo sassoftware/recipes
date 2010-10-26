@@ -68,6 +68,10 @@ udns
 xmlrpc-c
 xz
 yui
+
+# postgres - we need both
+postgresql=postgres.rpath.org@rpl:postgres-8.2-devel
+postgresql=postgres.rpath.org@rpl:postgres-8.4-devel
 """
 
     def setup(r):

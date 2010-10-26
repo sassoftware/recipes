@@ -45,8 +45,11 @@ webunit
 XenAPI
 
 # non-python contrib packages
-MochiKit
+bzr
+cmake
 dstat
+ec2-ami-tools
+git
 iftop
 info-jabber
 info-nagios
@@ -55,9 +58,14 @@ jabberd
 libevent
 libgsasl
 librsync
+lzma
+MochiKit
 nagios-plugins
 nrpe
+perl-DBD-SQLite
+squid
 udns
+xmlrpc-c
 xz
 yui
 """

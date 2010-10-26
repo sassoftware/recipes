@@ -18,6 +18,7 @@ class GroupRbuilderDist(GroupRecipe):
     packages = """
 # Contrib packages
 boto
+bzr
 django
 django-cache-memcached
 django-db-mysql
@@ -45,7 +46,6 @@ webunit
 XenAPI
 
 # non-python contrib packages
-bzr
 cmake
 dstat
 ec2-ami-tools

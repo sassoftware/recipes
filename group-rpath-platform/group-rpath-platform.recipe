@@ -18,6 +18,14 @@ class GroupRbuilderDist(GroupRecipe):
     unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
 
     packages = """
+# Base packages
+conary
+conary-build
+conary-repository
+conary-policy
+python
+
+# Contrib packages
 boto
 decorator
 django
@@ -48,13 +56,16 @@ XenAPI
 """
 
     def setup(r):
-        r.add('conary')
-        r.add('conary-build')
-        r.add('conary-repository')
-        r.add('conary-policy')
+        r.setGroupSearchPath()
 
         for pkg in r.packages.split('\n'):
             pkg = pkg.strip()
-            if not pkg:
+            if not pkg or pkg.startswith('#'):
                 continue
             r.add(pkg)
+
+    def setGroupSearchPath(r):
+        if 'searchPathOverride' in r.macros:
+            path = r.macros.searchPathOverride.split('\n')
+            r.setSearchPath(*path)
+

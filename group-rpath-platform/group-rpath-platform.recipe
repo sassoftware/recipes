@@ -72,6 +72,9 @@ yui
 # postgres - we need both
 postgresql=postgres.rpath.org@rpl:postgres-8.2-devel
 postgresql=postgres.rpath.org@rpl:postgres-8.4-devel
+
+# needed by conary's test suite
+gcc-java=conary.rpath.com@rpl:2
 """
 
     def setup(r):

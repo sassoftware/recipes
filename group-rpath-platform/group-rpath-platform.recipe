@@ -47,7 +47,7 @@ XenAPI
 
     def setup(r):
         r.setGroupSearchPath()
-        r.addAll('group-os')
+        r.addAll('group-os', flatten=True)
 
         for pkg in r.packageManifest:
             r.add(pkg)

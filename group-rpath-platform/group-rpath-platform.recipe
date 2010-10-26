@@ -62,9 +62,10 @@ XenAPI
             r.add(pkg)
 
     def setGroupSearchPath(r):
-        if 'searchPathOverride' in r.macros:
-            path = r.macros.searchPathOverride.split('\n')
-            r.setSearchPath(*path)
+        r.setSearchPath(
+            'contrib.rpath.org@rpl:2-py26',
+            'conary.rpath.com@rpl:2-py26-devel',
+        )
 
     @property
     def packageManifest(r):

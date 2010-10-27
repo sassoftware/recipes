@@ -87,6 +87,9 @@ gcc-java=conary.rpath.com@rpl:2
         for pkg, versionStr in r.packageManifest:
             r.add(pkg, versionStr)
 
+        r.addAll('group-rpm', 'rpm.rpath.org@rpath:linux-2-py26',
+            flatten=True)
+
     def setGroupSearchPath(r):
         r.setSearchPath(
             'contrib.rpath.org@rpl:2-py26',

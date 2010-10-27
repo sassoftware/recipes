@@ -20,6 +20,7 @@ class GroupRbuilderDist(GroupRecipe):
 nss=foresight.rpath.org@fl:2
 nspr=foresight.rpath.org@fl:2
 rpm=foresight.rpath.org@fl:2-devel
+pygtk=foresight.rpath.org@fl:2
 
 # Contrib packages
 boto

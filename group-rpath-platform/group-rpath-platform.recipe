@@ -20,7 +20,16 @@ class GroupRbuilderDist(GroupRecipe):
 nss=foresight.rpath.org@fl:2
 nspr=foresight.rpath.org@fl:2
 rpm=foresight.rpath.org@fl:2-devel
+# These are required by the rmake test suite
 pygtk=foresight.rpath.org@fl:2
+atk=foresight.rpath.org@fl:2
+python-numeric=foresight.rpath.org@fl:2
+cairo=foresight.rpath.org@fl:2
+gtk=foresight.rpath.org@fl:2
+glib=foresight.rpath.org@fl:2
+libglade=foresight.rpath.org@fl:2
+libpango=foresight.rpath.org@fl:2
+pixman=foresight.rpath.org@fl:2
 
 # Contrib packages
 boto

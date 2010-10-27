@@ -16,6 +16,9 @@ class GroupRbuilderDist(GroupRecipe):
     checkPathConflicts = False
 
     packages = """
+# rpl:2 packages rebuilt for python 2.6 support
+rpm
+
 # Contrib packages
 boto
 bzr
@@ -71,7 +74,7 @@ yui
 
 # postgres - we need both
 postgresql=postgres.rpath.org@rpl:postgres-8.2-devel
-postgresql=postgres.rpath.org@rpl:postgres-8.4-devel
+postgresql=postgres.rpath.org@rpl:postgres-9.0-devel
 
 # needed by conary's test suite
 gcc-java=conary.rpath.com@rpl:2

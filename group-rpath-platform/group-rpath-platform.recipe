@@ -17,7 +17,6 @@ class GroupRbuilderDist(GroupRecipe):
 
     packages = """
 # rpl:2 packages rebuilt for python 2.6 support
-nss=foresight.rpath.org@fl:2
 rpm=foresight.rpath.org@fl:2-devel
 
 # Contrib packages

@@ -30,6 +30,8 @@ glib=foresight.rpath.org@fl:2
 libglade=foresight.rpath.org@fl:2
 pango=foresight.rpath.org@fl:2
 pixman=foresight.rpath.org@fl:2
+pygobject=foresight.rpath.org@fl:2
+gamin=foresight.rpath.org@fl:2
 
 # Contrib packages
 boto

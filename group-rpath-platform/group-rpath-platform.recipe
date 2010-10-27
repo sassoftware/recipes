@@ -28,7 +28,7 @@ cairo=foresight.rpath.org@fl:2
 gtk=foresight.rpath.org@fl:2
 glib=foresight.rpath.org@fl:2
 libglade=foresight.rpath.org@fl:2
-libpango=foresight.rpath.org@fl:2
+pango=foresight.rpath.org@fl:2
 pixman=foresight.rpath.org@fl:2
 
 # Contrib packages

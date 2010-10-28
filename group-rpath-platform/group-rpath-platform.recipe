@@ -32,6 +32,8 @@ pango=foresight.rpath.org@fl:2
 pixman=foresight.rpath.org@fl:2
 pygobject=foresight.rpath.org@fl:2
 gamin=foresight.rpath.org@fl:2
+# Needed by rapa
+gettext=foresight.rpath.org@fl:2
 
 # Contrib packages
 boto
@@ -94,8 +96,6 @@ postgresql=postgres.rpath.org@rpl:postgres-9.0-devel
 gcc-java=conary.rpath.com@rpl:2
 unixODBC=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
-# Needed by rapa
-gettext=foresight.rpath.org@fl:2
 """
 
     def setup(r):

@@ -85,6 +85,8 @@ udns
 xmlrpc-c
 xz
 yui
+# Needed by group-jobslave
+e2fsimage
 
 # postgres - we need both
 postgresql=postgres.rpath.org@rpl:postgres-8.2-devel

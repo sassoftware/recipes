@@ -85,8 +85,6 @@ udns
 xmlrpc-c
 xz
 yui
-# Needed by group-jobslave
-e2fsimage
 
 # postgres - we need both
 postgresql=postgres.rpath.org@rpl:postgres-8.2-devel
@@ -97,7 +95,7 @@ gcc-java=conary.rpath.com@rpl:2
 unixODBC=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
 # Needed by rapa
-gettext=conary.rpath.com@rpl:2
+gettext=foresight.rpath.org@fl:2
 """
 
     def setup(r):

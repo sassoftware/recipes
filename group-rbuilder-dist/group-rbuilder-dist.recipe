@@ -296,7 +296,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
                         'python-dateutil',
-                        'python-markdown',
                         'python-twisted',
                         'python-txpostgres', # dep of rmake
                         'python-wokkel', # dep of rmake3

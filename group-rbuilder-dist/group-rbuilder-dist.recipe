@@ -85,7 +85,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rmake')
         r.add('rpath-repeater')
         r.add('yui')
-        r.add('workspace-cloud-client')
         r.add('robj')
         r.add('wmiclient')
 

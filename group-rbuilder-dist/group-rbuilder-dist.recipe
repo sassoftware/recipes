@@ -312,6 +312,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                 ('pgbouncer_version',       ['pgbouncer']),
                 ('pgsql_label',             ['postgresql']),
               ]:
+            if macro not in r.macros:
+                continue
             for package in packages:
                 pkgVersion = r.macros.get(macro, '')
                 if '[' in package:

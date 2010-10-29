@@ -22,6 +22,11 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
     def setup(r):
         r.setApplianceSearchPath()
+        # XXX FIXME
+        if 'platform_label' in r.macros:
+            pypgsqlLabel = 'conary.rpath.com@rpl:2-py26-devel'
+        else:
+            pypgsqlLabel = 'testbits.rb.rpath.com@rpl:2'
 
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
@@ -95,7 +100,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('django-db-postgres')
         r.add('postgresql:bin')
         r.add('psycopg2')
-        r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
+        r.add('python-pgsql', pypgsqlLabel)
         r.add('pgbouncer:runtime')
         # We need locale data for compatibility with postgresql data
         # stores initialized in rPL 1.
@@ -140,7 +145,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('robj')
         r.add('xobj:python')
         r.add('postgresql:bin')
-        r.add('python-pgsql', 'testbits.rb.rpath.com@rpl:2')
+        r.add('python-pgsql', pypgsqlLabel)
         r.add('httpd')
         r.add('make')
         r.add('mod_ssl')

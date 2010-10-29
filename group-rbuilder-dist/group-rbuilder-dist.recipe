@@ -25,8 +25,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # XXX FIXME
         if 'platform_label' in r.macros:
             pypgsqlLabel = 'conary.rpath.com@rpl:2-py26-devel'
+            rpmLabel = 'conary.rpath.com@rpl:2-py26-devel'
         else:
             pypgsqlLabel = 'testbits.rb.rpath.com@rpl:2'
+            rpmLabel = 'cantwait.rpath.org@rpl:2'
 
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
@@ -122,7 +124,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rmake3')
         r.add('rmake3-multinode-server')
         r.add('rmake3-node')
-        r.add('rpm', 'cantwait.rpath.org@rpl:2')  # Fallback RPM
+        r.add('rpm', rpmLabel)  # Fallback RPM
         r.add('group-rpm')
 
         ## group-extras

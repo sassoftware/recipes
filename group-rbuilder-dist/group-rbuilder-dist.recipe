@@ -267,7 +267,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                       ]),
 
                 # Other components
-                ('globus_label',            ['workspace-cloud-client']),
                 ('xen_label',               ['XenAPI']),
                 ('rpm_label',               ['group-rpm']),
 

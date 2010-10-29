@@ -348,6 +348,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                 'group-rapa=%s' % rapaVersion,
                 'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
               ]
+            if 'platform_label' in r.macros:
+                # XXX FIXME
+                path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
+                path.append('group-os=conary.rpath.com@rpl:2')
 
         if not r._lightInstance:
             log.info("Platform search path:")

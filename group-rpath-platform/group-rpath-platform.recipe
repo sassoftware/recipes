@@ -33,6 +33,16 @@ pixman=foresight.rpath.org@fl:2
 pygobject=foresight.rpath.org@fl:2
 gamin=foresight.rpath.org@fl:2
 
+# Not in the group yet
+authconfig=conary.rpath.com@rpl:2-py26-devel
+bootman=conary.rpath.com@rpl:2-py26-devel
+ConfigObj=conary.rpath.com@rpl:2-py26-devel
+dnspython=conary.rpath.com@rpl:2-py26-devel
+kudzu=conary.rpath.com@rpl:2-py26-devel
+libuser=conary.rpath.com@rpl:2-py26-devel
+newt=conary.rpath.com@rpl:2-py26-devel
+rhpl=conary.rpath.com@rpl:2-py26-devel
+
 # Contrib packages
 boto
 bzr

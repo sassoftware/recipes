@@ -47,7 +47,6 @@ psycopg2
 pyOpenSSL
 python-ctypes
 python-dateutil
-python-markdown
 python-memcached
 python-twisted
 python-txpostgres

@@ -21,6 +21,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
     unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
 
     def setup(r):
+        if 'platform_label' in r.macros:
+            r.groupLabel = 'conary.rpath.com@rpl:2-py26-devel'
         r.setApplianceSearchPath()
         # XXX FIXME
         if 'platform_label' in r.macros:

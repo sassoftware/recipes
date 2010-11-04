@@ -33,6 +33,9 @@ pixman=foresight.rpath.org@fl:2
 pygobject=foresight.rpath.org@fl:2
 gamin=foresight.rpath.org@fl:2
 
+# Not in the group yet
+gettext=conary.rpath.com@rpl:2-py26-devel
+
 # Contrib packages
 boto
 bzr

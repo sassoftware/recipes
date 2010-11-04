@@ -50,6 +50,7 @@ markdown
 psycopg2
 pyOpenSSL
 python-ctypes
+python-cssutils
 python-dateutil
 python-memcached
 python-twisted

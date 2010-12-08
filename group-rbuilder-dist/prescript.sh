@@ -25,4 +25,4 @@ fi
 
 # Stop cron before updates, it will be started again in the postupdate script.
 # (RBL-7971)
-[ -e /var/lock/subsys/crond ] && service crond stop
+[ -e /var/lock/subsys/crond ] && service crond stop || true

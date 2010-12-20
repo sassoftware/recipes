@@ -286,6 +286,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'django-db-postgres',
                         'django-db-sqlite3',
                         'django-rest-interface',
+                        'django-debug-toolbar',
                         'dstat',
                         'info-nagios',
                         'info-jabber',

@@ -85,7 +85,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('make')
         r.add('mod_ssl')
         r.add('mod_python')
-        r.add('PIL')
+        r.add('PIL:python')
         r.add('samba:runtime')
         r.add('simplejson')
         r.add('sqlite:runtime')

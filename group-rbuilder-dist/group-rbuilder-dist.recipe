@@ -67,6 +67,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rapa-console')
 
         # Maintenance tools and monitoring
+        r.add('amiconfig')
         r.add('yp-tools')
         r.add('ypbind')
         r.add('patch')

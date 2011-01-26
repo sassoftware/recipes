@@ -103,8 +103,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         r.add('rbuilder')
         r.add('rbuilder-ui')
-        # rbuilder need jobslave:python now
-        r.add('jobslave:python')
 
         # Postgres
         r.add('django-db-postgres')

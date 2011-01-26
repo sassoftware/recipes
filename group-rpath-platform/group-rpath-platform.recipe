@@ -85,6 +85,7 @@ MochiKit
 nagios-plugins
 nrpe
 perl-DBD-SQLite
+qemu-img
 squid
 udns
 xmlrpc-c

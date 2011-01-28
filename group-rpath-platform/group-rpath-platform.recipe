@@ -81,6 +81,7 @@ libevent
 libgsasl
 librsync
 lzma
+memcached
 MochiKit
 nagios-plugins
 nrpe

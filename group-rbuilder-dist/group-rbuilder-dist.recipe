@@ -35,8 +35,8 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
 
-        # Use a devel kernel for now
-        r.replace('kernel', 'conary.rpath.com@rpl:2-devel', '~xen,~domU,~vmware')
+        # Use a QA kernel for now
+        r.replace('kernel', 'conary.rpath.com@rpl:2-qa', '~xen,~domU,~vmware')
 
         # Replace conary
         r.replace('conary', groupName='group-core')
@@ -103,8 +103,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         r.add('rbuilder')
         r.add('rbuilder-ui')
-        # rbuilder need jobslave:python now
-        r.add('jobslave:python')
 
         # Postgres
         r.add('django-db-postgres')
@@ -118,6 +116,11 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # Legacy postgres for migrations
         r.add('postgresql:lib', 'postgres.rpath.org@rpl:postgres-8.2-devel')
         r.add('postgresql:runtime', 'postgres.rpath.org@rpl:postgres-8.2-devel')
+
+        # memcache
+        r.add('django-cache-memcached')
+        r.add('memcached')
+        r.add('python-memcached')
 
         # MCP
         r.ourStartGroup('group-mcp', r.name, topLevel = False)
@@ -202,6 +205,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
             /srv/conary/bin/migrate-repos
             exit 0
             ''', groupName='group-updateservice-appliance')
+
+        # memcache
+        r.add('memcached')
+        r.add('python-memcached')
 
         # xen flavor is unnecessary for rBO, so turn these off to save
         # build time.
@@ -290,6 +297,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'boto',
                         'decorator',
                         'django',
+                        'django-cache-memcached',
                         'django-db-postgres',
                         'django-db-sqlite3',
                         'django-rest-interface',
@@ -311,6 +319,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',
                         'python-dateutil',
+                        'python-memcached',
                         'python-twisted',
                         'python-txpostgres', # dep of rmake
                         'python-wokkel', # dep of rmake3

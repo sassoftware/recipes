@@ -312,6 +312,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'libgsasl', # dep of jabberd
                         'librsync', # dep of rdiff-backup
                         'markdown', # dep of django
+                        'memcached',
                         'MochiKit[~MochiKit.packed]',
                         'nagios-plugins',
                         'nrpe',

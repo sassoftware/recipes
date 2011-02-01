@@ -48,6 +48,7 @@ django-rest-interface
 django-debug-toolbar
 dstat
 markdown
+memcached
 psycopg2
 pyOpenSSL
 python-ctypes

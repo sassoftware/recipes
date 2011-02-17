@@ -45,8 +45,10 @@ django-db-mysql
 django-db-postgres
 django-db-sqlite3
 django-rest-interface
+django-debug-toolbar
 dstat
 markdown
+memcached
 psycopg2
 pyOpenSSL
 python-ctypes

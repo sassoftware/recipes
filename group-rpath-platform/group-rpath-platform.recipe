@@ -49,6 +49,7 @@ django-debug-toolbar
 dstat
 markdown
 memcached
+paramiko
 psycopg2
 pyOpenSSL
 python-ctypes

@@ -316,6 +316,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'MochiKit[~MochiKit.packed]',
                         'nagios-plugins',
                         'nrpe',
+                        'paramiko',
                         'psycopg2',
                         'pyOpenSSL', # dep of python-twisted
                         'python-ctypes',

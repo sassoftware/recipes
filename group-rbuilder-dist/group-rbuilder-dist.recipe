@@ -100,6 +100,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('yui')
         r.add('robj')
         r.add('wmiclient')
+        r.add('pam_krb5')
 
         r.add('rbuilder')
         r.add('rbuilder-ui')

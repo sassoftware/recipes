@@ -68,18 +68,19 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         # Maintenance tools and monitoring
         r.add('amiconfig')
-        r.add('yp-tools')
-        r.add('ypbind')
-        r.add('patch')
+        r.add('krb5-workstation')
+        r.add('lsof')
+        r.add('nagios-plugins')
         r.add('net-snmp')
         r.add('net-snmp-server')
         r.add('nrpe')
-        r.add('nagios-plugins')
         r.add('open-vm-tools')
+        r.add('patch')
         r.add('rdiff-backup')
         r.add('screen')
         r.add('sudo')
-        r.add('lsof')
+        r.add('ypbind')
+        r.add('yp-tools')
 
         ## group-rbuilder - Mint Web Front-end
         r.ourStartGroup('group-rbuilder', r.name, topLevel = False)

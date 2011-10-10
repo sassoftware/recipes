@@ -44,6 +44,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('conary-repository')
         r.add('conary-policy')
 
+        r.add('file:runtime')
         r.replace('iproute') # need one with `ip link add`
         r.add('iftop')
         r.add('less:runtime')

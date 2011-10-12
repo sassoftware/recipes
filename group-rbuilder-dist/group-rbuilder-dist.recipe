@@ -184,10 +184,10 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('rbuilder-mcp')
         r.addPreUpdateScript('prescript.sh', groupName='group-rbuilder-appliance')
         r.addPostInstallScript(contents='''#!/bin/bash
-            /usr/share/rbuilder/scripts/group-script
+            /usr/share/rbuilder/scripts/group-script || exit 1
             ''', groupName='group-rbuilder-appliance')
         r.addPostUpdateScript(contents='''#!/bin/bash
-            /usr/share/rbuilder/scripts/group-script
+            /usr/share/rbuilder/scripts/group-script || exit 1
             ''', groupName='group-rbuilder-appliance')
 
         ## group-updateservice-appliance - rPath Update Service

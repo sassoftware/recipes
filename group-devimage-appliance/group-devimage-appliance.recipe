@@ -86,6 +86,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('sudo')
         r.add('xmlto')
 
+        # Mirrorball Deps
+        r.add('rpath-xmllib')
+
         # Include a couple of common text editors for developers
         r.add('vim')
         r.add('nano')

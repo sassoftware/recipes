@@ -57,6 +57,7 @@ python-cssutils
 python-ctypes
 python-dateutil
 python-httplib2
+python-keyutils
 python-memcached
 python-pam
 python-novaclient
@@ -85,6 +86,7 @@ info-jabber
 info-nagios
 iproute
 jabberd
+keyutils
 libevent
 libgsasl
 librsync

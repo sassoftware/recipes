@@ -36,6 +36,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         # Basic system tools
         r.add('file:runtime')
         r.add('iftop')
+        r.add('keyutils')
         r.add('less:runtime')
         r.add('mailx')
         r.add('nano:runtime')
@@ -72,6 +73,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('rbuild')
         r.add('robj')
         r.add('xobj')
+        r.add('python-keyutils')
         r.add('rbuilder-client')
         r.add('rpath-product-definition')
 

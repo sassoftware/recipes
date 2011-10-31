@@ -70,6 +70,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         # Maintenance tools and monitoring
         r.add('amiconfig')
         r.add('krb5-workstation')
+        r.add('keyutils')
         r.add('lsof')
         r.add('nagios-plugins')
         r.add('net-snmp')

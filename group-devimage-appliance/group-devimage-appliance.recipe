@@ -91,6 +91,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         # Mirrorball Deps
         r.add('rpath-xmllib')
         r.add('python-dateutil')
+        r.add('epdb')
 
         # Include a couple of common text editors for developers
         r.add('vim')

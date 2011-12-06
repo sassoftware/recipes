@@ -106,8 +106,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('pam_krb5', 'conary.rpath.com@rpl:2/2.2.11-4.3-1') # FIXME: pinned forward until py26 groups get rebuilt with newest version
 
         r.add('rbuilder')
-        #r.add('rbuilder-ui')
-        r.add('rbuilder-ui', 'jules.eng.rpath.com@rpath:rba-edge-p4/0.71a1d076ae22-1-1')
+        r.add('rbuilder-ui')
 
         # Postgres
         r.add('django-db-postgres')

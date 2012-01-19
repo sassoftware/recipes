@@ -108,6 +108,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         # Add nscd to make performance better
         r.add('nscd', 'conary.rpath.com@rpl:2')
 
+        # Add locale data so that we can get UTF-8 characters
+        r.add('glibc:locale')
+
         # Add devimage-specific customizations, such as an /etc/skel setup
         r.add('devimage-custom', r.devLabel)
 

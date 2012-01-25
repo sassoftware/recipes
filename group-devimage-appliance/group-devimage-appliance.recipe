@@ -52,6 +52,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('dstat')
         r.add('man')
         r.add('tar')
+        r.add('unzip')
 
         # Don't need boot splash on a dev image
         r.remove('splashy')
@@ -87,6 +88,13 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('mercurial')
         r.add('sudo')
         r.add('xmlto')
+        r.add('git')
+
+        r.add('glibc:devel')
+        r.add('python:devel')
+        r.add('gcc')
+        r.add('binutils')
+        r.add('curl')
 
         # Mirrorball Deps
         r.add('rpath-xmllib')
@@ -99,6 +107,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
 
         # Add nscd to make performance better
         r.add('nscd', 'conary.rpath.com@rpl:2')
+
+        # Add locale data so that we can get UTF-8 characters
+        r.add('glibc:locale')
 
         # Add devimage-specific customizations, such as an /etc/skel setup
         r.add('devimage-custom', r.devLabel)

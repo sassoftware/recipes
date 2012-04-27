@@ -53,6 +53,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('man')
         r.add('tar')
         r.add('unzip')
+        r.add('zip')
 
         # Don't need boot splash on a dev image
         r.remove('splashy')

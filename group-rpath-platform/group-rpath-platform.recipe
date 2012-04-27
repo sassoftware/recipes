@@ -77,6 +77,7 @@ webunit
 XenAPI
 
 # non-python contrib packages
+cdrkit
 cmake
 dstat
 ec2-ami-tools

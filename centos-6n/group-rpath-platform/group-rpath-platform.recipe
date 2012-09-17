@@ -1,0 +1,51 @@
+#
+# Copyright (c) rPath, Inc.
+#
+
+class GroupRpathPlatform(GroupRecipe):
+    name = 'group-rpath-platform'
+    version = '7'
+
+    # group-rpath-platform is a trove bucket, not an image group, so disable
+    # most checks.  See below for the actual image group definitions.
+    imageGroup = False
+    depCheck = False
+    autoResolve = False
+    checkPathConflicts = False
+
+    packages = """
+# Contrib
+librsync
+mod_python
+python-epdb
+python-webunit
+rdiff-backup
+"""
+
+    def setup(r):
+        r.setGroupSearchPath()
+        #r.addAll('group-os', flatten=True)
+
+        for pkg, versionStr in r.packageManifest:
+            r.add(pkg, versionStr)
+
+        r.add('group-postgres', 'postgres.rb.rpath.com@rpath:postgres-9.2-devel')
+        r.add('group-rpm', 'rpm.rpath.org@rpath:centos-6-devel')
+
+    def setGroupSearchPath(r):
+        r.setSearchPath(
+            'contrib.rpath.org@rpath:centos-6n',
+            'contrib.rpath.org@rpl:2-py26',
+        )
+
+    @property
+    def packageManifest(r):
+        for pkg in r.packages.split('\n'):
+            pkg = pkg.strip()
+            if not pkg or pkg.startswith('#'):
+                continue
+            arr = pkg.split('=', 1)
+            if len(arr) == 1:
+                yield pkg, None
+                continue
+            yield arr[0], arr[1]

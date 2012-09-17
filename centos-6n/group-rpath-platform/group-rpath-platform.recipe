@@ -14,12 +14,37 @@ class GroupRpathPlatform(GroupRecipe):
     checkPathConflicts = False
 
     packages = """
-# Contrib
+# Contrib - centos-6n
 librsync
 mod_python
 python-epdb
 python-webunit
 rdiff-backup
+
+# Contrib - rpl-2-py26
+boto
+django
+django-cache-memcached
+django-db-mysql
+django-db-postgres
+django-db-sqlite3
+django-debug-toolbar
+django-rest-interface
+glance-client
+markdown
+paramiko
+python-cssutils
+python-dateutil
+python-httplib2
+python-memcached
+python-novaclient
+python-pam
+python-txpostgres
+python-wokkel
+pywbem
+SQLAlchemy
+vobject
+XenAPI
 """
 
     def setup(r):

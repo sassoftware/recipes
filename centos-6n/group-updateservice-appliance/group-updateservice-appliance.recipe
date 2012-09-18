@@ -6,7 +6,7 @@
 
 from conary.lib import log
 
-loadSuperClass('group-appliance', 'conary.rpath.com@rpl:2')
+loadSuperClass('group-appliance', 'centos6.rpath.com@rpath:centos-6e')
 class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
     name = 'group-updateservice-appliance'
     version = 'tip'
@@ -60,14 +60,14 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         # NB: These are not installed on the appliance, but kept to simplify
         # release management.
         r.startGroup('group-extras', groupName=r.name, byDefault=False,
-                        checkPathConflicts=False)
+                        checkPathConflicts=False, autoResolve=False)
         r.add('anaconda-custom-updateservice')
         r.add('media-template')
 
         ## group-updateservice -- core packages for updateservice
         # NOTE: This group should not contain *any* components from the
         #       platform group.
-        r.startGroup('group-updateservice', r.name, topLevel=False)
+        r.startGroup('group-updateservice', groupName=r.name, autoResolve=False)
         r.add('conary')
         r.add('conary-repository')
         r.add('conary-web-common')

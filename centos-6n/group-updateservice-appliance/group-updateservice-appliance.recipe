@@ -59,10 +59,10 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         ## group-extras
         # NB: These are not installed on the appliance, but kept to simplify
         # release management.
-        r.startGroup('group-extras', groupName=r.name, byDefault=False,
-                        checkPathConflicts=False, autoResolve=False)
-        r.add('anaconda-custom-updateservice')
-        r.add('media-template')
+#        r.startGroup('group-extras', groupName=r.name, byDefault=False,
+#                        checkPathConflicts=False, autoResolve=False)
+#        r.add('anaconda-custom-updateservice')
+#        r.add('media-template')
 
         ## group-updateservice -- core packages for updateservice
         # NOTE: This group should not contain *any* components from the
@@ -129,7 +129,6 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'anaconda-custom-updateservice',
                         'conary',
                         'conary-repository',
-                        'conary-rest',
                         'rmake3',
                         'rmake3-multinode-server',
                         'rmake3-node',
@@ -137,6 +136,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'updateservice-appliance',
                       ]),
                 ('base_label', [
+                        'conary-rest',
                         'robj',
                         'rpath-models',
                         'rpath-repeater',

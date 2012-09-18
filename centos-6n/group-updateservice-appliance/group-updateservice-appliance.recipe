@@ -144,8 +144,11 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'smartform',
                         'wmiclient',
                         'xobj',
-                      ])
-                ('java_label',              ['sun-jdk', 'sun-jre']),
+                      ]),
+                ('java_label', [
+                        'sun-jdk',
+                        'sun-jre',
+                      ]),
               ]:
             if macro not in r.macros:
                 continue

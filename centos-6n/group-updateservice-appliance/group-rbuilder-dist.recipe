@@ -1,0 +1,231 @@
+#
+# Copyright (c) 2010 rPath, Inc.
+#
+# All Rights Reserved
+#
+
+from conary.lib import log
+
+loadSuperClass('group-appliance', 'conary.rpath.com@rpl:2')
+class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
+    name = 'group-updateservice-appliance'
+    version = 'tip'
+
+    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
+
+    def setup(r):
+        if 'platform_label' in r.macros:
+            r.groupLabel = 'centos6.rpath.com@rpath:centos-6e'
+        r.setApplianceSearchPath()
+
+        ## group-core - Platform used by all products of this recipe
+        r.addAppliancePlatform()
+
+        r.add('openssh-clients')
+        r.add('rsync')
+        r.add('strace')
+        r.add('tcpdump')
+        r.add('wget')
+        r.add('which')
+        r.add('vim-enhanced')
+
+        # Appliance Platform Agent
+        r.add('rapa')
+        r.add('rapa-console')
+
+        # Maintenance tools and monitoring
+        r.add('krb5-workstation')
+        r.add('keyutils')
+        r.add('lsof')
+#        r.add('nagios-plugins')
+        r.add('net-snmp')
+        r.add('net-snmp-server')
+#        r.add('nrpe')
+        r.add('patch')
+        r.add('rdiff-backup')
+        r.add('screen')
+        r.add('sudo')
+        r.add('ypbind')
+        r.add('yp-tools')
+
+        r.add('open-vm-tools')
+
+        r.add('mod_ssl')
+        r.add('httpd')
+        r.add('make')
+        r.add('samba-client')
+        r.add('sqlite')
+
+        ## group-extras
+        # NB: These are not installed on the appliance, but kept to simplify
+        # release management.
+        r.startGroup('group-extras', groupName=r.name, byDefault=False,
+                        checkPathConflicts=False)
+        r.add('anaconda-custom-updateservice')
+        r.add('media-template')
+
+        ## group-updateservice -- core packages for updateservice
+        # NOTE: This group should not contain *any* components from the
+        #       platform group.
+        r.startGroup('group-updateservice', r.name, topLevel=False)
+        r.add('conary')
+        r.add('conary-repository')
+        r.add('conary-web-common')
+        r.add('updateservice')
+        r.add('conary-rest')
+        r.add('restlib')
+        r.add('robj')
+        r.add('xobj:python')
+        r.add('updateservice-appliance')
+
+        r.add('rmake3')
+        r.add('rmake3-node')
+        r.add('rpath-repeater')
+        r.add('wmiclient')
+
+        # From group-rpath-platform
+        r.add('mod_python')
+        r.add('pgbouncer')
+        r.add('postgresql92')
+        r.add('python-memcached')
+        r.add('python-psycopg2')
+        r.add('python-webob')
+        r.add('rapa-plugin-rPath')
+
+        r.addPostInstallScript(contents='''#!/bin/sh
+            /srv/conary/bin/migrate-config
+            /srv/conary/bin/migrate-repos
+            chkconfig httpd on
+            exit 0
+            ''', groupName='group-updateservice')
+        r.addPostUpdateScript(contents='''#!/bin/sh
+            /srv/conary/bin/migrate-config
+            /srv/conary/bin/migrate-repos
+            exit 0
+            ''', groupName='group-updateservice')
+
+    def getInitialSearchPath(r):
+        """
+        We don't want to ever implicitly use the build label. Any troves
+        from the build label must be specified as such in the search path
+        or in C{r.add()}.
+        """
+        return []
+
+    def getAdditionalSearchPath(r):
+        """
+        Set a package search path from a plethora of macros. This covers all
+        the product components and dependencies that aren't part of the
+        platform, e.g. everything except rPA, rPL, and rLS.
+        """
+        # Place new packages in the correct section, sorted alphabetically.
+        packageSearchPath = []
+        for macro, packages in [
+                # rBuilder components from the build label
+                ('buildlabel', [
+                        'media-template',
+                      ]),
+                ('master_label', [
+                        'anaconda-custom-updateservice',
+                        'conary',
+                        'conary-repository',
+                        'conary-rest',
+                        'rmake3',
+                        'rmake3-multinode-server',
+                        'rmake3-node',
+                        'updateservice',
+                        'updateservice-appliance',
+                      ]),
+                ('base_label', [
+                        'robj',
+                        'rpath-models',
+                        'rpath-repeater',
+                        'rpath-tools',
+                        'smartform',
+                        'wmiclient',
+                        'xobj',
+                      ])
+                ('java_label',              ['sun-jdk', 'sun-jre']),
+              ]:
+            if macro not in r.macros:
+                continue
+            for package in packages:
+                pkgVersion = r.macros.get(macro, '')
+                if '[' in package:
+                    x = package.index('[')
+                    package, flavor = package[:x], package[x:]
+                    packageSearchPath.append('%s=%s%s' % (
+                            package, pkgVersion, flavor))
+                else:
+                    packageSearchPath.append('%s=%s' % (package, pkgVersion))
+
+        if not r._lightInstance:
+            log.info("Package search path:")
+            for entry in packageSearchPath:
+                log.info(" %s", entry)
+            # HACK: only return the CNY-3286 search path for real cooks until
+            # 2.1.0 is fully released; this makes it possible to commit recipe
+            # changes without needing a checkout.
+            return [packageSearchPath]
+        else:
+            return packageSearchPath
+
+    def getAppliancePlatformSearchPath(r):
+        """
+        Derive a platform search path from some input macros, unless one
+        was supplied in a rbuild-compatible form.
+        """
+        if 'productDefinitionSearchPath' in r.macros:
+            path = r.macros.productDefinitionSearchPath.split('\n')
+        else:
+            rapaVersion =   r.macros.get('rapa_label', 'conary.rpath.com@rpl:2')
+            rPLVersion =    r.macros.get('distro_version', 'conary.rpath.com@rpl:2')
+
+            path = [
+                'group-rapa=%s' % rapaVersion,
+                'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
+              ]
+            if 'platform_label' in r.macros:
+                # XXX FIXME
+                path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
+
+        if not r._lightInstance:
+            log.info("Platform search path:")
+            for entry in path:
+                log.info(" %s", entry)
+        return path
+
+    def setApplianceSearchPath(r):
+        if 'searchPathOverride' in r.macros:
+            path = r.macros.searchPathOverride.split('\n')
+            r.setSearchPath(*path)
+
+            # Set PDSP for addAppliancePlatform() to use
+            r.macros.productDefinitionSearchPath = '\n'.join(path)
+        else:
+            ApplianceGroupRecipe.setApplianceSearchPath(r)
+
+    def ourStartGroup(r, name, parentGroup, topLevel=False, byDefault=True,
+            checkPathConflicts=True):
+        # creates group named "name", adds it to the toplevel group,
+        # and sets the current group to that name.  calls to r.add()
+        # will use the current group by default.
+
+        # note: byDefault applies to whether the group is included by
+        # default in its parent group, not whether the troves in
+        # the group are added by default. (use the setByDefault() command
+        # to get that)
+
+        # get all the the default for the new group from its parent group.
+        if parentGroup:
+            r.setDefaultGroup(parentGroup)
+
+        r.createGroup(name, autoResolve=topLevel, depCheck=topLevel,
+                        checkOnlyByDefaultDeps=True,
+                        checkPathConflicts=checkPathConflicts)
+
+        if parentGroup:
+            r.addNewGroup(name, groupName=parentGroup, byDefault=byDefault)
+        r.setDefaultGroup(name)
+
+        r.removeComponents(r.unwantedComponents)

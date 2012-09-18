@@ -18,6 +18,7 @@ class GroupRpathPlatform(GroupRecipe):
 librsync
 mod_python
 python-epdb
+python-twisted
 python-webunit
 rdiff-backup
 

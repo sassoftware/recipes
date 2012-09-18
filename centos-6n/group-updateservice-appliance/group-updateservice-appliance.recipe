@@ -181,15 +181,15 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         if 'productDefinitionSearchPath' in r.macros:
             path = r.macros.productDefinitionSearchPath.split('\n')
         else:
-            rapaVersion =   r.macros.get('rapa_label', 'conary.rpath.com@rpl:2')
-            rPLVersion =    r.macros.get('distro_version', 'conary.rpath.com@rpl:2')
+            rapaVersion =   r.macros.get('rapa_label', 'centos6.rpath.com@rpath:centos-6-common')
+            distroVersion =    r.macros.get('distro_version', 'centos6.rpath.com@rpath:centos-6e')
 
             path = [
                 'group-rapa=%s' % rapaVersion,
-                'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
+                'group-rpath-packages=centos6.rpath.com@rpath:centos-6-common',
+                'group-os=%s' % distroVersion,
               ]
             if 'platform_label' in r.macros:
-                # XXX FIXME
                 path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
 
         if not r._lightInstance:

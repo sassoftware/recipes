@@ -41,11 +41,16 @@ python-memcached
 python-novaclient
 python-pam
 python-txpostgres
+python-webob
 python-wokkel
 pywbem
 SQLAlchemy
 vobject
 XenAPI
+
+conary-web-common=conary.rpath.com@rpl:1
+info-apache=conary.rpath.com@rpl:2
+rapa-plugin-rPath=conary.rpath.com@rpl:2
 """
 
     def setup(r):

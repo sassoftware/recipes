@@ -33,6 +33,9 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
 
+        # Use a QA kernel for now
+        r.replace('kernel', 'conary.rpath.com@rpl:2-qa', '~xen,~domU,~vmware')
+
         # Replace conary
         r.replace('conary', groupName='group-core')
         r.add('conary-build')

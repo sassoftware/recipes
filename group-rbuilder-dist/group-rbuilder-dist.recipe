@@ -1,7 +1,5 @@
 #
-# Copyright (c) 2010 rPath, Inc.
-#
-# All Rights Reserved
+# Copyright (c) rPath, Inc.
 #
 
 from conary.lib import log
@@ -9,7 +7,7 @@ from conary.lib import log
 loadSuperClass('group-appliance', 'conary.rpath.com@rpl:2')
 class GroupRbuilderDist(ApplianceGroupRecipe):
     name = 'group-rbuilder-dist'
-    version = '5.5.0'
+    version = '7'
 
     # group-rbuilder-dist is a trove bucket, not an image group, so disable
     # most checks.  See below for the actual image group definitions.
@@ -34,9 +32,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
 
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
-
-        # Use a QA kernel for now
-        r.replace('kernel', 'conary.rpath.com@rpl:2-qa', '~xen,~domU,~vmware')
 
         # Replace conary
         r.replace('conary', groupName='group-core')
@@ -214,20 +209,11 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('memcached')
         r.add('python-memcached')
 
-        # xen flavor is unnecessary for rBO, so turn these off to save
-        # build time.
-        if not Use.xen:
-            ## group-jobmaster-standalone - Standalone Jobmaster (rBO only, not a product!)
-            r.ourStartGroup('group-jobmaster-standalone', r.name, topLevel = True)
-            r.addNewGroup('group-core')
-            r.add('jobmaster')
-            r.add('rbuilder-mcp')
-
-            ## group-rbuilder-standalone - Standalone rBuilder (rBO only, not a product!)
-            r.ourStartGroup('group-rbuilder-standalone', r.name, topLevel = True)
-            r.addNewGroup('group-core')
-            r.addNewGroup('group-rbuilder')
-            r.addNewGroup('group-mcp')
+        ## group-jobmaster-standalone - Standalone Jobmaster (not a product!)
+        r.ourStartGroup('group-jobmaster-standalone', r.name, topLevel = True)
+        r.addNewGroup('group-core')
+        r.add('jobmaster')
+        r.add('rbuilder-mcp')
 
     def getInitialSearchPath(r):
         """

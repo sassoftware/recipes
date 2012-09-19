@@ -49,6 +49,7 @@ vobject
 XenAPI
 
 conary-web-common=conary.rpath.com@rpl:1
+elementtree=conary.rpath.com@rpl:2-py26
 info-apache=conary.rpath.com@rpl:2
 info-rmake=conary.rpath.com@rpl:2
 info-rmake-chroot=conary.rpath.com@rpl:2

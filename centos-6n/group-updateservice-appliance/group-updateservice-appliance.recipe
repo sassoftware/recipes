@@ -20,6 +20,8 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
 
         ## group-core - Platform used by all products of this recipe
         r.addAppliancePlatform()
+        r.remove('selinux-policy')
+        r.remove('selinux-policy-targeted')
 
         r.add('openssh-clients')
         r.add('rsync')
@@ -29,31 +31,19 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('which')
         r.add('vim-enhanced')
 
-        # Appliance Platform Agent
-        r.add('rapa')
-        r.add('rapa-console')
-
         # Maintenance tools and monitoring
         r.add('krb5-workstation')
         r.add('keyutils')
         r.add('lsof')
-#        r.add('nagios-plugins')
         r.add('net-snmp')
-        r.add('net-snmp-server')
-#        r.add('nrpe')
         r.add('patch')
         r.add('rdiff-backup')
         r.add('screen')
         r.add('sudo')
-        r.add('ypbind')
-        r.add('yp-tools')
 
         r.add('open-vm-tools')
 
-        r.add('mod_ssl')
-        r.add('httpd')
         r.add('make')
-        r.add('samba-client')
         r.add('sqlite')
 
         ## group-extras
@@ -62,40 +52,33 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.startGroup('group-extras', groupName=r.name, byDefault=False,
                         checkPathConflicts=False, autoResolve=False)
         r.add('anaconda-custom-updateservice')
-        r.add('media-template')
 
         ## group-updateservice -- core packages for updateservice
-        # NOTE: This group should not contain *any* components from the
-        #       platform group.
+        # NOTE: This group should not contain *any* platform RPMs
         r.startGroup('group-updateservice', groupName=r.name, autoResolve=False)
-        r.add('conary')
-        r.add('conary-repository')
         r.add('conary-web-common')
-        r.add('updateservice')
         r.add('conary-rest')
-        r.add('restlib')
-        r.add('robj')
-        r.add('xobj:python')
+        r.add('updateservice')
         r.add('updateservice-appliance')
 
         r.add('rmake3')
         r.add('rmake3-node')
-        r.add('rpath-repeater')
-        r.add('wmiclient')
+        #r.add('rpath-repeater')
+        #r.add('wmiclient')
 
         # From group-rpath-platform
-        r.add('mod_python')
         r.add('pgbouncer')
         r.add('postgresql92')
         r.add('python-memcached')
         r.add('python-psycopg2')
-        r.add('python-webob')
+        r.add('rapa')
         r.add('rapa-plugin-rPath')
 
         r.addPostInstallScript(contents='''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
             chkconfig httpd on
+            chkconfig postgresql-updateservice on
             exit 0
             ''', groupName='group-updateservice')
         r.addPostUpdateScript(contents='''#!/bin/sh
@@ -122,14 +105,12 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         packageSearchPath = []
         for macro, packages in [
                 # rBuilder components from the build label
-                ('buildlabel', [
-                        'media-template',
-                      ]),
                 ('master_label', [
                         'anaconda-custom-updateservice',
                         'conary',
+                        'conary-build',
+                        'conary-policy',
                         'conary-repository',
-                        'conary-rest',
                         'rmake3',
                         'rmake3-multinode-server',
                         'rmake3-node',
@@ -137,6 +118,8 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'updateservice-appliance',
                       ]),
                 ('base_label', [
+                        'conary-rest',
+                        'restlib',
                         'robj',
                         'rpath-models',
                         'rpath-repeater',
@@ -144,10 +127,6 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'smartform',
                         'wmiclient',
                         'xobj',
-                      ]),
-                ('java_label', [
-                        'sun-jdk',
-                        'sun-jre',
                       ]),
               ]:
             if macro not in r.macros:
@@ -166,12 +145,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
             log.info("Package search path:")
             for entry in packageSearchPath:
                 log.info(" %s", entry)
-            # HACK: only return the CNY-3286 search path for real cooks until
-            # 2.1.0 is fully released; this makes it possible to commit recipe
-            # changes without needing a checkout.
-            return [packageSearchPath]
-        else:
-            return packageSearchPath
+        return [packageSearchPath]
 
     def getAppliancePlatformSearchPath(r):
         """
@@ -181,16 +155,13 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         if 'productDefinitionSearchPath' in r.macros:
             path = r.macros.productDefinitionSearchPath.split('\n')
         else:
-            rapaVersion =   r.macros.get('rapa_label', 'centos6.rpath.com@rpath:centos-6-common')
             distroVersion =    r.macros.get('distro_version', 'centos6.rpath.com@rpath:centos-6e')
 
             path = [
-                'group-rapa=%s' % rapaVersion,
+                'group-rpath-platform=%s' % r.macros.platform_label,
                 'group-rpath-packages=centos6.rpath.com@rpath:centos-6-common',
                 'group-os=%s' % distroVersion,
               ]
-            if 'platform_label' in r.macros:
-                path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
 
         if not r._lightInstance:
             log.info("Platform search path:")

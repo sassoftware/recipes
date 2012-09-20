@@ -183,10 +183,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         if 'productDefinitionSearchPath' in r.macros:
             path = r.macros.productDefinitionSearchPath.split('\n')
         else:
-            rPLVersion =    r.macros.get('distro_version', 'conary.rpath.com@rpl:2')
-
             path = [
-                'group-os=%s[%s]' % (rPLVersion, r.groupCoreFlavor),
+                'group-os=%(distro_label)s' % r.macros,
+                'group-rpath-packages=%(common_label)s' % r.macros,
               ]
 
             path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)

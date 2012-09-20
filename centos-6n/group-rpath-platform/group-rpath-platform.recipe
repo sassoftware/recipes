@@ -36,6 +36,7 @@ markdown
 paramiko
 python-cssutils
 python-dateutil
+python-keyutils
 python-httplib2
 python-memcached
 python-novaclient

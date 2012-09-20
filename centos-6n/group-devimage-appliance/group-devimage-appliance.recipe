@@ -79,7 +79,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('cvs')
 
         r.add('glibc-devel')
-        r.add('glic-headers')
+        r.add('glibc-headers')
         r.add('python-devel')
         r.add('gcc')
         r.add('binutils')

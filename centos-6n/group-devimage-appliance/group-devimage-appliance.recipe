@@ -48,7 +48,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('krb5-workstation')
         r.add('lsof')
         r.add('net-snmp')
-        r.add('net-snmp-server')
         r.add('patch')
         r.add('rdiff-backup')
         r.add('screen')

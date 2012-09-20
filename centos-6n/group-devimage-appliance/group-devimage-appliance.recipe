@@ -124,15 +124,17 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                         'conary-build',
                         'conary-policy',
                         'conary-repository',
-                        'pyovf',
                         'rmake',
+                      ]),
+                ('base_label', [
+                        'pyovf',
                         'robj',
+                        'xobj',
+                        'smartform',
                         'rpath-job',
                         'rpath-models',
                         'rpath-product-definition',
                         'rpath-xmllib',
-                        'smartform',
-                        'xobj',
                       ]),
 
                 # Other components
@@ -140,18 +142,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
 
                 # Platform overrides/extras
                 ('contrib_label', [
-                        'decorator',
                         'dstat',
-                        'iftop',
-                        'librsync', # dep of rdiff-backup
-                        'MochiKit[~MochiKit.packed]',
-                        'python-ctypes',
-                        'python-dateutil',
                         'python-txpostgres', # dep of rmake
-                        'rdiff-backup',
-                        'xz', # rpm depends on xz:lib, which rPL 2 omits
                     ]),
-                ('java_label',              ['sun-jdk', 'sun-jre']),
               ]:
             if macro not in r.macros:
                 continue

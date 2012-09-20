@@ -142,8 +142,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
 
                 # Platform overrides/extras
                 ('contrib_label', [
-                        'dstat',
-                        'python-txpostgres', # dep of rmake
                     ]),
               ]:
             if macro not in r.macros:

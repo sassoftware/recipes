@@ -22,7 +22,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
 
     def addPackages(r):
         # Replace conary
-        r.replace('conary', groupName='group-core')
+        r.replace('conary')
         r.add('conary-build')
         r.add('conary-repository')
         r.add('conary-policy')

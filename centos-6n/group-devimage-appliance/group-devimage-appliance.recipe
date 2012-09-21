@@ -91,7 +91,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('epdb')
 
         # Include a couple of common text editors for developers
-        r.add('vim')
+        r.add('vim-enhanced')
         r.add('nano')
 
         # Add nscd to make performance better

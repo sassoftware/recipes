@@ -201,3 +201,11 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
             r.macros.productDefinitionSearchPath = '\n'.join(path)
         else:
             ApplianceGroupRecipe.setApplianceSearchPath(r)
+
+    def addAppliancePlatform(r):
+        """
+        Override to avoid creating group-core.
+        """
+
+        r.addAll('group-standard', flatten=True)
+        r.addAll('group-rpath-core', flatten=True)

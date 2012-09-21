@@ -67,7 +67,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('xz')
         r.add('lua')
 
-        r.add('kid')
         r.add('make')
         r.add('sudo')
         r.add('xmlto')

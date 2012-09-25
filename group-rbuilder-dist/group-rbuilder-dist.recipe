@@ -95,6 +95,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.add('simplejson')
         r.add('sqlite:runtime')
 
+        r.add('catalog-service')
         r.add('MochiKit')
         r.add('rmake')
         r.add('rpath-repeater')

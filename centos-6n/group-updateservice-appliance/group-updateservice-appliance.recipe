@@ -116,6 +116,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'rmake3-node',
                         'updateservice',
                         'updateservice-appliance',
+                        'wmiclient',
                       ]),
                 ('base_label', [
                         'conary-rest',
@@ -125,7 +126,6 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'rpath-repeater',
                         'rpath-tools',
                         'smartform',
-                        'wmiclient',
                         'xobj',
                       ]),
               ]:

@@ -206,3 +206,11 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.setDefaultGroup(name)
 
         r.removeComponents(r.unwantedComponents)
+
+    def addAppliancePlatform(r):
+        """
+        Override to avoid creating group-core.
+        """
+
+        r.addAll('group-standard', flatten=True)
+        r.addAll('group-rpath-core', flatten=True)

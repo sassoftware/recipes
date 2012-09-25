@@ -17,6 +17,7 @@ class GroupRpathPlatform(GroupRecipe):
 # Contrib - centos-6n
 librsync
 mod_python
+python-crypto
 python-epdb
 python-twisted
 python-webunit
@@ -36,8 +37,8 @@ markdown
 paramiko
 python-cssutils
 python-dateutil
-python-keyutils
 python-httplib2
+python-keyutils
 python-memcached
 python-novaclient
 python-pam

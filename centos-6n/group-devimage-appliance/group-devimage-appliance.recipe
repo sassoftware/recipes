@@ -74,7 +74,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('mercurial')
         r.add('git')
         r.add('subversion')
-        r.add('bzr')
         r.add('cvs')
 
         r.add('glibc-devel')

@@ -40,7 +40,6 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('rdiff-backup')
         r.add('screen')
         r.add('sudo')
-        r.add('pv')
         r.add('nc')
 
         r.add('open-vm-tools')

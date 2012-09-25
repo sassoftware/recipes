@@ -63,8 +63,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
 
         r.add('rmake3')
         r.add('rmake3-node')
-        #r.add('rpath-repeater')
-        #r.add('wmiclient')
+        r.add('rpath-repeater')
 
         # From group-rpath-platform
         r.add('pgbouncer')
@@ -78,6 +77,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
             chkconfig httpd on
+            chkconfig pgbouncer on
             chkconfig postgresql-updateservice on
             exit 0
             ''', groupName='group-updateservice')

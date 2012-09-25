@@ -16,6 +16,7 @@ class GroupRpathPlatform(GroupRecipe):
     packages = """
 # Contrib - centos-6n
 librsync
+mercurial
 mod_python
 python-crypto
 python-epdb

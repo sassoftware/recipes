@@ -110,7 +110,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('elementtree:python')
         r.add('python-dateutil:python')
         r.add('python-crypto:python')
-        r.add('rpath_models:python')
+        r.add('rpath-models:python')
         # rmake 3
         r.add('info-rmake')
         r.add('info-rmake-chroot')

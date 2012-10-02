@@ -8,7 +8,7 @@
     <conaryRepositoryHostname>infra.rpath.com</conaryRepositoryHostname>
     <conaryNamespace>rpath</conaryNamespace>
     <imageGroup>group-updateservice-appliance</imageGroup>
-    <baseLabel>%(base_label)s</baseLabel>
+    <baseLabel>%(release_label)s</baseLabel>
     <stages>
         <stage labelSuffix="" name="Release"/>
     </stages>

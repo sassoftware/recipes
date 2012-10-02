@@ -97,9 +97,11 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('ConfigObj-conary')
         r.add('PyPAM-conary')
         r.add('kid-conary')
-        r.add('libuser-conary')
+        r.add('libuser-conary:python')
+        r.add('libuser-conary:lib')
+        r.add('libuser-conary:config')
         # rpath-repeater
-        r.add('conary')
+        r.add('conary:python')
         r.add('pywbem')
         r.add('paramiko')
         r.add('rpath-tools')

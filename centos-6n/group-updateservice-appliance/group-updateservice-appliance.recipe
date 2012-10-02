@@ -107,6 +107,10 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('rpath-tools')
         r.add('smartform')
         r.add('wmiclient')
+        r.add('elementtree:python')
+        r.add('python-dateutil:python')
+        r.add('python-crypto:python')
+        r.add('rpath_models:python')
         # rmake 3
         r.add('info-rmake')
         r.add('info-rmake-chroot')
@@ -122,6 +126,8 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         # crest
         r.add('restlib')
         r.add('xobj')
+        # pgbouncer
+        r.add('libevent')
 
     def getInitialSearchPath(r):
         """

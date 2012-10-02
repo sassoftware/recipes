@@ -111,6 +111,7 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
         r.add('python-dateutil:python')
         r.add('python-crypto:python')
         r.add('rpath-models:python')
+        r.add('rpath-models:data')
         # rmake 3
         r.add('info-rmake')
         r.add('info-rmake-chroot')

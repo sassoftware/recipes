@@ -10,7 +10,7 @@
     <imageGroup>group-devimage-appliance</imageGroup>
     <baseLabel>%(target_label)s</baseLabel>
     <stages>
-        <stage labelSuffix="%(targetLabel)s" name="Development"/>
+        <stage labelSuffix="%(target_label)s" name="Development"/>
         <stage labelSuffix="infra.rpath.com@rpath:devimage-%(major_version)s" name="Release"/>
     </stages>
     <buildDefinition>

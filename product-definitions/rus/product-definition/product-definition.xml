@@ -8,10 +8,9 @@
     <conaryRepositoryHostname>infra.rpath.com</conaryRepositoryHostname>
     <conaryNamespace>rpath</conaryNamespace>
     <imageGroup>group-updateservice-appliance</imageGroup>
-    <baseLabel>%(target_label)s</baseLabel>
+    <baseLabel>%(base_label)s</baseLabel>
     <stages>
-        <stage labelSuffix="%(target_label)s" name="Development"/>
-        <stage labelSuffix="infra.rpath.com@rpath:rus-%(major_version)s" name="Release"/>
+        <stage labelSuffix="" name="Release"/>
     </stages>
     <buildDefinition>
         <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="UpdateService %(major_version)s x86_64 ESX" flavorSetRef="generic">

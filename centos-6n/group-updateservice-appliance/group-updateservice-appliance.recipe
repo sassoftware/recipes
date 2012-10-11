@@ -37,7 +37,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             )
         # Add dependencies except for those from the platform
         upsrv += upsrv.depsNeeded(r.mainSearchPath)
-        rmtroves = r.mainSearchPath.find('group-os', 'group-rpath-packages').flatten()
+        rmtroves = r.mainSearchPath.find('group-os', 'group-rpath-core').flatten()
         upsrv -= rmtroves.makeInstall()
         # Manually remove file conflicts with platform
         upsrv -= upsrv.find(

@@ -1,149 +1,115 @@
 #
-# Copyright (c) 2010 rPath, Inc.
-#
-# All Rights Reserved
+# Copyright (c) rPath, Inc.
 #
 
-from conary.lib import log
 
-loadSuperClass('group-appliance', 'centos6.rpath.com@rpath:centos-6e')
-class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
+class GroupUpdateServiceAppliance(GroupSetRecipe):
     name = 'group-updateservice-appliance'
     version = 'tip'
 
     unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
 
     def setup(r):
-        if 'platform_label' in r.macros:
-            r.groupLabel = 'centos6.rpath.com@rpath:centos-6e'
-        r.setApplianceSearchPath()
-
-        ## group-core - Platform used by all products of this recipe
-        r.addAppliancePlatform()
-        r.remove('selinux-policy')
-        r.remove('selinux-policy-targeted')
-
-        r.add('openssh-clients')
-        r.add('rsync')
-        r.add('strace')
-        r.add('tcpdump')
-        r.add('wget')
-        r.add('which')
-        r.add('vim-enhanced')
-
-        # Maintenance tools and monitoring
-        r.add('krb5-workstation')
-        r.add('keyutils')
-        r.add('lsof')
-        r.add('net-snmp')
-        r.add('patch')
-        r.add('rdiff-backup')
-        r.add('screen')
-        r.add('sudo')
-        r.add('nc')
-
-        r.add('open-vm-tools')
-
-        r.add('make')
-        r.add('sqlite')
-
-        ## group-extras
-        # NB: These are not installed on the appliance, but kept to simplify
-        # release management.
-        r.startGroup('group-extras', groupName=r.name, byDefault=False,
-                        checkPathConflicts=False, autoResolve=False)
-        r.add('anaconda-custom-updateservice')
+        r.dumpAll()
+        r.makeSearchPath()
+        addToMain = []
 
         ## group-updateservice -- core packages for updateservice
         # NOTE: This group should not contain *any* platform RPMs
-        r.startGroup('group-updateservice', groupName=r.name, autoResolve=False)
-        r.add('conary-web-common')
-        r.add('conary-rest')
-        r.add('updateservice')
-        r.add('updateservice-appliance')
+        upsrv = r.mainSearchPath.find(
+            'conary-web-common',
+            'conary-rest',
+            'updateservice',
+            'updateservice-appliance',
 
-        r.add('rmake3')
-        r.add('rmake3-node')
-        r.add('rpath-repeater')
+            'rmake3',
+            'rmake3-node',
+            'rpath-repeater',
 
-        # From group-rpath-platform
-        r.add('pgbouncer')
-        r.add('postgresql92')
-        r.add('python-memcached')
-        r.add('python-psycopg2')
-        r.add('python-webob')
-        r.add('rapa')
-        r.add('rapa-plugin-rPath')
+            # From group-rpath-platform
+            'pgbouncer',
+            'postgresql92',
+            'python-memcached',
+            'python-psycopg2',
+            'python-webob',
+            'rapa',
+            'rapa-plugin-rPath',
+            )
+        # Add dependencies except for those from the platform
+        upsrv += upsrv.depsNeeded(r.mainSearchPath)
+        rmtroves = r.mainSearchPath.find('group-os', 'group-rpath-packages').flatten()
+        upsrv -= rmtroves.makeInstall()
+        # Manually remove file conflicts with platform
+        upsrv -= upsrv.find(
+            'conary:data',
+            )
 
-        r.addPostInstallScript(contents='''#!/bin/sh
+        scripts = r.Scripts(
+            postInstall=r.Script('''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
             chkconfig httpd on
             chkconfig pgbouncer on
             chkconfig postgresql-updateservice on
             exit 0
-            ''', groupName='group-updateservice')
-        r.addPostUpdateScript(contents='''#!/bin/sh
+            '''),
+            postUpdate=r.Script('''#!/bin/sh
             /srv/conary/bin/migrate-config
             /srv/conary/bin/migrate-repos
             exit 0
-            ''', groupName='group-updateservice')
+            '''),
+            )
+        upsrv -= upsrv.components(*r.unwantedComponents)
+        groupUpsrv = upsrv.createGroup('group-updateservice', scripts=scripts)
+        addToMain.append(groupUpsrv)
 
-        ###
-        ## Added for dep closure
-        ###
-        # rapa
-        r.add('info-raa-web')
-        r.add('ConfigObj-conary')
-        r.add('PyPAM-conary')
-        r.add('kid-conary')
-        r.add('libuser-conary:python')
-        r.add('libuser-conary:lib')
-        r.add('libuser-conary:config')
-        # rpath-repeater
-        r.add('conary:python')
-        r.add('pywbem')
-        r.add('paramiko')
-        r.add('rpath-tools')
-        r.add('smartform')
-        r.add('wmiclient')
-        r.add('elementtree:python')
-        r.add('python-dateutil:python')
-        r.add('python-crypto:python')
-        r.add('rpath-models:python')
-        r.add('rpath-models:data')
-        # rmake 3
-        r.add('info-rmake')
-        r.add('info-rmake-chroot')
-        r.add('conary-build')
-        r.add('conary-repository')
-        r.add('python-wokkel')
-        r.add('python-txpostgres')
-        # postgresql92
-        r.add('info-postgres')
-        # updateservice
-        r.add('info-apache')
-        r.add('mod_python')
-        # crest
-        r.add('restlib')
-        r.add('xobj')
-        # pgbouncer
-        r.add('libevent')
+        ## group-updateservice-extras
+        # NB: These are not installed on the appliance, but kept to simplify
+        # release management.
+        groupExtras = r.mainSearchPath.find(
+            'anaconda-custom-updateservice',
+            ).createGroup('group-updateservice-extras', checkPathConflicts=False)
+        addToMain.append(groupExtras.makeOptional())
 
-    def getInitialSearchPath(r):
-        """
-        We don't want to ever implicitly use the build label. Any troves
-        from the build label must be specified as such in the search path
-        or in C{r.add()}.
-        """
-        return []
+        ## group-updateservice-appliance
+        appliance = r.mainSearchPath.find(
+            'group-standard',
+            'group-rpath-core',
+            ).members()
+        appliance += r.mainSearchPath.find(
+            'openssh-clients',
+            'rsync',
+            'strace',
+            'tcpdump',
+            'vim-enhanced',
+            'wget',
+            'which',
+
+            # Maintenance tools and monitoring
+            'keyutils',
+            'krb5-workstation',
+            'lsof',
+            'make',
+            'nc',
+            'net-snmp',
+            'open-vm-tools',
+            'patch',
+            'rdiff-backup',
+            'screen',
+            'sqlite',
+            'sudo',
+            )
+        appliance -= appliance.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
+            )
+        for item in addToMain:
+            appliance += item
+        appliance += appliance.depsNeeded(r.mainSearchPath)
+        r.Group(appliance)
+
 
     def getAdditionalSearchPath(r):
-        """
-        Set a package search path from a plethora of macros. This covers all
-        the product components and dependencies that aren't part of the
-        platform, e.g. everything except rPA, rPL, and rLS.
-        """
         # Place new packages in the correct section, sorted alphabetically.
         packageSearchPath = []
         for macro, packages in [
@@ -173,85 +139,27 @@ class GroupUpdateServiceAppliance(ApplianceGroupRecipe):
                         'xobj',
                       ]),
               ]:
-            if macro not in r.macros:
+            label = r.macros.get(macro)
+            if label is None:
                 continue
-            for package in packages:
-                pkgVersion = r.macros.get(macro, '')
-                if '[' in package:
-                    x = package.index('[')
-                    package, flavor = package[:x], package[x:]
-                    packageSearchPath.append('%s=%s%s' % (
-                            package, pkgVersion, flavor))
-                else:
-                    packageSearchPath.append('%s=%s' % (package, pkgVersion))
-
-        if not r._lightInstance:
-            log.info("Package search path:")
-            for entry in packageSearchPath:
-                log.info(" %s", entry)
-        return [packageSearchPath]
+            packageSearchPath.append(r.Repository(label, r.flavor
+                ).find(*packages))
+        return packageSearchPath
 
     def getAppliancePlatformSearchPath(r):
         """
         Derive a platform search path from some input macros, unless one
         was supplied in a rbuild-compatible form.
         """
-        if 'productDefinitionSearchPath' in r.macros:
-            path = r.macros.productDefinitionSearchPath.split('\n')
-        else:
-            distroVersion =    r.macros.get('distro_version', 'centos6.rpath.com@rpath:centos-6e')
+        common = r.macros.get('common_label', 'centos6.rpath.com@rpath:centos-6-common')
+        distro = r.macros.get('distro_label', 'centos6.rpath.com@rpath:centos-6e')
+        return [
+            r.Repository(r.macros.platform_label, r.flavor).find('group-rpath-platform'),
+            r.Repository(common, r.flavor).find('group-rpath-packages'),
+            r.Repository(distro, r.flavor).find('group-os'),
+            ]
 
-            path = [
-                'group-rpath-platform=%s' % r.macros.platform_label,
-                'group-rpath-packages=centos6.rpath.com@rpath:centos-6-common',
-                'group-os=%s' % distroVersion,
-              ]
-
-        if not r._lightInstance:
-            log.info("Platform search path:")
-            for entry in path:
-                log.info(" %s", entry)
-        return path
-
-    def setApplianceSearchPath(r):
-        if 'searchPathOverride' in r.macros:
-            path = r.macros.searchPathOverride.split('\n')
-            r.setSearchPath(*path)
-
-            # Set PDSP for addAppliancePlatform() to use
-            r.macros.productDefinitionSearchPath = '\n'.join(path)
-        else:
-            ApplianceGroupRecipe.setApplianceSearchPath(r)
-
-    def ourStartGroup(r, name, parentGroup, topLevel=False, byDefault=True,
-            checkPathConflicts=True):
-        # creates group named "name", adds it to the toplevel group,
-        # and sets the current group to that name.  calls to r.add()
-        # will use the current group by default.
-
-        # note: byDefault applies to whether the group is included by
-        # default in its parent group, not whether the troves in
-        # the group are added by default. (use the setByDefault() command
-        # to get that)
-
-        # get all the the default for the new group from its parent group.
-        if parentGroup:
-            r.setDefaultGroup(parentGroup)
-
-        r.createGroup(name, autoResolve=topLevel, depCheck=topLevel,
-                        checkOnlyByDefaultDeps=True,
-                        checkPathConflicts=checkPathConflicts)
-
-        if parentGroup:
-            r.addNewGroup(name, groupName=parentGroup, byDefault=byDefault)
-        r.setDefaultGroup(name)
-
-        r.removeComponents(r.unwantedComponents)
-
-    def addAppliancePlatform(r):
-        """
-        Override to avoid creating group-core.
-        """
-
-        r.addAll('group-standard', flatten=True)
-        r.addAll('group-rpath-core', flatten=True)
+    def makeSearchPath(r):
+        searchPath = r.getAdditionalSearchPath() + r.getAppliancePlatformSearchPath()
+        r.mainSearchPath = r.SearchPath(*searchPath)
+        return r.mainSearchPath

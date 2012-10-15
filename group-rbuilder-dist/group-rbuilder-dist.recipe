@@ -147,32 +147,7 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.ourStartGroup('group-extras', r.name, topLevel=False, byDefault=False,
                         checkPathConflicts=False)
         r.add('anaconda-custom')
-        r.add('anaconda-custom-updateservice')
         r.add('media-template')
-
-        ## group-updateservice -- core packages for updateservice
-        r.ourStartGroup('group-updateservice', r.name, topLevel=False)
-        r.add('conary')
-        r.add('conary-repository')
-        r.add('conary-web-common')
-        r.add('updateservice')
-        r.add('conary-rest')
-        r.add('restlib')
-        r.add('robj')
-        r.add('xobj:python')
-        r.add('postgresql:bin')
-        r.add('python-pgsql', pypgsqlLabel)
-        r.add('httpd')
-        r.add('make')
-        r.add('mod_ssl')
-        r.add('mod_python')
-        r.add('samba:runtime')
-        r.add('sqlite:runtime')
-        # NOTE: the following packages should be able to coexist
-        # with other services on an appliance (e.g., for US2US),
-        # but currently there are system-wide config changes which
-        # prevent this.  Need to split some things out of here.
-        r.add('updateservice-appliance')
 
         ###### PRODUCTS ######
         ## group-rbuilder-appliance - rBuilder Appliance
@@ -189,29 +164,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
         r.addPostUpdateScript(contents='''#!/bin/bash
             /usr/share/rbuilder/scripts/group-script || exit 1
             ''', groupName='group-rbuilder-appliance')
-
-        ## group-updateservice-appliance - rPath Update Service
-        r.ourStartGroup('group-updateservice-appliance', r.name, topLevel = True)
-        r.addNewGroup('group-core', groupName='group-updateservice-appliance')
-        r.addNewGroup('group-updateservice', groupName='group-updateservice-appliance')
-        r.add('rmake3')
-        r.add('rmake3-node')
-        r.add('rpath-repeater')
-        r.add('wmiclient')
-        r.addPostInstallScript(contents='''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            exit 0
-            ''', groupName='group-updateservice-appliance')
-        r.addPostUpdateScript(contents='''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            exit 0
-            ''', groupName='group-updateservice-appliance')
-
-        # memcache
-        r.add('memcached')
-        r.add('python-memcached')
 
         ## group-jobmaster-standalone - Standalone Jobmaster (not a product!)
         r.ourStartGroup('group-jobmaster-standalone', r.name, topLevel = True)

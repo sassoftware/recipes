@@ -199,7 +199,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'splashy-theme',
                       ]),
                 ('master_label', [
-                        'anaconda-custom-updateservice',
                         'catalog-service',
                         'conary',
                         'conary-build',
@@ -229,8 +228,6 @@ class GroupRbuilderDist(ApplianceGroupRecipe):
                         'rpath-tools',
                         'rpath-xmllib',
                         'smartform',
-                        'updateservice',
-                        'updateservice-appliance',
                         'wmiclient',
                         'xobj',
                       ]),

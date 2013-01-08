@@ -46,14 +46,28 @@ python-pam
 python-txpostgres
 python-webob
 python-wokkel
+python-xattr
 pywbem
+PyYAML
 SQLAlchemy
 vobject
 XenAPI
 
+# rPL 2 - rpl-2-py26
+decorator
+dnspython
+elementtree
+epdb
+kid
+mx
+python-sqlite
+
+# non-python contrib packages
+info-jabber
+MochiKit
+yui
+
 conary-web-common=conary.rpath.com@rpl:1
-epdb=conary.rpath.com@rpl:2-py26
-elementtree=conary.rpath.com@rpl:2-py26
 info-apache=conary.rpath.com@rpl:2
 info-rmake=conary.rpath.com@rpl:2
 info-rmake-chroot=conary.rpath.com@rpl:2
@@ -74,6 +88,8 @@ rapa-plugin-rPath=conary.rpath.com@rpl:2
         r.setSearchPath(
             'contrib.rpath.org@rpath:centos-6n',
             'contrib.rpath.org@rpl:2-py26',
+            'conary.rpath.com@rpl:2-py26',
+            'contrib.rpath.org@rpl:2',
         )
 
     @property

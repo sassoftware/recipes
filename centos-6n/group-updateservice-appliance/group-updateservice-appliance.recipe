@@ -77,6 +77,10 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'group-rpath-core',
             ).members()
         appliance += r.mainSearchPath.find(
+            # target deployment etc.
+            'catalog-service',
+            'rbuilder:python',
+
             'openssh-clients',
             'rsync',
             'strace',
@@ -129,12 +133,23 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'wmiclient',
                       ]),
                 ('base_label', [
+                        'catalog-service',
                         'conary-rest',
+                        'jobslave',
+                        'mcp',
+                        'pcreator',
+                        'pyovf',
+                        'rbuilder',
+                        'repodata',
                         'restlib',
-                        'robj',
+                        'rpath-capsule-indexer',
+                        'rpath-job',
                         'rpath-models',
+                        'rpath-product-definition',
                         'rpath-repeater',
+                        'rpath-storage',
                         'rpath-tools',
+                        'rpath-xmllib',
                         'smartform',
                         'xobj',
                       ]),

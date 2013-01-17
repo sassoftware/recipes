@@ -76,12 +76,26 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('subversion')
         r.add('cvs')
 
+        r.add('distro-policy')
         r.add('glibc-devel')
         r.add('glibc-headers')
         r.add('python-devel')
+        r.add('python-setuptools')
         r.add('gcc')
         r.add('binutils')
         r.add('curl')
+
+        r.add('tag-cacheable-font:tagdescription')
+        r.add('tag-desktop-file:tagdescription')
+        r.add('tag-gdk-pixbuf-loader:tagdescription')
+        r.add('tag-gtk-input-method:tagdescription')
+        r.add('tag-update-icon-cache:tagdescription')
+        r.add('tag-info-file:tagdescription')
+        r.add('tag-mime-database:tagdescription')
+        r.add('tag-pangomodule:tagdescription')
+        r.add('tag-shell:tagdescription')
+        r.add('tag-x-font:tagdescription')
+        r.add('tag-usergroup-info')
 
         # Mirrorball Deps
         r.add('rpath-xmllib')

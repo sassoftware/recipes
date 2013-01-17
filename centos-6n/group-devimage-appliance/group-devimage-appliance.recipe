@@ -89,7 +89,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('tag-desktop-file:tagdescription')
         r.add('tag-gdk-pixbuf-loader:tagdescription')
         r.add('tag-gtk-input-method:tagdescription')
-        r.add('tag-update-icon-cache:tagdescription')
+        r.add('tag-gtk-update-icon-cache:tagdescription')
         r.add('tag-info-file:tagdescription')
         r.add('tag-mime-database:tagdescription')
         r.add('tag-pangomodule:tagdescription')

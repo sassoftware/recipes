@@ -15,6 +15,7 @@ class GroupRpathPlatform(GroupRecipe):
 
     packages = """
 # Contrib - centos-6n
+amiconfig
 ec2-ami-tools
 librsync
 mercurial

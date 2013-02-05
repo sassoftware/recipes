@@ -25,11 +25,10 @@ class GroupRpathPackages(GroupRecipe):
 
         searchPath = [ r.cfg.buildLabel ]
 
-        crud = '-'.join(r.cfg.buildLabel.split(':')[-1].split('-')[:-1])
 
-        if crud == 'centos-6':
+        if 'centos-6' in [ x for x in searchPath ]:
             searchPath.append('centos6.rpath.com@rpath:centos-6-common-devel')
-        elif crud == 'centos-5':
+        elif 'centos-5' in [ x for x in searchPath ]:
             searchPath.append('centos.rpath.com@rpath:centos-5-common-devel')
 
 

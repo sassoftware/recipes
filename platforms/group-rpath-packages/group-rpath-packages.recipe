@@ -1,0 +1,162 @@
+#
+# Copyright (c) 2009 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+import time
+
+class GroupRpathPackages(GroupRecipe):
+    name = 'group-rpath-packages'
+    version = time.strftime('%Y%m%d%H%M', time.localtime())
+
+    imageGroup = False
+    checkPathConflicts = True
+
+    def setup(r):
+        # This prevents the builds of this platform from
+        # trying to include the xen/domU/dom0/vmware
+        # flavors due to the multiple available
+        Use.xen.setPlatform(False)
+        Use.domU.setPlatform(False)
+        Use.dom0.setPlatform(False)
+        Use.vmware.setPlatform(False)
+
+        if  'productDefinitionSearchPath' in r.macros:
+            searchPath = [ r.cfg.buildLabel ] + \
+                         r.macros.productDefinitionSearchPath.split('\n')
+            r.setSearchPath(*searchPath)
+        else:
+            r.setSearchPath(r.cfg.buildLabel) 
+
+        # Some things really don't need to be in a subgroup
+        r.add('ConfigObj-conary')
+        r.add('info-raa-web')
+        r.add('kid-conary')
+        r.add('libuser-conary')
+        r.add('mercurial-conary')
+        r.add('PyPAM-conary')
+        r.add('python-setuptools-conary')
+        r.add('rapa')
+        r.add('rapa-console')
+
+        # Not sure what group to put these in yet...
+        r.add('puppet')
+        r.add('facter')
+        r.add('info-puppet')
+
+        r.startGroup('group-superclasses', groupName='group-rpath-packages', byDefault=False)
+        r.add('autopackage')
+        r.add('baserequires')
+        r.add('buildpackage')
+        r.add('capsule')
+        r.add('cpackage')
+        r.add('derived')
+        r.add('derivedcapsule')
+        r.add('fileset')
+        r.add('group')
+        r.add('groupinfo')
+        r.add('groupset')
+        r.add('package')
+        r.add('redirect')
+        r.add('userinfo')
+        r.add('rpathpackage')
+
+        r.startGroup('group-factories', groupName='group-rpath-packages', byDefault=False)
+        r.add('capsule-kmod-import')
+        r.add('capsule-rpm-import')
+        r.add('factory-archive')
+        r.add('factory-base-packagecreator')
+        r.add('factory-capsule-rpm')
+        r.add('factory-capsule-rpm-pc')
+        r.add('factory-group-base')
+        r.add('factory-hgsource')
+        r.add('factory-managed-group')
+        r.add('factory-managed-errata-group')
+        r.add('factory-version')
+        r.add('factory-puppet-pc')
+
+        r.startGroup('group-rpath-tools', groupName='group-rpath-packages', byDefault=True)
+        r.add('conary')
+        r.add('conary-build')
+        r.add('conary-policy')
+        r.add('conary-repository')
+        r.add('libelf-lgpl')
+        r.add('python-conary')
+        r.add('amiconfig', byDefault=False)
+        r.add('distro-policy')
+        r.add('open-vm-tools', byDefault=False)
+        r.add('xe-guest-utilities', byDefault=False)
+        if Arch.x86:
+            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug', byDefault=False)
+            r.add('kmod-open-vm-tools', flavor='kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug', byDefault=False)
+            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug', byDefault=False)
+        else:
+            r.add('kmod-open-vm-tools', flavor='kmod-open-vm-tools.debug', byDefault=False)
+            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.debug', byDefault=False)
+
+        # Tag descriptions & handlers should only be pulled in when required
+        # or when specifically requested.
+        r.startGroup('group-tags', groupName='group-rpath-packages', byDefault=False)
+        r.add('tag-cacheable-font')
+        r.add('tag-desktop-file')
+        r.add('tag-gdk-pixbuf-loader')
+        r.add('tag-gtk-input-method')
+        r.add('tag-gtk-update-icon-cache')
+        r.add('tag-info-file')
+        r.add('tag-initscript')
+        r.add('tag-kernel')
+        r.add('tag-mime-database')
+        r.add('tag-pangomodule')
+        r.add('tag-shell')
+        r.add('tag-usergroup-info')
+        r.add('tag-x-font')
+
+        r.startGroup('group-rpath-cim', groupName='group-rpath-packages', byDefault=False)
+        # NOTE: the first three packages here are just build requirements,
+        # and need not be installed on a deployed system.
+        for pkg in [ 'w3c-libwww',
+                     'xmlrpc-c',
+                     'cmake',
+                     'openslp-conary',
+                     'sblim-sfcc-conary',
+                     'sblim-sfcb-schema-conary',
+                     'sblim-sfcb-conary',
+                     'info-sfcb',
+                     'libxml2-conary',
+                     'm2crypto-conary',
+                     'python-lxml-conary',
+                     'python-dmidecode-conary',
+                     'python-setuptools-conary',
+                     'pywbem-conary',
+                     'sblim-cmpi-devel-conary',
+                     'sblim-cmpi-base-conary',
+                     'sblim-cmpi-network-conary',
+                     'cmpi-bindings-conary',
+                     'conary-cim',
+                     'conary-cim-configuration',
+                     'rpath-models',
+                     'rpath-tools',
+                     'smartform-conary',
+                     'genshi-conary',
+                     'iconfig',
+                    ]:
+            r.add(pkg)
+            pass
+
+        r.startGroup('group-rpath-core', groupName='group-rpath-packages', byDefault=True)
+        for pkg in [ 'conary',
+                     'libelf-lgpl',
+                     'python-conary',
+                     'sblim-sfcc-conary',
+                     'sblim-sfcb-schema-conary',
+                     'sblim-sfcb-conary',
+                     'conary-cim',
+                     'conary-cim-configuration',
+                     'rpath-tools',
+                     'm2crypto-conary',
+                     'iconfig',
+                    ]:
+            r.add(pkg)
+        r.removeComponents(['devel', 'devellib'])
+

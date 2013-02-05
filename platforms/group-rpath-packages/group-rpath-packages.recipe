@@ -29,7 +29,7 @@ class GroupRpathPackages(GroupRecipe):
 
         if crud == 'centos-6':
             searchPath.append('centos6.rpath.com@rpath:centos-6-common-devel')
-        elif crud == 'centos-5'
+        elif crud == 'centos-5':
             searchPath.append('centos.rpath.com@rpath:centos-5-common-devel')
 
 

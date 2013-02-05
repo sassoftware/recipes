@@ -23,7 +23,7 @@ class GroupRpathPackages(GroupRecipe):
         Use.vmware.setPlatform(False)
 
 
-        searchPath = [ r.cfg.buildLabel, %(common_label)s, %(distro_label)s, ]
+        searchPath = [ r.cfg.buildLabel, r.macro.common_label, r.macro.distro_label, ]
 
 
         if  'productDefinitionSearchPath' in r.macros:

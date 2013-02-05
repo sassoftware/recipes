@@ -22,7 +22,7 @@ class GroupRpathPackages(GroupRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
-        searchPath = [ r.cfg.buildLabel, 'centos.rpath.com@rpath:centos-5-devel', ]
+        searchPath = [ r.cfg.buildLabel, 'centos.rpath.com@rpath:centos-5-common-devel', ]
         if  'productDefinitionSearchPath' in r.macros:
             searchPath = searchPath + \
                          r.macros.productDefinitionSearchPath.split('\n')

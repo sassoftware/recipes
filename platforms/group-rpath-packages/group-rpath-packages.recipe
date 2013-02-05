@@ -22,12 +22,12 @@ class GroupRpathPackages(GroupRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
+        searchPath = [ r.cfg.buildLabel, r.cfg.installLabel ]
         if  'productDefinitionSearchPath' in r.macros:
-            searchPath = [ r.cfg.buildLabel ] + \
+            searchPath = searchPath + \
                          r.macros.productDefinitionSearchPath.split('\n')
-            r.setSearchPath(*searchPath)
-        else:
-            r.setSearchPath(r.cfg.buildLabel) 
+
+        r.setSearchPath(*searchPath)
 
         # Some things really don't need to be in a subgroup
         r.add('ConfigObj-conary')

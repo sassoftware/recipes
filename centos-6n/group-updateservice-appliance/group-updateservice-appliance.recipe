@@ -80,6 +80,8 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             # target deployment etc.
             'catalog-service',
             'rbuilder:python',
+            # Needed by a rUS running in EC2 - :python gets added via dep resolution
+            'amiconfig:runtime',
 
             'openssh-clients',
             'rsync',

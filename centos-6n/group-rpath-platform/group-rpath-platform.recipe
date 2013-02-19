@@ -17,6 +17,9 @@ class GroupRpathPlatform(GroupRecipe):
 # Contrib - centos-6n
 amiconfig
 ec2-ami-tools
+info-jabber
+jabberd
+libgsasl
 librsync
 mercurial
 mod_python
@@ -25,6 +28,7 @@ python-epdb
 python-twisted
 python-webunit
 rdiff-backup
+udns
 
 # Contrib - rpl-2-py26
 boto
@@ -65,8 +69,6 @@ mx
 python-sqlite
 
 # non-python contrib packages
-info-jabber
-jabberd
 MochiKit
 yui
 

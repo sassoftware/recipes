@@ -1,0 +1,228 @@
+#
+# Copyright (c) SAS Institute Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+
+class GroupRbuilderDist(GroupSetRecipe):
+    name = 'group-rbuilder-dist'
+    version = '8'
+
+    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
+
+    def setup(r):
+        r.dumpAll()
+        r.makeSearchPath()
+        addToMain = []
+
+        ## core troveset common to all appliance outputs
+        core = r.mainSearchPath.find('group-standard').members()
+        core -= core.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
+            )
+        core += r.mainSearchPath.find(
+            'amiconfig',
+            'conary',
+            'dstat',
+            'file',
+            'group-rapa',
+            'keyutils',
+            'krb5-workstation',
+            'less',
+            'lsof',
+            'mailx',
+            'nano',
+            'nc',
+            'net-snmp',
+            'openssh-clients',
+            'openssh-server',
+            'open-vm-tools',
+            'pam_krb5',
+            'patch',
+            'patch',
+            'postfix',
+            'rdiff-backup',
+            'rsync',
+            'screen',
+            'sqlite',
+            'strace',
+            'sudo',
+            'sysstat',
+            'tcpdump',
+            'vim-enhanced',
+            'wget',
+            'which',
+            'ypbind',
+            'yp-tools',
+            )
+        core += core.depsNeeded(r.mainSearchPath)
+
+        ## group-rbuilder-appliance
+        rbuilder = core + r.mainSearchPath.find(
+            # group-rbuilder-appliance
+            'conary-web-common',
+            'httpd',
+            'make',
+            'mod_ssl',
+            'mod_python',
+            'samba',
+
+            'rmake',
+            'rpath-repeater',
+
+            'rbuilder',
+            #'rbuilder-ui',
+
+            # Postgres
+            'django-db-postgres',
+            'postgresql92:bin',
+            'python-pgsql',
+            'python-psycopg2',
+            'pgbouncer',
+
+            # memcache
+            'django-cache-memcached',
+            'memcached',
+            'python-memcached',
+
+            # MCP
+            'jabberd',
+            'mcp',
+            'mcp-server',
+
+            # rMake Multinode Server and Configuration.
+            'rmake',
+            'rmake-multinode-server',
+            'rmake-node',
+            'rmake3',
+            'rmake3-multinode-server',
+            'rmake3-node',
+            'rpm-python',  # Fallback RPM
+            'group-rpm',
+            )
+        rbuilder += rbuilder.depsNeeded(r.mainSearchPath)
+        rbuilder -= rbuilder.components(*r.unwantedComponents)
+
+        scripts = r.Scripts(
+            preUpdate=r.Script(rba_prescript),
+            postInstall=r.Script('#!/bin/bash\n'
+                '/usr/share/rbuilder/scripts/group-script || exit 1\n'),
+            postUpdate=r.Script('#!/bin/bash\n'
+                '/usr/share/rbuilder/scripts/group-script || exit 1\n'),
+            )
+        addToMain.append(rbuilder.createGroup('group-rbuilder-appliance',
+            scripts=scripts, imageGroup=True))
+
+        # extras
+        # NB: These are not installed on the appliance, but kept to simplify
+        # release management.
+        extras = r.mainSearchPath.find(
+            'anaconda-custom',
+            'media-template',
+            ).makeOptional()
+        addToMain.append(extras)
+
+        ## group-rbuilder-dist -- just a bucket for the things created above
+        main = addToMain.pop(0)
+        for x in addToMain:
+            main += x
+        r.Group(main)
+
+    def getAdditionalSearchPath(r):
+        """
+        Set a package search path from a plethora of macros. This covers all
+        the product components and dependencies that aren't part of the
+        platform, e.g. everything except rPA, rPL, and rLS.
+        """
+        # Place new packages in the correct section, sorted alphabetically.
+        packageSearchPath = []
+        for macro, packages in [
+                # rBuilder components from the build label
+                ('buildlabel', [
+                        'anaconda-custom',
+                        'jobmaster',
+                        'jobslave',
+                        'media-template',
+                        'rbuilder',
+                        'rbuilder-mcp',
+                      ]),
+                ('master_label', [
+                        'catalog-service',
+                        'conary',
+                        'conary-build',
+                        'conary-policy',
+                        'conary-repository',
+                        'conary-rest',
+                        'group-rapa',
+                        'mcp',
+                        'mcp-server',
+                        'pcreator',
+                        'pyovf',
+                        #'rbuilder-ui',
+                        'rmake',
+                        'rmake-multinode-server',
+                        'rmake-node',
+                        'rmake3',
+                        'rmake3-multinode-server',
+                        'rmake3-node',
+                        'repodata',
+                        'restlib',
+                        'robj',
+                        'rpath-capsule-indexer',
+                        'rpath-job',
+                        'rpath-models',
+                        'rpath-product-definition',
+                        'rpath-repeater',
+                        'rpath-storage',
+                        'rpath-tools',
+                        'rpath-xmllib',
+                        'smartform',
+                        'wmiclient',
+                        'xobj',
+                      ]),
+                ]:
+            label = r.macros.get(macro)
+            if label is None and r._lightInstance:
+                continue
+            packageSearchPath.append(
+                ['%s=%s' % (package, label) for package in packages])
+        # Hack to deal with @rpl:2-py26 setuptools being in lib64 vs lib thus
+        # changing the related python flags
+        packageSearchPath.append('python-setuptools=conary.rpath.com@rpl:2-py26')
+        return packageSearchPath
+
+    def getAppliancePlatformSearchPath(r):
+        return [
+            'group-rpath-platform=' + r.macros.platform_label,
+            'group-rpath-packages=' + r.macros.get('common_label', 'centos6.rpath.com@rpath:centos-6-common'),
+            'group-os=' + r.macros.get('distro_label', 'centos6.rpath.com@rpath:centos-6e'),
+            ]
+
+    def makeSearchPath(r):
+        troveSets = []
+        searchPath = r.getAdditionalSearchPath() + r.getAppliancePlatformSearchPath()
+        for specs in searchPath:
+            if isinstance(specs, basestring):
+                specs = [specs]
+            troveSets.append(r.Repository(r.macros.buildlabel, r.flavor).find(*specs))
+        r.mainSearchPath = r.SearchPath(*troveSets)
+
+
+rba_prescript = '''\
+#!/bin/sh
+# Stop cron before updates, it will be started again in the postupdate script.
+# (RBL-7971)
+[ -e /var/lock/subsys/crond ] && service crond stop || true
+'''

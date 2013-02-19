@@ -74,6 +74,7 @@ info-apache=conary.rpath.com@rpl:2
 info-rmake=conary.rpath.com@rpl:2
 info-rmake-chroot=conary.rpath.com@rpl:2
 rapa-plugin-rPath=conary.rpath.com@rpl:2
+bitstream-vera-fonts=conary.rpath.com@rpl:2
 """
 
     def setup(r):
@@ -92,6 +93,7 @@ rapa-plugin-rPath=conary.rpath.com@rpl:2
             'contrib.rpath.org@rpl:2-py26',
             'conary.rpath.com@rpl:2-py26',
             'contrib.rpath.org@rpl:2',
+            'conary.rpath.com@rpl:2',
         )
 
     @property

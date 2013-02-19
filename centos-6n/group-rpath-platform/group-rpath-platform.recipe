@@ -66,6 +66,7 @@ python-sqlite
 
 # non-python contrib packages
 info-jabber
+jabberd
 MochiKit
 yui
 

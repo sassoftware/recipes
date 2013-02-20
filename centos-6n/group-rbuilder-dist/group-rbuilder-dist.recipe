@@ -87,7 +87,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'postgresql92:bin',
             'python-pgsql',
             'python-psycopg2',
-            'pgbouncer',
+            'pgbouncer:runtime',
 
             # memcache
             'django-cache-memcached',

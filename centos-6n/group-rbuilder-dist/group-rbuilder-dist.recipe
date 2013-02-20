@@ -73,10 +73,10 @@ class GroupRbuilderDist(GroupSetRecipe):
         rbuilder = core + r.mainSearchPath.find(
             # group-rbuilder-appliance
             'conary-web-common',
-            'httpd',
+            #'httpd',
             'make',
-            'mod_ssl',
-            'mod_python',
+            #'mod_ssl',
+            #'mod_python',
             'samba',
 
             'rmake',

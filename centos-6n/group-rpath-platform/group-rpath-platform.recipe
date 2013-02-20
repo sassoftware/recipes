@@ -17,14 +17,22 @@ class GroupRpathPlatform(GroupRecipe):
 # Contrib - centos-6n
 amiconfig
 ec2-ami-tools
+gunicorn
 info-jabber
+info-nagios
+info-nginx
 jabberd
+libevent
 libgsasl
 librsync
 mercurial
 mod_python
+nagios-plugins
+nginx
+nrpe
 python-crypto
 python-epdb
+python-setproctitle
 python-twisted
 python-webunit
 rdiff-backup
@@ -87,7 +95,7 @@ bitstream-vera-fonts=conary.rpath.com@rpl:2
         for pkg, versionStr in r.packageManifest:
             r.add(pkg, versionStr)
 
-        r.add('group-postgres', 'postgres.rb.rpath.com@rpath:postgres-9.2-devel')
+        r.addAll('group-postgres', 'postgres.rb.rpath.com@rpath:postgres-9.2-devel', flatten=True)
         r.add('group-rpm', 'rpm.rpath.org@rpath:centos-6-devel')
 
     def setGroupSearchPath(r):

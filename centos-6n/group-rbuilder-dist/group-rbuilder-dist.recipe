@@ -75,7 +75,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'conary-web-common',
             'gunicorn',
             'make',
-            'nginx',
+            'nginx:runtime',
             'samba',
             'rmake',
             'rpath-repeater',

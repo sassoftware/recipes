@@ -144,6 +144,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'rbuilder',
                         'repodata',
                         'restlib',
+                        'robj',
                         'rpath-capsule-indexer',
                         'rpath-job',
                         'rpath-models',

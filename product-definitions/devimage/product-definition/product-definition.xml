@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.2.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.2.xsd rpd-4.2.xsd" version="4.2">
     <productName>rPath Infrastructure</productName>
-    <productShortname>infra</productShortname>
+    <productShortname>%(project_name)s</productShortname>
     <productDescription/>
     <productVersion>devimage-%(major_version)s</productVersion>
     <productVersionDescription>Development Image %(major_version)s</productVersionDescription>

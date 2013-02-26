@@ -30,11 +30,13 @@ mod_python
 nagios-plugins
 nginx
 nrpe
+python-beaker
 python-crypto
 python-epdb
 python-setproctitle
 python-twisted
 python-webunit
+python-zope-interface
 rdiff-backup
 udns
 

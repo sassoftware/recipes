@@ -46,6 +46,8 @@ class GroupRbuilderDist(GroupSetRecipe):
             'nano',
             'nc',
             'net-snmp',
+            'ntp',
+            'ntpdate',
             'openssh-clients',
             'openssh-server',
             'open-vm-tools',

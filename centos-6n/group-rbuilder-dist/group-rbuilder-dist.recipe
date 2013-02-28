@@ -101,6 +101,10 @@ class GroupRbuilderDist(GroupSetRecipe):
             'mcp',
             'mcp-server',
 
+            # Jobmaster
+            'jobmaster',
+            'rbuilder-mcp',
+
             # rMake Multinode Server and Configuration.
             'rmake',
             'rmake-multinode-server',

@@ -114,7 +114,6 @@ class GroupRpathPackages(GroupRecipe):
         r.add('tag-pangomodule')
         r.add('tag-shell')
         r.add('tag-usergroup-info')
-        r.add('tag-x-font')
 
         r.startGroup('group-rpath-cim', groupName='group-rpath-packages', byDefault=False)
         # NOTE: the first three packages here are just build requirements,

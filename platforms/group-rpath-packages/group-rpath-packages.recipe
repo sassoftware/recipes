@@ -42,6 +42,7 @@ class GroupRpathPackages(GroupRecipe):
         r.add('python-setuptools-conary')
         r.add('rapa')
         r.add('rapa-console')
+        r.add('xtail-conary')
 
         # Not sure what group to put these in yet...
         r.add('puppet')

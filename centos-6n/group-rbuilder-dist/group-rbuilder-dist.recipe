@@ -74,6 +74,7 @@ class GroupRbuilderDist(GroupSetRecipe):
         ## group-rbuilder-appliance
         rbuilder = core + r.mainSearchPath.find(
             # group-rbuilder-appliance
+            'catalog-service',
             'conary-web-common',
             'gunicorn',
             'make',

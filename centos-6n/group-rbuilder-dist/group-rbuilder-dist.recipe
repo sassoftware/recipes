@@ -82,7 +82,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'rmake',
             'rpath-repeater',
             'rbuilder',
-            #'rbuilder-ui',
+            'rbuilder-ui',
 
             # Postgres
             'django-db-postgres',
@@ -170,7 +170,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'pyovf',
                         'rbuilder',
                         'rbuilder-mcp',
-                        #'rbuilder-ui',
+                        'rbuilder-ui',
                         'repodata',
                         'restlib',
                         'rmake',

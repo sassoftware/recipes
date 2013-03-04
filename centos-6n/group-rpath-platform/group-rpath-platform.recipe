@@ -21,6 +21,7 @@ gunicorn
 info-jabber
 info-nagios
 info-nginx
+info-pgbouncer
 jabberd
 libevent
 libgsasl
@@ -33,8 +34,10 @@ nrpe
 python-beaker
 python-crypto
 python-epdb
+python-psycopg2
 python-setproctitle
 python-twisted
+python-txpostgres
 python-webunit
 python-zope-interface
 rdiff-backup
@@ -59,7 +62,6 @@ python-keyutils
 python-memcached
 python-novaclient
 python-pam
-python-txpostgres
 python-webob
 python-wokkel
 python-xattr
@@ -82,12 +84,19 @@ python-sqlite
 MochiKit
 yui
 
+# Postgres
+info-postgres=postgres.rb.rpath.com@rpath:postgres-9.2-devel
+postgresql92=postgres.rb.rpath.com@rpath:postgres-9.2-devel
+python-pgsql=postgres.rb.rpath.com@rpath:postgres-9.2-devel
+
+# Miscellaneous
 conary-web-common=conary.rpath.com@rpl:1
 info-apache=conary.rpath.com@rpl:2
 info-rmake=conary.rpath.com@rpl:2
 info-rmake-chroot=conary.rpath.com@rpl:2
 rapa-plugin-rPath=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
+group-rpm=rpm.rpath.org@rpath:centos-6-devel
 """
 
     def setup(r):
@@ -96,9 +105,6 @@ bitstream-vera-fonts=conary.rpath.com@rpl:2
 
         for pkg, versionStr in r.packageManifest:
             r.add(pkg, versionStr)
-
-        r.addAll('group-postgres', 'postgres.rb.rpath.com@rpath:postgres-9.2-devel', flatten=True)
-        r.add('group-rpm', 'rpm.rpath.org@rpath:centos-6-devel')
 
     def setGroupSearchPath(r):
         r.setSearchPath(

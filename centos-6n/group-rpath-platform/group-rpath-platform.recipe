@@ -31,6 +31,7 @@ mod_python
 nagios-plugins
 nginx
 nrpe
+pgbouncer
 python-beaker
 python-crypto
 python-epdb

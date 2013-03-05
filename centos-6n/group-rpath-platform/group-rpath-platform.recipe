@@ -52,6 +52,7 @@ django-db-mysql=contrib.rpath.org@rpl:2-py26/1.3.5-0.0.1-1
 django-db-postgres=contrib.rpath.org@rpl:2-py26/1.3.5-0.0.1-1
 django-db-sqlite3=contrib.rpath.org@rpl:2-py26/1.3.5-0.0.1-1
 django-rest-interface=contrib.rpath.org@rpl:2-py26/r81-5-0.1
+django-debug-toolbar=contrib.rpath.org@rpl:2-py26
 glance-client
 markdown
 paramiko

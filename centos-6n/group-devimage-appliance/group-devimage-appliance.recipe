@@ -1,14 +1,17 @@
 #
-# Copyright (c) 2008-2011 rPath, Inc.
-# This file is distributed under the terms of the MIT License.
-# A copy is available at http://www.rpath.com/permanent/mit-license.html
+# Copyright (c) SAS Institute Inc.
 #
-# This image diverges from the image maintained at app2app.rpath.org, primarily
-# so that it can use a different shortname of "devimage," but also because it
-# will correspond to a new way of getting started with building on the rPath
-# platform.  This new structure will be used by December 2008 updates to the
-# rPTS-099 and rPTS-101 courses from rPath Training, with rPTS-099 the course
-# code given to the self-paced hands-on guide available from docs.rpath.com.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
 from conary.lib import log
@@ -94,7 +97,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('tag-mime-database:tagdescription')
         r.add('tag-pangomodule:tagdescription')
         r.add('tag-shell:tagdescription')
-        r.add('tag-x-font:tagdescription')
         r.add('tag-usergroup-info')
 
         # Mirrorball Deps

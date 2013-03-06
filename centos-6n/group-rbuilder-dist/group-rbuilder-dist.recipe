@@ -162,6 +162,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'conary-repository',
                         'conary-rest',
                         'group-rapa',
+                        'info-credstore',
                         'jobmaster',
                         'jobslave',
                         'mcp',

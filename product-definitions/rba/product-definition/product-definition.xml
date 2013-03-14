@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.3.xsd rpd-4.3.xsd" version="4.3">
-    <productName>rPath Infrastructure</productName>
+    <productName>Cloud Engine Infrastructure</productName>
     <productShortname>%(project_name)s</productShortname>
     <productDescription/>
     <productVersion>rba-%(major_version)s</productVersion>

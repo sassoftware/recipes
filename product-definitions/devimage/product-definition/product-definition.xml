@@ -21,6 +21,10 @@
             <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
             <stage ref="Release"/>
         </build>
+        <build containerTemplateRef="vmwareImage" architectureRef="x86_64" name="DevImage %(major_version)s x86_64 VMware Workstation" flavorSetRef="generic">
+            <image autoResolve="false" natNetworking="true" baseFileName="" swapSize="2048" buildOVF10="false" vmMemory="1024" installLabelPath="" freespace="5120" diskAdapter="lsilogic"/>
+            <stage ref="Release"/>
+        </build>
     </buildDefinition>
     <platform sourceTrove="platform-definition=/centos6.rpath.com@rpath:centos-6e/6-4">
         <platformName>CentOS 6</platformName>

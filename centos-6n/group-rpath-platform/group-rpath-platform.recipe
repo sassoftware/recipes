@@ -24,6 +24,7 @@ python-crypto
 python-epdb
 python-twisted
 python-webunit
+python-zope-interface
 rdiff-backup
 
 # Contrib - rpl-2-py26

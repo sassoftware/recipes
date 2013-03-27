@@ -14,7 +14,7 @@
     </stages>
     <buildDefinition>
         <build containerTemplateRef="applianceIsoImage" architectureRef="x86_64" name="Cloud Engine %(major_version)s x86_64 ISO" flavorSetRef="generic">
-            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
+            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="%(master_label)s" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
             <stage ref="Release"/>
         </build>
     </buildDefinition>

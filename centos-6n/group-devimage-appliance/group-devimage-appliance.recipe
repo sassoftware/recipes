@@ -94,7 +94,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('tag-mime-database:tagdescription')
         r.add('tag-pangomodule:tagdescription')
         r.add('tag-shell:tagdescription')
-        r.add('tag-x-font:tagdescription')
         r.add('tag-usergroup-info')
 
         # Mirrorball Deps

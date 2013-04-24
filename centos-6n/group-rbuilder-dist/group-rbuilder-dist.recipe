@@ -38,6 +38,8 @@ class GroupRbuilderDist(GroupSetRecipe):
             'dstat',
             'file',
             'group-rapa',
+            'samba-winbind',
+            'samba-winbind-clients',
             'keyutils',
             'krb5-workstation',
             'less',

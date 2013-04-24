@@ -80,6 +80,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'make',
             'nginx:runtime',
             'samba',
+            'samba-winbind',
             'rmake',
             'rpath-repeater',
             'rbuilder',

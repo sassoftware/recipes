@@ -201,13 +201,14 @@ class GroupRbuilderDist(GroupSetRecipe):
                       ]),
                 ]:
             label = r.macros.get(macro)
-            if label is None and r._lightInstance:
+            if label is None:
                 continue
-            packageSearchPath.append(
-                ['%s=%s' % (package, label) for package in packages])
+            packageSearchPath.append(r.Repository(label, r.flavor
+                ).find(*packages))
         # Hack to deal with @rpl:2-py26 setuptools being in lib64 vs lib thus
         # changing the related python flags
-        packageSearchPath.append('python-setuptools=conary.rpath.com@rpl:2-py26')
+        packageSearchPath.append(r.Repository(r.macros.buildlabel, r.flavor).find(
+            'python-setuptools=conary.rpath.com@rpl:2-py26'))
         return packageSearchPath
 
     def troveFromMacro(r, macro, troveName, defaultLabel):
@@ -224,13 +225,9 @@ class GroupRbuilderDist(GroupSetRecipe):
             ]
 
     def makeSearchPath(r):
-        troveSets = []
         searchPath = r.getAdditionalSearchPath() + r.getAppliancePlatformSearchPath()
-        for specs in searchPath:
-            if isinstance(specs, basestring):
-                specs = [specs]
-            troveSets.append(r.Repository(r.macros.buildlabel, r.flavor).find(*specs))
-        r.mainSearchPath = r.SearchPath(*troveSets)
+        r.mainSearchPath = r.SearchPath(*searchPath)
+        return r.mainSearchPath
 
 
 rba_prescript = '''\

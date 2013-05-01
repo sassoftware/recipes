@@ -166,17 +166,17 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             r.flavor).find('python-setuptools'))
         return packageSearchPath
 
+    def troveFromMacro(r, macro, troveName, defaultLabel):
+        item = r.macros.get(macro, defaultLabel)
+        if '=' not in item:
+            item = troveName + '=' + item
+        return r.Repository(r.macros.buildlabel, r.flavor).find(item)
+
     def getAppliancePlatformSearchPath(r):
-        """
-        Derive a platform search path from some input macros, unless one
-        was supplied in a rbuild-compatible form.
-        """
-        common = r.macros.get('common_label', 'centos6.rpath.com@rpath:centos-6-common')
-        distro = r.macros.get('distro_label', 'centos6.rpath.com@rpath:centos-6e')
         return [
-            r.Repository(r.macros.platform_label, r.flavor).find('group-rpath-platform'),
-            r.Repository(common, r.flavor).find('group-rpath-packages'),
-            r.Repository(distro, r.flavor).find('group-os'),
+            r.troveFromMacro('platform_label', 'group-rpath-platform', None),
+            r.troveFromMacro('common_label', 'group-rpath-packages', 'centos6.rpath.com@rpath:centos-6-common'),
+            r.troveFromMacro('distro_label', 'group-os', 'centos6.rpath.com@rpath:centos-6e'),
             ]
 
     def makeSearchPath(r):

@@ -199,7 +199,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                 'group-rpath-packages=%(common_label)s' % r.macros,
               ]
 
-            path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
+        path.insert(0, 'group-rpath-platform=%s' % r.macros.platform_label)
 
         if not r._lightInstance:
             log.info("Platform search path:")

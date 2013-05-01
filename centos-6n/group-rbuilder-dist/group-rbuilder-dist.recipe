@@ -210,11 +210,17 @@ class GroupRbuilderDist(GroupSetRecipe):
         packageSearchPath.append('python-setuptools=conary.rpath.com@rpl:2-py26')
         return packageSearchPath
 
+    def troveFromMacro(r, macro, troveName, defaultLabel):
+        item = r.macros.get(macro, defaultLabel)
+        if '=' not in item:
+            item = troveName + '=' + item
+        return r.Repository(r.macros.buildlabel, r.flavor).find(item)
+
     def getAppliancePlatformSearchPath(r):
         return [
-            'group-rpath-platform=' + r.macros.platform_label,
-            'group-rpath-packages=' + r.macros.get('common_label', 'centos6.rpath.com@rpath:centos-6-common'),
-            'group-os=' + r.macros.get('distro_label', 'centos6.rpath.com@rpath:centos-6e'),
+            r.troveFromMacro('platform_label', 'group-rpath-platform', None),
+            r.troveFromMacro('common_label', 'group-rpath-packages', 'centos6.rpath.com@rpath:centos-6-common'),
+            r.troveFromMacro('distro_label', 'group-os', 'centos6.rpath.com@rpath:centos-6e'),
             ]
 
     def makeSearchPath(r):

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.2.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.2.xsd rpd-4.2.xsd" version="4.2">
+    <productName>Cloud Engine Infrastructure</productName>
+    <productShortname>%(project_name)s</productShortname>
+    <productDescription/>
+    <productVersion>rwbs-%(major_version)s</productVersion>
+    <productVersionDescription>Windows Build Service</productVersionDescription>
+    <conaryRepositoryHostname>pdt.cny.sas.com</conaryRepositoryHostname>
+    <conaryNamespace>sas</conaryNamespace>
+    <imageGroup>group-rwbs-appliance</imageGroup>
+    <baseLabel>%(release_label)s</baseLabel>
+    <stages>
+        <stage labelSuffix="" name="Release"/>
+    </stages>
+    <buildDefinition>
+        <build containerTemplateRef="imageless" architectureRef="x86_64" name="Windows Build Service %(major_version)s x86_64" flavorSetRef="generic">
+            <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="imageless"/>
+            <stage ref="Release"/>
+        </build>
+    </buildDefinition>
+    <platform sourceTrove="platform-definition=/windows.rpath.com@rpath:windows-common/2.0.beta2-19">
+        <platformName>Windows Foundation Platform</platformName>
+        <platformVersionTrove>group-rpath-packages</platformVersionTrove>
+        <baseFlavor>~!dom0, ~!domU, ~!vmware, ~!xen</baseFlavor>
+        <platformInformation>
+            <platformClassifier version="1" name="windows" tags="windows rpath windows-1"/>
+            <originLabel>windows.rpath.com@rpath:windows-common</originLabel>
+        </platformInformation>
+        <searchPaths>
+            <searchPath label="windows.rpath.com@rpath:windows-common" troveName="group-standard" isGroupSearchPathTrove="true" isResolveTrove="false"/>
+            <searchPath label="windows.rpath.com@rpath:windows-common" troveName="group-rpath-packages" isGroupSearchPathTrove="false" isResolveTrove="true"/>
+            <searchPath label="centos6.rpath.com@rpath:centos-6-common" troveName="group-rpath-packages" isGroupSearchPathTrove="false" isResolveTrove="true"/>
+            <searchPath label="centos6.rpath.com@rpath:centos-6e" troveName="group-os" isGroupSearchPathTrove="false" isResolveTrove="true"/>
+        </searchPaths>
+        <factorySources>
+            <factorySource label="windows.rpath.com@rpath:windows-common" troveName="group-factories"/>
+        </factorySources>
+        <architectures>
+            <architecture flavor="is:x86_64 x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (64-bit)" name="x86_64"/>
+            <architecture flavor="is:x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (32-bit)" name="x86"/>
+        </architectures>
+        <flavorSets>
+            <flavorSet flavor="~!xen, ~!dom0, ~!domU, ~!vmware" displayName="Generic" name="generic"/>
+        </flavorSets>
+        <containerTemplates>
+            <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="wimImage"/>
+            <image autoResolve="false" natNetworking="true" baseFileName="" vmSnapshots="false" swapSize="512" vmMemory="256" installLabelPath="" containerFormat="vmwareEsxImage" freespace="1024"/>
+            <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="imageless"/>
+            <image autoResolve="false" platformIsoKitTrove="" mediaTemplateTrove="" baseFileName="" installLabelPath="" containerFormat="windowsIsoImage"/>
+        </containerTemplates>
+        <buildTemplates>
+            <buildTemplate containerTemplateRef="windowsIsoImage" architectureRef="x86" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="windowsIsoImage" architectureRef="x86_64" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86_64" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="wimImage" architectureRef="x86" displayName="WIM" name="WIM" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="wimImage" architectureRef="x86_64" displayName="WIM" name="WIM" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+        </buildTemplates>
+    </platform>
+</productDefinition>

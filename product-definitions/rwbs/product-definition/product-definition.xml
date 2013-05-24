@@ -25,6 +25,7 @@
         <platformInformation>
             <platformClassifier version="1" name="windows" tags="windows rpath windows-1"/>
             <originLabel>windows.rpath.com@rpath:windows-common</originLabel>
+            <rpmRequirement>trove: rpm-rhel-6:lib(RPM-RHEL-6)</rpmRequirement>
         </platformInformation>
         <searchPaths>
             <searchPath label="windows.rpath.com@rpath:windows-common" troveName="group-standard" isGroupSearchPathTrove="true" isResolveTrove="false"/>

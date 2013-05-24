@@ -14,3 +14,5 @@ class ProductDefinitionRecipe(PackageRecipe):
 
         No other recipe actions need to be added beyond this point.
         """
+
+        r.addSource('%(name)s.xml', dest='%(datadir)s/%(name)s/')

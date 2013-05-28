@@ -31,11 +31,11 @@ class GroupRWBSAppliance(GroupSetRecipe):
         sp = r.SearchPath(base, windows_tools, windows_platform)
 
 
-        standard = windows_platform.find('group-standard')
-        standard -= standard.find('rPathTools')
+#        standard = windows_platform.find('group-standard')
+#        standard -= standard.find('rPathTools')
         rwbs = base.find('rwbs')
         rpathTools = base.find('rPathTools')
 
-        deps = (rwbs + rpathTools + standard).depsNeeded(sp)
+        deps = (rwbs + rpathTools).depsNeeded(sp)
 
-        r.Group(standard + rwbs + rpathTools + deps)
+        r.Group(rwbs + rpathTools + deps)

@@ -23,10 +23,10 @@ class GroupRWBSAppliance(GroupSetRecipe):
     def setup(r):
         r.dumpAll()
 
-        base = r.Repository('%(base_label)s', r.flavor)
+        base = r.Repository(r.cfg.buildLabel, r.flavor)
         windows_platform = r.Repository(r.windows_label, r.flavor).find(
             'group-rpath-packages')
-        windows_tools = r.Repository('%(contrib_label)s', r.flavor)
+        windows_tools = r.Repository(r.macros.contrib_label, r.flavor)
 
         sp = r.SearchPath(base, windows_tools, windows_platform)
 

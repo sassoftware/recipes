@@ -63,7 +63,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('robj')
         r.add('xobj')
         r.add('python-keyutils')
-        r.add('rbuilder-client')
         r.add('rpath-product-definition')
 
         r.add('python-simplejson')
@@ -130,7 +129,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                       ]),
                 ('rbuild_label', [
                     'rbuild',
-                    'rbuilder-client',
                       ]),
                 ('master_label', [
                         'conary',

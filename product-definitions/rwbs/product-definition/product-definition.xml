@@ -37,7 +37,7 @@
             <factorySource label="windows.rpath.com@rpath:windows-common" troveName="group-factories"/>
         </factorySources>
         <autoLoadRecipes>
-            <autoLoadRecipe troveName="group-superclasses" label="centos6.rpath.com@rpath:centos-6-common"/>
+            <autoLoadRecipe troveName="group-superclasses" label="windows.rpath.com@rpath:windows-common"/>
         </autoLoadRecipes>
         <architectures>
             <architecture flavor="is:x86_64 x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (64-bit)" name="x86_64"/>

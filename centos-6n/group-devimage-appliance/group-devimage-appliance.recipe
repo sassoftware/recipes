@@ -63,6 +63,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('robj')
         r.add('xobj')
         r.add('python-keyutils')
+        r.add('python-reportlab') # provides sgmlop, which makes rmake xmlrpc work better
         r.add('rpath-product-definition')
 
         r.add('python-simplejson')

@@ -32,8 +32,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'python-memcached',
             'python-psycopg2',
             'python-webob',
-            'rapa',
-            'rapa-plugin-rPath',
+            'group-rapa',
             )
         # Add dependencies except for those from the platform
         upsrv += upsrv.depsNeeded(r.mainSearchPath)
@@ -124,6 +123,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'conary-build',
                         'conary-policy',
                         'conary-repository',
+                        'group-rapa',
                         'rmake',
                         'rmake3',
                         'rmake3-multinode-server',

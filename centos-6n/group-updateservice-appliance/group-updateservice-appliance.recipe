@@ -28,6 +28,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
 
             # From group-rpath-platform
             'gunicorn',
+            'nginx:distro',
             'nginx:runtime',
             'pgbouncer',
             'postgresql92',

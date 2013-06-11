@@ -27,6 +27,8 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'rpath-repeater',
 
             # From group-rpath-platform
+            'gunicorn',
+            'nginx:runtime',
             'pgbouncer',
             'postgresql92',
             'python-memcached',
@@ -45,17 +47,10 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
 
         scripts = r.Scripts(
             postInstall=r.Script('''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            chkconfig httpd on
-            chkconfig pgbouncer on
-            chkconfig postgresql-updateservice on
-            exit 0
+            /usr/share/upsrv/scripts/group-script
             '''),
             postUpdate=r.Script('''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            exit 0
+            /usr/share/upsrv/scripts/group-script
             '''),
             )
         upsrv -= upsrv.components(*r.unwantedComponents)

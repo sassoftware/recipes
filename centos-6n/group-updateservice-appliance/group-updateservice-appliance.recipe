@@ -156,10 +156,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                 continue
             packageSearchPath.append(r.Repository(label, r.flavor
                 ).find(*packages))
-        # Hack to deal with @rpl:2-py26 setuptools being in lib64 vs lib thus
-        # changing the related python flags
-        packageSearchPath.append(r.Repository('conary.rpath.com@rpl:2-py26',
-            r.flavor).find('python-setuptools'))
         return packageSearchPath
 
     def troveFromMacro(r, macro, troveName, defaultLabel):

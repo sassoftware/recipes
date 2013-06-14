@@ -30,7 +30,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'gunicorn',
             'nginx:distro',
             'nginx:runtime',
-            'pgbouncer',
+            'pgbouncer:runtime',
             'postgresql92',
             'python-memcached',
             'python-psycopg2',

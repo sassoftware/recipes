@@ -33,15 +33,30 @@ nginx
 nrpe
 pgbouncer
 python-beaker
+python-chameleon
 python-crypto
 python-epdb
+python-mako
+python-ordereddict
 python-psycopg2
+python-pyramid
+python-repoze-filesystem
+python-repoze-lru
 python-setproctitle
+python-transaction
+python-translationstring
 python-twisted
 python-txpostgres
+python-venusian
+python-webob
+python-webob
 python-webunit
+python-zope-deprecation
+python-zope-filesystem
 python-zope-interface
+python-zope-sqlalchemy
 rdiff-backup
+SQLAlchemy
 udns
 
 # Contrib - rpl-2-py26
@@ -61,12 +76,10 @@ python-keyutils
 python-memcached
 python-novaclient
 python-pam
-python-webob
 python-wokkel
 python-xattr
 pywbem
 PyYAML
-SQLAlchemy
 vobject
 XenAPI
 

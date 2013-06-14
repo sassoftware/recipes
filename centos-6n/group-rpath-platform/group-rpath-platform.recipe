@@ -40,6 +40,7 @@ python-mako
 python-ordereddict
 python-psycopg2
 python-pyramid
+python-pyramid_tm
 python-repoze-filesystem
 python-repoze-lru
 python-setproctitle

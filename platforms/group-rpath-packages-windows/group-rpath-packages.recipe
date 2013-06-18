@@ -32,7 +32,7 @@ class GroupRpathPackages(GroupSetRecipe):
                                         r.windowsCommonLabel), r.flavor)
 
         nwt = r.Repository(r.macros.get('newton_windows_common_label',
-                                        r.windowsCommonLabel, r.flavor)
+                                        r.windowsCommonLabel), r.flavor)
 
         base = r.SearchPath(
             r.Repository(r.macros.get('common_label', 

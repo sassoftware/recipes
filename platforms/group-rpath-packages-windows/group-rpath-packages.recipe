@@ -62,21 +62,6 @@ class GroupRpathPackages(GroupSetRecipe):
             'factory-archive-isokit-pc',
         )
 
-        tags = local.find(
-            'tag-cacheable-font',
-            'tag-desktop-file',
-            'tag-gdk-pixbuf-loader',
-            'tag-gtk-input-method',
-            'tag-gtk-update-icon-cache',
-            'tag-info-file',
-            'tag-initscript',
-            'tag-kernel',
-            'tag-mime-database',
-            'tag-pangomodule',
-            'tag-shell',
-            'tag-usergroup-info',
-        )
-   
 
         tools = local.find(
             'conary',
@@ -92,12 +77,11 @@ class GroupRpathPackages(GroupSetRecipe):
         )
 
         # check deps against base
-        (factories + tools + standard + superclasses + tags).depsNeeded(base)
+        (factories + tools + standard + superclasses).depsNeeded(base)
 
         r.Group(
             factories.createGroup('group-factories').makeOptional() +
             superclasses.createGroup('group-superclasses').makeOptional() +
             tools.createGroup('group-rpath-tools', checkPathConflicts=True) +
-            tags.createGroup('group-tags').makeOptional() +
             standard.createGroup('group-standard')
         )

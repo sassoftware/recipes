@@ -92,7 +92,7 @@ class GroupRpathPackages(GroupSetRecipe):
         )
 
         # check deps against base
-        (factories + tools + standard + superclasses).depsNeeded(base)
+        (factories + tools + standard + superclasses + tags).depsNeeded(base)
 
         r.Group(
             factories.createGroup('group-factories').makeOptional() +

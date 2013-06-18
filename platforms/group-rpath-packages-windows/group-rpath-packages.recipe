@@ -12,6 +12,7 @@ class GroupRpathPackages(GroupSetRecipe):
 
     upstreamLabel = 'centos6.rpath.com@rpath:centos-6e'
     upstreamrPathLabel = 'centos6.rpath.com@rpath:centos-6-common'
+    windowsCommonLabel = 'windows.rpath.com@rpath:windows-common'
 
     def setup(r):
         r.dumpAll()
@@ -23,10 +24,18 @@ class GroupRpathPackages(GroupSetRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
-        local = r.Repository(r.cfg.buildLabel, r.flavor)
+
+        local = r.Repository(r.macros.get('windows_common_label', 
+                                        r.windowsCommonLabel), r.flavor)
+
+        rpt = r.Repository(r.macros.get('rpathtools_label', 
+                                        r.windowsCommonLabel), r.flavor)
+
         base = r.SearchPath(
-            r.Repository(r.upstreamrPathLabel, r.flavor),
-            r.Repository(r.upstreamLabel, r.flavor),
+            r.Repository(r.macros.get('common_label', 
+                                    r.upstreamrPathLabel), r.flavor),
+            r.Repository(r.macros.get('distro_label', 
+                                    r.upstreamLabel), r.flavor),
         )
 
         superclasses = local.find(
@@ -72,7 +81,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'robj',
         )
 
-        standard = local.find(
+        standard = rpt.find(
             'rPathTools',
         )
 

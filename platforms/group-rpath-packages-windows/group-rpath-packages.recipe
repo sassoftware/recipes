@@ -31,6 +31,9 @@ class GroupRpathPackages(GroupSetRecipe):
         rpt = r.Repository(r.macros.get('rpathtools_label', 
                                         r.windowsCommonLabel), r.flavor)
 
+        nwt = r.Repository(r.macros.get('newton_windows_common_label',
+                                        r.windowsCommonLabel, r.flavor)
+
         base = r.SearchPath(
             r.Repository(r.macros.get('common_label', 
                                     r.upstreamrPathLabel), r.flavor),
@@ -72,14 +75,16 @@ class GroupRpathPackages(GroupSetRecipe):
         )
 
 
-        tools = local.find(
+        tools = nwt.find(
             'conary',
             'conary-build',
             'conary-repository',
             'conary-policy',
+        ) +
+        local.find(
             'xobj',
             'robj',
-        )
+        ) 
 
         standard = rpt.find(
             'rPathTools',

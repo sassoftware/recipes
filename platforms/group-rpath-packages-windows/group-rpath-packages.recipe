@@ -79,12 +79,12 @@ class GroupRpathPackages(GroupSetRecipe):
             'conary',
             'conary-build',
             'conary-repository',
-            'conary-policy',
         )
 
         zobj = local.find(
             'xobj',
             'robj',
+            'conary-policy',
         ) 
 
         tools = conary + zobj

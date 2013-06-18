@@ -75,16 +75,19 @@ class GroupRpathPackages(GroupSetRecipe):
         )
 
 
-        tools = nwt.find(
+        conary = nwt.find(
             'conary',
             'conary-build',
             'conary-repository',
             'conary-policy',
-        ) +
-        local.find(
+        )
+
+        zobj = local.find(
             'xobj',
             'robj',
         ) 
+
+        tools = conary + zobj
 
         standard = rpt.find(
             'rPathTools',

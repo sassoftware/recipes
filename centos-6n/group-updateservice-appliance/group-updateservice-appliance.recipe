@@ -76,9 +76,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'group-standard',
             'group-rpath-core',
             ).members()
-        appliance -= appliance.find(
-            'libaio[is:x86]',
-        )
         appliance += r.mainSearchPath.find(
             # target deployment etc.
             'catalog-service',

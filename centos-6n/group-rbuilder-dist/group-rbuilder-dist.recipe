@@ -31,7 +31,6 @@ class GroupRbuilderDist(GroupSetRecipe):
         core -= core.find(
             'selinux-policy',
             'selinux-policy-targeted',
-            'libaio[is:x86]',
             )
         core += r.mainSearchPath.find(
             'amiconfig',

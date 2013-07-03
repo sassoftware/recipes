@@ -45,6 +45,7 @@ python-paste-deploy
 python-paste-filesystem
 python-psycopg2
 python-pyramid
+python-pyramid_beaker
 python-pyramid_simpleform
 python-pyramid_tm
 python-repoze-filesystem

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <platformDefinition xmlns="http://www.rpath.com/permanent/rpd-4.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.4.xsd rpd-4.4.xsd" version="4.4">
-    <platformName>CentOS 6 Development Newton %(major_version)</platformName>
+    <platformName>CentOS 6 Development Newton %(major_version)s</platformName>
     <platformVersionTrove>group-os</platformVersionTrove>
     <baseFlavor/>
     <contentProvider name="repomd" description="Yum Repository">

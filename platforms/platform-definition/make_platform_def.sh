@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x -v
 
 cd $(dirname $0)
 rbuilder_forest="$1"
@@ -35,18 +36,19 @@ write_pd() {
             > platform-definition/${plat_def//.template} \
         || return 1
     done
-    (
-        cd platform-definition;
-        for ${plat_def} in platform-definition-*.xml;do cvc add ${plat_def 2>/dev/null || return 127;done;
-        cvc add --text platform-definition.recipe 2>/dev/null;
-        cvc commit -m 'automatic update'
-    )
+#    (
+#        cd platform-definition;
+#        for ${plat_def} in platform-definition-*.xml;do cvc add ${plat_def 2>/dev/null || return 127;done;
+#        cvc add --text platform-definition.recipe 2>/dev/null;
+#        cvc commit -m 'automatic update'
+#    )
     return $?
 }
 
 for platform in ${platforms}
 do
     cd $platform/
+    echo $(pwd)
     dev_label="${dev_label_prefix}:${platform}-${rbuilder_forest}"
     write_pd "$dev_label" "$dev_label" "$rbuilder_forest" "$dev_project"
     cd $main_dir

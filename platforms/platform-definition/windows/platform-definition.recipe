@@ -6,11 +6,10 @@
 
 class PlatformDefinition(PackageRecipe):
     name = 'platform-definition'
-    version = '8'
+    version = '4'
 
     def setup(r):
         '''
         This recipe defines a source-only package.
         '''
-        r.addSource('%(name)s-4.4.xml', dest='%(datadir)s/%(name)s/')
 

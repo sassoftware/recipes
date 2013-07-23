@@ -29,8 +29,8 @@ write_pd() {
     cp platform-definition.recipe platform-definition/
     for plat_def in platform-definition-*.xml.template
     do
-        sed -e "s#%(project_name)s#${project}#g" \
-            -e "s#%(release_version)s#${release_version}#g" \
+        sed -e "s#%(project_name)s#${project^}#g" \
+            -e "s#%(release_version)s#${release_version^}#g" \
             -e "s#%(release_label)s#${release_label}#g" \
             ${plat_def} \
             > platform-definition/${plat_def//.template} \

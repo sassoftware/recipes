@@ -12,5 +12,5 @@ class PlatformDefinition(PackageRecipe):
         '''
         This recipe defines a source-only package.
         '''
-        r.addSource('%(name)s.xml', dest='%(datadir)s/%(name)s/')
+        r.addSource('%(name)s-4.4.xml', dest='%(datadir)s/%(name)s/')
 

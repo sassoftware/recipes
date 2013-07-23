@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<platformDefinition xmlns="http://www.rpath.com/permanent/rpd-4.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.4.xsd rpd-4.4.xsd" version="4.4">
+    <platformName>Windows Development Foundation Platform %(project_name)s %(release_version)s</platformName>
+    <platformVersionTrove>group-rpath-packages</platformVersionTrove>
+    <baseFlavor>~!dom0, ~!domU, ~!vmware, ~!xen</baseFlavor>
+    <platformInformation>
+        <platformClassifier version="1" name="windows" tags="windows rpath windows-1"/>
+        <originLabel>windows.rpath.com@rpath:windows-common-devel</originLabel>
+        <rpmRequirement>trove: rpm-rhel-6:lib(RPM-RHEL-6)</rpmRequirement>
+    </platformInformation>
+    <searchPaths>
+        <searchPath isPlatformTrove="true" label="%(release_label)s" troveName="group-standard" isGroupSearchPathTrove="true" isResolveTrove="true" id="rpath_windows-citrine_group-standard"/>
+        <searchPath label="%(release_label)s" troveName="group-rpath-packages" isGroupSearchPathTrove="false" isResolveTrove="true" id="rpath_windows-citrine_group-rpath-packages"/>
+        <searchPath label="windows.rpath.com@rpath:windows-common-devel" troveName="group-rpath-packages" isGroupSearchPathTrove="false" isResolveTrove="true" id="rpath_windows-common_group-rpath-packages"/>
+        <searchPath isPlatformTrove="true" label="windows.rpath.com@rpath:windows-common-devel" troveName="group-standard" isGroupSearchPathTrove="true" isResolveTrove="true" id="rpath_windows-common_group-standard"/>
+        <searchPath label="centos6.rpath.com@rpath:centos-6-common-devel" troveName="group-rpath-packages" isGroupSearchPathTrove="false" isResolveTrove="true" id="rpath_centos-6-common_group-rpath-packages"/>
+        <searchPath label="centos6.rpath.com@rpath:centos-6e" troveName="group-os" isGroupSearchPathTrove="false" isResolveTrove="true" id="rpath_centos-6e_group-os"/>
+    </searchPaths>
+    <factorySources>
+        <factorySource label="%(release_label)s" troveName="group-factories"/>
+    </factorySources>
+    <autoLoadRecipes>
+        <autoLoadRecipe troveName="group-superclasses" label="%(release_label)s"/>
+    </autoLoadRecipes>
+    <architectures>
+        <architecture flavor="is:x86_64 x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (64-bit)" name="x86_64"/>
+        <architecture flavor="is:x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (32-bit)" name="x86"/>
+    </architectures>
+    <flavorSets>
+        <flavorSet flavor="~!xen, ~!dom0, ~!domU, ~!vmware" displayName="Generic" name="generic"/>
+    </flavorSets>
+    <containerTemplates>
+        <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="wimImage"/>
+        <image autoResolve="false" natNetworking="true" baseFileName="" vmSnapshots="false" vmMemory="1024" installLabelPath="" containerFormat="vmwareEsxImage" freespace="5120"/>
+        <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="imageless"/>
+        <image autoResolve="false" platformIsoKitTrove="" mediaTemplateTrove="" baseFileName="" installLabelPath="" containerFormat="windowsIsoImage"/>
+        <image autoResolve="false" vhdDiskType="dynamic" baseFileName="" swapSize="512" installLabelPath="" containerFormat="vhdImage" freespace="1024"/>
+        <image autoResolve="false" baseImageTrove="" baseFileName="" installLabelPath="" containerFormat="deferredImage"/>
+    </containerTemplates>
+    <buildTemplates>
+        <buildTemplate containerTemplateRef="vhdImage" architectureRef="x86_64" displayName="MS Hyper-V" name="MS Hyper-V" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="vhdImage" architectureRef="x86" displayName="MS Hyper-V" name="MS Hyper-V" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="windowsIsoImage" architectureRef="x86" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="windowsIsoImage" architectureRef="x86_64" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="imageless" architectureRef="x86" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="imageless" architectureRef="x86_64" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="wimImage" architectureRef="x86" displayName="WIM" name="WIM" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="wimImage" architectureRef="x86_64" displayName="WIM" name="WIM" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="deferredImage" architectureRef="x86" displayName="Deferred" name="Deferred" flavorSetRef="generic"/>
+        <buildTemplate containerTemplateRef="deferredImage" architectureRef="x86_64" displayName="Deferred" name="Deferred" flavorSetRef="generic"/>
+    </buildTemplates>
+</platformDefinition>

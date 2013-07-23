@@ -32,10 +32,14 @@
         <baseFlavor/>
         <contentProvider name="repomd" description="Yum Repository">
             <contentSourceType isSingleton="false" name="repomd" description="Yum Repository"/>
-            <dataSource name="6.3/os/i386" description="CentOS (v. 6.2 for 32-bit x86)"/>
-            <dataSource name="6.3/os/x86_64" description="CentOS (v. 6.2 for 64-bit x86_64)"/>
-            <dataSource name="6.3/updates/i386" description="CentOS (v. 6.2 updates for 32-bit x86)"/>
-            <dataSource name="6.3/updates/x86_64" description="CentOS (v. 6.2 updates for 64-bit x86_64)"/>
+            <dataSource name="6.4/os/i386" description="CentOS (v. 6.4 for 32-bit x86)"/>
+            <dataSource name="6.4/os/x86_64" description="CentOS (v. 6.4 for 64-bit x86_64)"/>
+            <dataSource name="6.4/updates/i386" description="CentOS (v. 6.4 updates for 32-bit x86)"/>
+            <dataSource name="6.4/updates/x86_64" description="CentOS (v. 6.4 updates for 64-bit x86_64)"/>
+            <dataSource name="6.3/os/i386" description="CentOS (v. 6.3 for 32-bit x86)"/>
+            <dataSource name="6.3/os/x86_64" description="CentOS (v. 6.3 for 64-bit x86_64)"/>
+            <dataSource name="6.3/updates/i386" description="CentOS (v. 6.3 updates for 32-bit x86)"/>
+            <dataSource name="6.3/updates/x86_64" description="CentOS (v. 6.3 updates for 64-bit x86_64)"/>
             <dataSource name="6.2/os/i386" description="CentOS (v. 6.2 for 32-bit x86)"/>
             <dataSource name="6.2/os/x86_64" description="CentOS (v. 6.2 for 64-bit x86_64)"/>
             <dataSource name="6.2/updates/i386" description="CentOS (v. 6.2 updates for 32-bit x86)"/>

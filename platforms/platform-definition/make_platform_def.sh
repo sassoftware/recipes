@@ -38,10 +38,11 @@ write_pd() {
     done
     (
         cd platform-definition;
-        for plat_def in platform-definition-*.xml;do cvc add ${plat_def} 2>/dev/null || return 127;done;
+        for plat_def in platform-definition-*.xml;do cvc add ${plat_def} 2>/dev/null;done;
         cvc add --text platform-definition.recipe 2>/dev/null;
         cvc commit -m 'automatic update' 
     )
+    rm -rf platform-definition
     return $?
 }
 

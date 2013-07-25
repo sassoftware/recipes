@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.3.xsd rpd-4.3.xsd" version="4.3">
+<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.4.xsd rpd-4.4.xsd" version="4.4">
     <productName>Cloud Engine Infrastructure</productName>
     <productShortname>%(project_name)s</productShortname>
     <productDescription/>
@@ -21,8 +21,12 @@
             <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
             <stage ref="Release"/>
         </build>
-        <build containerTemplateRef="amiImage" architectureRef="x86_64" name="UpdateService %(major_version)s x86_64 AMI" flavorSetRef="xen">
-            <image autoResolve="false" baseFileName="" swapSize="2048" buildOVF10="false" installLabelPath="" freespace="1024" amiHugeDiskMountpoint=""/>
+        <build containerTemplateRef="amiImage" architectureRef="x86_64" name="UpdateService %(major_version)s x86_64 AMI (Instance Backed)" flavorSetRef="xen">
+            <image autoResolve="false" baseFileName="" swapSize="2048" buildOVF10="false" installLabelPath="" ebsBacked="false" freespace="1024" amiHugeDiskMountpoint=""/>
+            <stage ref="Release"/>
+        </build>
+        <build containerTemplateRef="amiImage" architectureRef="x86_64" name="UpdateService %(major_version)s x86_64 AMI (EBS Backed)" flavorSetRef="xen">
+            <image autoResolve="false" baseFileName="" swapSize="2048" buildOVF10="false" installLabelPath="" ebsBacked="true" freespace="1024" amiHugeDiskMountpoint=""/>
             <stage ref="Release"/>
         </build>
     </buildDefinition>

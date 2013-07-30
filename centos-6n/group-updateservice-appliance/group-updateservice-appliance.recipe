@@ -27,13 +27,15 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'rpath-repeater',
 
             # From group-rpath-platform
-            'pgbouncer',
+            'gunicorn',
+            'nginx:distro',
+            'nginx:runtime',
+            'pgbouncer:runtime',
             'postgresql92',
             'python-memcached',
             'python-psycopg2',
             'python-webob',
-            'rapa',
-            'rapa-plugin-rPath',
+            'group-rapa',
             )
         # Add dependencies except for those from the platform
         upsrv += upsrv.depsNeeded(r.mainSearchPath)
@@ -46,17 +48,10 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
 
         scripts = r.Scripts(
             postInstall=r.Script('''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            chkconfig httpd on
-            chkconfig pgbouncer on
-            chkconfig postgresql-updateservice on
-            exit 0
+            /usr/share/upsrv/scripts/group-script
             '''),
             postUpdate=r.Script('''#!/bin/sh
-            /srv/conary/bin/migrate-config
-            /srv/conary/bin/migrate-repos
-            exit 0
+            /usr/share/upsrv/scripts/group-script
             '''),
             )
         upsrv -= upsrv.components(*r.unwantedComponents)
@@ -124,6 +119,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'conary-build',
                         'conary-policy',
                         'conary-repository',
+                        'group-rapa',
                         'rmake',
                         'rmake3',
                         'rmake3-multinode-server',
@@ -160,10 +156,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                 continue
             packageSearchPath.append(r.Repository(label, r.flavor
                 ).find(*packages))
-        # Hack to deal with @rpl:2-py26 setuptools being in lib64 vs lib thus
-        # changing the related python flags
-        packageSearchPath.append(r.Repository('conary.rpath.com@rpl:2-py26',
-            r.flavor).find('python-setuptools'))
         return packageSearchPath
 
     def troveFromMacro(r, macro, troveName, defaultLabel):

@@ -199,16 +199,15 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'wmiclient',
                         'xobj',
                       ]),
+                ('aemon_label', [
+                        'aemon',
+                      ]),
                 ]:
             label = r.macros.get(macro)
             if label is None:
                 continue
             packageSearchPath.append(r.Repository(label, r.flavor
                 ).find(*packages))
-        # Hack to deal with @rpl:2-py26 setuptools being in lib64 vs lib thus
-        # changing the related python flags
-        packageSearchPath.append(r.Repository(r.macros.buildlabel, r.flavor).find(
-            'python-setuptools=conary.rpath.com@rpl:2-py26'))
         return packageSearchPath
 
     def troveFromMacro(r, macro, troveName, defaultLabel):

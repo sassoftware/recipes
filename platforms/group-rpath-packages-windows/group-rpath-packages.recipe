@@ -1,0 +1,103 @@
+#
+# Copyright (c) 2010 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+import time
+
+class GroupRpathPackages(GroupSetRecipe):
+    name = 'group-rpath-packages'
+    version = time.strftime('%Y%m%d%H%M', time.localtime())
+
+    upstreamLabel = 'centos6.rpath.com@rpath:centos-6e'
+    upstreamrPathLabel = 'centos6.rpath.com@rpath:centos-6-common'
+    windowsCommonLabel = 'windows.rpath.com@rpath:windows-common'
+
+    def setup(r):
+        r.dumpAll()
+        # This prevents the builds of this platform from
+        # trying to include the xen/domU/dom0/vmware
+        # flavors due to the multiple available
+        Use.xen.setPlatform(False)
+        Use.domU.setPlatform(False)
+        Use.dom0.setPlatform(False)
+        Use.vmware.setPlatform(False)
+
+
+        local = r.Repository(r.macros.get('windows_common_label', 
+                                        r.windowsCommonLabel), r.flavor)
+
+        rpt = r.Repository(r.macros.get('rpathtools_label', 
+                                        r.windowsCommonLabel), r.flavor)
+
+        nwt = r.Repository(r.macros.get('newton_windows_common_label',
+                                        r.windowsCommonLabel), r.flavor)
+
+        base = r.SearchPath(
+            r.Repository(r.macros.get('common_label', 
+                                    r.upstreamrPathLabel), r.flavor),
+            r.Repository(r.macros.get('distro_label', 
+                                    r.upstreamLabel), r.flavor),
+        )
+
+        superclasses = local.find(
+            'autopackage',
+            'baserequires',
+            'buildpackage',
+            'capsule',
+            'cpackage',
+            'derived',
+            'derivedcapsule',
+            'fileset',
+            'group',
+            'groupinfo',
+            'groupset',
+            'package',
+            'redirect',
+            'userinfo',
+        )
+
+        factories = local.find(
+            'capsule-msi-import',
+            'factory-base-packagecreator',
+            'factory-msi',
+            'factory-capsule-msi-pc',
+            'factory-group-base',
+            'archive-msi-import',
+            'factory-archive-msi',
+            'factory-archive-msi-pc',
+            'capsule-wim-import',
+            'factory-capsule-wim',
+            'factory-capsule-wim-pc',
+            'archive-isokit-import',
+            'factory-archive-isokit-pc',
+        )
+
+
+        tools = nwt.find(
+            'conary',
+            'conary-build',
+            'conary-repository',
+        )
+
+        tools += local.find(
+            'xobj',
+            'robj',
+            'conary-policy',
+        ) 
+
+
+        standard = rpt.find(
+            'rPathTools',
+        )
+
+        # check deps against base
+        (factories + tools + standard + superclasses).depsNeeded(base)
+
+        r.Group(
+            factories.createGroup('group-factories').makeOptional() +
+            superclasses.createGroup('group-superclasses').makeOptional() +
+            tools.createGroup('group-rpath-tools', checkPathConflicts=True) +
+            standard.createGroup('group-standard')
+        )

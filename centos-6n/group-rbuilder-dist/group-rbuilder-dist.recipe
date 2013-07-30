@@ -199,6 +199,9 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'wmiclient',
                         'xobj',
                       ]),
+                ('aemon_label', [
+                        'aemon',
+                      ]),
                 ]:
             label = r.macros.get(macro)
             if label is None:

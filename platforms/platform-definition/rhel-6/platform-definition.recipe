@@ -1,0 +1,15 @@
+#
+# Copyright (c) 2008 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+class PlatformDefinition(PackageRecipe):
+    name = 'platform-definition'
+    version = '4'
+
+    def setup(r):
+        '''
+        This recipe defines a source-only package.
+        '''
+

@@ -1,19 +1,29 @@
 #
-# Copyright (c) 2009 rPath, Inc.
-# This file is distributed under the terms of the MIT License.
-# A copy is available at http://www.rpath.com/permanent/mit-license.html
+# Copyright (c) SAS Institute Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 
-import time
 
-class GroupRpathPackages(GroupRecipe):
+class GroupRpathPackages(GroupSetRecipe):
     name = 'group-rpath-packages'
-    version = time.strftime('%Y%m%d%H%M', time.localtime())
+    version = '0'
 
     imageGroup = False
     checkPathConflicts = True
 
     def setup(r):
+        r.dumpAll()
         # This prevents the builds of this platform from
         # trying to include the xen/domU/dom0/vmware
         # flavors due to the multiple available
@@ -22,144 +32,165 @@ class GroupRpathPackages(GroupRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
-
-        searchPath = [ r.cfg.buildLabel, r.macros.common_label, r.macros.distro_label, ]
-
-
-        if  'productDefinitionSearchPath' in r.macros:
-            searchPath = searchPath + \
-                         r.macros.productDefinitionSearchPath.split('\n')
-
-        r.setSearchPath(*searchPath)
+        local = r.Repository(r.macros.buildlabel, r.flavor)
+        common = r.Repository(r.macros.common_label, r.flavor)
 
         # Some things really don't need to be in a subgroup
-        r.add('ConfigObj-conary')
-        r.add('info-raa-web')
-        r.add('kid-conary')
-        r.add('libuser-conary')
-        r.add('mercurial-conary')
-        r.add('PyPAM-conary')
-        r.add('python-setuptools-conary')
-        r.add('rapa')
-        r.add('rapa-console')
-        r.add('xtail-conary')
+        packages = common.find(
+            'mercurial-conary',
+            'python-setuptools-conary',
+            'xtail-conary',
 
-        # Not sure what group to put these in yet...
-        r.add('puppet')
-        r.add('facter')
-        r.add('info-puppet')
+            # Not sure what group to put these in yet...
+            'puppet',
+            'facter',
+            'info-puppet',
+            )
 
-        r.startGroup('group-superclasses', groupName='group-rpath-packages', byDefault=False)
-        r.add('autopackage')
-        r.add('baserequires')
-        r.add('buildpackage')
-        r.add('capsule')
-        r.add('cpackage')
-        r.add('derived')
-        r.add('derivedcapsule')
-        r.add('fileset')
-        r.add('group')
-        r.add('groupinfo')
-        r.add('groupset')
-        r.add('package')
-        r.add('redirect')
-        r.add('userinfo')
-        r.add('rpathpackage')
+        ## group-superclasses
+        groupSuperclasses = common.find(
+            'autopackage',
+            'baserequires',
+            'buildpackage',
+            'capsule',
+            'cpackage',
+            'derived',
+            'derivedcapsule',
+            'fileset',
+            'group',
+            'groupinfo',
+            'groupset',
+            'package',
+            'redirect',
+            'userinfo',
+            'rpathpackage',
+            ).createGroup('group-superclasses')
+        packages += groupSuperclasses.makeOptional()
 
-        r.startGroup('group-factories', groupName='group-rpath-packages', byDefault=False)
-        r.add('capsule-kmod-import')
-        r.add('capsule-rpm-import')
-        r.add('factory-archive')
-        r.add('factory-base-packagecreator')
-        r.add('factory-capsule-rpm')
-        r.add('factory-capsule-rpm-pc')
-        r.add('factory-group-base')
-        r.add('factory-hgsource')
-        r.add('factory-managed-group')
-        r.add('factory-managed-errata-group')
-        r.add('factory-version')
-        r.add('factory-puppet-pc')
+        ## group-factories
+        groupFactories = common.find(
+            'capsule-kmod-import',
+            'capsule-rpm-import',
+            'factory-archive',
+            'factory-base-packagecreator',
+            'factory-capsule-rpm',
+            'factory-capsule-rpm-pc',
+            'factory-group-base',
+            'factory-hgsource',
+            'factory-managed-group',
+            'factory-managed-errata-group',
+            'factory-version',
+            'factory-puppet-pc',
+            ).createGroup('group-factories')
+        packages += groupFactories.makeOptional()
 
-        r.startGroup('group-rpath-tools', groupName='group-rpath-packages', byDefault=True)
-        r.add('conary')
-        r.add('conary-build')
-        r.add('conary-policy')
-        r.add('conary-repository')
-        r.add('libelf-lgpl')
-        r.add('python-conary')
-        r.add('amiconfig', byDefault=False)
-        r.add('distro-policy')
-        r.add('open-vm-tools', byDefault=False)
-        r.add('xe-guest-utilities', byDefault=False)
+        ## group-rpath-tools
+        groupRpathTools = common.find(
+            'distro-policy',
+            'libelf-lgpl',
+            'python-conary',
+            ) + local.find(
+            'conary',
+            'conary-build',
+            'conary-policy',
+            'conary-repository',
+            )
+        # Optional
+        groupRpathTools += (common.find(
+            'open-vm-tools',
+            'xe-guest-utilities',
+            ) + local.find(
+            'amiconfig',
+            )).makeOptional()
         if Arch.x86:
-            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug', byDefault=False)
-            r.add('kmod-open-vm-tools', flavor='kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug', byDefault=False)
-            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug', byDefault=False)
+            groupRpathTools += common.find(
+                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
+                ).makeOptional()
         else:
-            r.add('kmod-open-vm-tools', flavor='kmod-open-vm-tools.debug', byDefault=False)
-            r.add('kmod-open-vm-tools', flavor='!kmod-open-vm-tools.debug', byDefault=False)
+            groupRpathTools += common.find(
+                'kmod-open-vm-tools[kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[!kmod-open-vm-tools.debug]',
+                ).makeOptional()
+        groupRpathTools = r.rmcomps(groupRpathTools).createGroup('group-rpath-tools')
+        packages += groupRpathTools
 
-        # Tag descriptions & handlers should only be pulled in when required
-        # or when specifically requested.
-        r.startGroup('group-tags', groupName='group-rpath-packages', byDefault=False)
-        r.add('tag-cacheable-font')
-        r.add('tag-desktop-file')
-        r.add('tag-gdk-pixbuf-loader')
-        r.add('tag-gtk-input-method')
-        r.add('tag-gtk-update-icon-cache')
-        r.add('tag-info-file')
-        r.add('tag-initscript')
-        r.add('tag-kernel')
-        r.add('tag-mime-database')
-        r.add('tag-pangomodule')
-        r.add('tag-shell')
-        r.add('tag-usergroup-info')
+        ## group-tags
+        groupTags = common.find(
+            'tag-cacheable-font',
+            'tag-desktop-file',
+            'tag-gdk-pixbuf-loader',
+            'tag-gtk-input-method',
+            'tag-gtk-update-icon-cache',
+            'tag-info-file',
+            'tag-initscript',
+            'tag-kernel',
+            'tag-mime-database',
+            'tag-pangomodule',
+            'tag-shell',
+            'tag-usergroup-info',
+            ).createGroup('group-tags')
+        packages += groupTags.makeOptional()
 
-        r.startGroup('group-rpath-cim', groupName='group-rpath-packages', byDefault=False)
-        # NOTE: the first three packages here are just build requirements,
-        # and need not be installed on a deployed system.
-        for pkg in [ 'w3c-libwww',
-                     'xmlrpc-c',
-                     'cmake',
-                     'openslp-conary',
-                     'sblim-sfcc-conary',
-                     'sblim-sfcb-schema-conary',
-                     'sblim-sfcb-conary',
-                     'info-sfcb',
-                     'libxml2-conary',
-                     'm2crypto-conary',
-                     'python-lxml-conary',
-                     'python-dmidecode-conary',
-                     'python-setuptools-conary',
-                     'pywbem-conary',
-                     'sblim-cmpi-devel-conary',
-                     'sblim-cmpi-base-conary',
-                     'sblim-cmpi-network-conary',
-                     'cmpi-bindings-conary',
-                     'conary-cim',
-                     'conary-cim-configuration',
-                     'rpath-models',
-                     'rpath-tools',
-                     'smartform-conary',
-                     'genshi-conary',
-                     'iconfig',
-                    ]:
-            r.add(pkg)
-            pass
+        ## group-rpath-cim
+        groupRpathCim = (common.find(
+            # NOTE: the first three packages here are just build requirements,
+            # and need not be installed on a deployed system.
+            'w3c-libwww',
+            'xmlrpc-c',
+            'cmake',
+            'openslp-conary',
+            'sblim-sfcc-conary',
+            'sblim-sfcb-schema-conary',
+            'sblim-sfcb-conary',
+            'info-sfcb',
+            'libxml2-conary',
+            'm2crypto-conary',
+            'python-lxml-conary',
+            'python-dmidecode-conary',
+            'python-setuptools-conary',
+            'pywbem-conary',
+            'sblim-cmpi-devel-conary',
+            'sblim-cmpi-base-conary',
+            'sblim-cmpi-network-conary',
+            'cmpi-bindings-conary',
+            'genshi-conary',
+            ) + local.find(
+            'conary-cim',
+            'conary-cim-configuration',
+            'rpath-models',
+            'rpath-tools',
+            'smartform-conary',
+            'iconfig',
+            ))
+        groupRpathCim = r.rmcomps(groupRpathCim).createGroup('group-rpath-cim')
+        packages += groupRpathCim.makeOptional()
 
-        r.startGroup('group-rpath-core', groupName='group-rpath-packages', byDefault=True)
-        for pkg in [ 'conary',
-                     'libelf-lgpl',
-                     'python-conary',
-                     'sblim-sfcc-conary',
-                     'sblim-sfcb-schema-conary',
-                     'sblim-sfcb-conary',
-                     'conary-cim',
-                     'conary-cim-configuration',
-                     'rpath-tools',
-                     'm2crypto-conary',
-                     'iconfig',
-                    ]:
-            r.add(pkg)
-        r.removeComponents(['devel', 'devellib'])
+        ## group-rpath-core
+        # Built from things already in the packages set
+        groupRpathCore = packages.find(
+            'conary',
+            'libelf-lgpl',
+            'python-conary',
+            'sblim-sfcc-conary',
+            'sblim-sfcb-schema-conary',
+            'sblim-sfcb-conary',
+            'conary-cim',
+            'conary-cim-configuration',
+            'rpath-tools',
+            'm2crypto-conary',
+            'iconfig',
+            )
+        groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
+        packages += groupRpathCore
 
+
+        # Check that the group can be dep closed by downstream consumers
+        os = r.Repository(r.macros.distro_label, r.flavor).find('group-os')
+        packages.flatten().makeInstall().depsNeeded(os)
+
+        r.Group(packages)
+
+    def rmcomps(r, troveset):
+        return troveset.makeOptional(troveset.flatten().components('devel', 'devellib'))

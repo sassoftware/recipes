@@ -134,6 +134,19 @@ class GroupRbuilderDist(GroupSetRecipe):
         addToMain.append(rbuilder.createGroup('group-rbuilder-appliance',
             scripts=scripts, imageGroup=True))
 
+        # group-ha
+        ha = r.mainSearchPath.find(
+            'corosync',
+            'crmsh',
+            'drbd',
+            'kernel-drbd',
+            'pacemaker',
+            'resource-agents',
+            )
+        ha += (ha + rbuilder).depsNeeded(r.mainSearchPath)
+        ha -= ha.components(*r.unwantedComponents)
+        addToMain.append(ha.createGroup('group-ha'))
+
         # extras
         # NB: These are not installed on the appliance, but kept to simplify
         # release management.

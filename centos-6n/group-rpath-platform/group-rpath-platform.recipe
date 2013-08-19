@@ -16,13 +16,20 @@ class GroupRpathPlatform(GroupRecipe):
     packages = """
 # Contrib - centos-6n
 amiconfig
+cluster-glue
+corosync
+crmsh
+drbd
 ec2-ami-tools
 gunicorn
+info-haclient
+info-hacluster
 info-jabber
 info-nagios
 info-nginx
 info-pgbouncer
 jabberd
+kernel-drbd
 libevent
 libgsasl
 librsync
@@ -31,6 +38,7 @@ mod_python
 nagios-plugins
 nginx
 nrpe
+pacemaker
 pgbouncer
 python-alembic
 python-argparse
@@ -65,6 +73,7 @@ python-zope-filesystem
 python-zope-interface
 python-zope-sqlalchemy
 rdiff-backup
+resource-agents
 SQLAlchemy
 udns
 

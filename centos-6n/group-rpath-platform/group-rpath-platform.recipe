@@ -40,6 +40,8 @@ nginx
 nrpe
 pacemaker
 pgbouncer
+puppet-corosync
+puppet-stdlib
 python-beaker
 python-chameleon
 python-crypto

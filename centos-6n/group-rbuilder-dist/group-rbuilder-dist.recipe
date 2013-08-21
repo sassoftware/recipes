@@ -141,6 +141,9 @@ class GroupRbuilderDist(GroupSetRecipe):
             'drbd',
             'kernel-drbd',
             'pacemaker',
+            'puppet',
+            'puppet-corosync',
+            'puppet-stdlib',
             'resource-agents',
             )
         ha += (ha + rbuilder).depsNeeded(r.mainSearchPath)

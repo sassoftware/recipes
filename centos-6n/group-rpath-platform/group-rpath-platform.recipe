@@ -76,6 +76,8 @@ python-zope-interface
 python-zope-sqlalchemy
 rdiff-backup
 resource-agents
+rubygem-hiera
+rubygem-json_pure
 SQLAlchemy
 udns
 

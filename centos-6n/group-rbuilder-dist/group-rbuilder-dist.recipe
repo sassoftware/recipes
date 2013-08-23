@@ -145,6 +145,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet-corosync',
             'puppet-stdlib',
             'resource-agents',
+            'rubygem-hiera:ruby',
             )
         ha += (ha + rbuilder).depsNeeded(r.mainSearchPath)
         ha -= ha.components(*r.unwantedComponents)

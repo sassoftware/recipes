@@ -248,6 +248,13 @@ class GroupRbuilderDist(GroupSetRecipe):
 
 rba_prescript = '''\
 #!/bin/sh
+
+if pgrep corosync >/dev/null || pgrep crmd >/dev/null
+then
+    echo "Skipping preupdate script because it looks like we're in a cluster"
+    exit 0
+fi
+
 # Stop cron before updates, it will be started again in the postupdate script.
 # (RBL-7971)
 [ -e /var/lock/subsys/crond ] && service crond stop || true

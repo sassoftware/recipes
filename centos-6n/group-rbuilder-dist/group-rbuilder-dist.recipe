@@ -127,7 +127,7 @@ class GroupRbuilderDist(GroupSetRecipe):
         scripts = r.Scripts(
             preUpdate=r.Script(rba_prescript),
             postInstall=r.Script('#!/bin/bash\n'
-                '/usr/share/rbuilder/scripts/group-script || exit 1\n'),
+                '/usr/share/rbuilder/scripts/post-install || exit 1\n'),
             postUpdate=r.Script('#!/bin/bash\n'
                 '/usr/share/rbuilder/scripts/group-script || exit 1\n'),
             )

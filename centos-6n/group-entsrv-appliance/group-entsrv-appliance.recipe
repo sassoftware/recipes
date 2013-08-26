@@ -1,0 +1,136 @@
+#
+# Copyright (c) SAS Institute Inc.
+#
+
+
+class GroupEntitlementServiceAppliance(GroupSetRecipe):
+    name = 'group-entsrv-appliance'
+    version = 'tip'
+
+    unwantedComponents = ['devel', 'devellib', 'doc', 'build-tree', 'tk', 'test', 'gtk']
+
+    def setup(r):
+        r.dumpAll()
+        r.makeSearchPath()
+
+        core = r.mainSearchPath.find('group-standard').members()
+        core -= core.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
+            )
+        core += r.mainSearchPath.find(
+            'amiconfig',
+            'conary',
+            'dstat',
+            'file',
+            'samba-winbind',
+            'samba-winbind-clients',
+            'samba-common',
+            'keyutils',
+            'krb5-workstation',
+            'less',
+            'lsof',
+            'mailx',
+            'nano',
+            'nc',
+            'net-snmp',
+            'ntp',
+            'ntpdate',
+            'openssh-clients',
+            'openssh-server',
+            'open-vm-tools',
+            'pam_krb5',
+            'patch',
+            'postfix',
+            'rdiff-backup',
+            'rsync',
+            'screen',
+            'sqlite',
+            'strace',
+            'sudo',
+            'sysstat',
+            'tcpdump',
+            'vim-enhanced',
+            'wget',
+            'which',
+            'ypbind',
+            'yp-tools',
+            )
+
+        app = core + r.mainSearchPath.find(
+            'entsrv',
+            'postgresql92:bin',
+            )
+
+        app -= app.components(*r.unwantedComponents)
+        app += app.depsNeeded(r.mainSearchPath)
+        #scripts = r.Scripts(
+        #    postInstall=r.Script('''#!/bin/sh
+        #    /usr/share/upsrv/scripts/group-script
+        #    '''),
+        #    postUpdate=r.Script('''#!/bin/sh
+        #    /usr/share/upsrv/scripts/group-script
+        #    '''),
+        #    )
+        r.Group(app)#, scripts=script)
+
+    def getAdditionalSearchPath(r):
+        # Place new packages in the correct section, sorted alphabetically.
+        packageSearchPath = []
+        for macro, packages in [
+                ('master_label', [
+                        'catalog-service',
+                        'conary',
+                        'conary-build',
+                        'conary-policy',
+                        'conary-repository',
+                        'conary-rest',
+                        'entsrv',
+                        'info-entsrv',
+                        'jobslave',
+                        'mcp',
+                        'pcreator',
+                        'pyovf',
+                        'rbuilder',
+                        'repodata',
+                        'restlib',
+                        'rmake',
+                        'rmake3',
+                        'robj',
+                        'rpath-capsule-indexer',
+                        'rpath-job',
+                        'rpath-models',
+                        'rpath-product-definition',
+                        'rpath-repeater',
+                        'rpath-storage',
+                        'rpath-tools',
+                        'rpath-xmllib',
+                        'smartform',
+                        'wmiclient',
+                        'xobj',
+                      ]),
+              ]:
+            label = r.macros.get(macro)
+            if label is None:
+                continue
+            packageSearchPath.append(r.Repository(label, r.flavor
+                ).find(*packages))
+        return packageSearchPath
+
+    def troveFromMacro(r, macro, troveName, defaultLabel):
+        item = r.macros.get(macro, defaultLabel)
+        if '=' not in item:
+            item = troveName + '=' + item
+        return r.Repository(r.macros.buildlabel, r.flavor).find(item)
+
+    def getAppliancePlatformSearchPath(r):
+        return [
+            r.troveFromMacro('platform_label', 'group-rpath-platform', None),
+            r.troveFromMacro('common_label', 'group-rpath-packages', 'centos6.rpath.com@rpath:centos-6-common'),
+            r.troveFromMacro('distro_label', 'group-os', 'centos6.rpath.com@rpath:centos-6e'),
+            ]
+
+    def makeSearchPath(r):
+        searchPath = r.getAdditionalSearchPath() + r.getAppliancePlatformSearchPath()
+        r.mainSearchPath = r.SearchPath(*searchPath)
+        return r.mainSearchPath

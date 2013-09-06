@@ -59,20 +59,13 @@ class GroupEntitlementServiceAppliance(GroupSetRecipe):
 
         app = core + r.mainSearchPath.find(
             'entsrv',
+            'entsrv-appliance',
             'postgresql92:bin',
             )
 
         app -= app.components(*r.unwantedComponents)
         app += app.depsNeeded(r.mainSearchPath)
-        #scripts = r.Scripts(
-        #    postInstall=r.Script('''#!/bin/sh
-        #    /usr/share/upsrv/scripts/group-script
-        #    '''),
-        #    postUpdate=r.Script('''#!/bin/sh
-        #    /usr/share/upsrv/scripts/group-script
-        #    '''),
-        #    )
-        r.Group(app)#, scripts=script)
+        r.Group(app)
 
     def getAdditionalSearchPath(r):
         # Place new packages in the correct section, sorted alphabetically.
@@ -86,6 +79,7 @@ class GroupEntitlementServiceAppliance(GroupSetRecipe):
                         'conary-repository',
                         'conary-rest',
                         'entsrv',
+                        'entsrv-appliance',
                         'info-entsrv',
                         'jobslave',
                         'mcp',

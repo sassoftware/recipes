@@ -134,8 +134,8 @@ class GroupRbuilderDist(GroupSetRecipe):
         addToMain.append(rbuilder.createGroup('group-rbuilder-appliance',
             scripts=scripts, imageGroup=True))
 
-        # group-ha
-        ha = r.mainSearchPath.find(
+        # add-on groups
+        addToMain.append(r.makeZebra('group-ha', [
             'corosync',
             'crmsh',
             'drbd',
@@ -146,10 +146,10 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet-stdlib',
             'resource-agents',
             'rubygem-hiera:ruby',
-            )
-        ha += (ha + rbuilder).depsNeeded(r.mainSearchPath)
-        ha -= ha.components(*r.unwantedComponents)
-        addToMain.append(ha.createGroup('group-ha'))
+            ], rbuilder))
+        addToMain.append(r.makeZebra('group-entsrv', [
+            'entsrv',
+            ], rbuilder))
 
         # extras
         # NB: These are not installed on the appliance, but kept to simplify
@@ -165,6 +165,13 @@ class GroupRbuilderDist(GroupSetRecipe):
         for x in addToMain:
             main += x
         r.Group(main)
+
+    def makeZebra(r, name, pkglist, base):
+        "Make an add-on group for C{base} containing the packages named in C{pkglist}"
+        stuff = r.mainSearchPath.find(*pkglist)
+        stuff += (stuff + base).depsNeeded(r.mainSearchPath)
+        stuff -= stuff.components(*r.unwantedComponents)
+        return stuff.createGroup(name)
 
     def getAdditionalSearchPath(r):
         """

@@ -58,6 +58,7 @@ python-pyramid
 python-pyramid_beaker
 python-pyramid_simpleform
 python-pyramid_tm
+python-raven
 python-repoze-filesystem
 python-repoze-lru
 python-setproctitle

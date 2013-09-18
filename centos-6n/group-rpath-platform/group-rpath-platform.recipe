@@ -54,6 +54,7 @@ python-ordereddict
 python-paste-deploy
 python-paste-filesystem
 python-psycopg2
+python-pygeoip
 python-pyramid
 python-pyramid_beaker
 python-pyramid_simpleform

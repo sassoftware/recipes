@@ -34,6 +34,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'postgresql92',
             'python-memcached',
             'python-psycopg2',
+            'python-pygeoip',
             'python-webob',
             'group-rapa',
             )

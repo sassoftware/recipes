@@ -170,6 +170,8 @@ class GroupRpathPackages(GroupSetRecipe):
         ## group-rpath-core
         # Built from things already in the packages set
         groupRpathCore = packages.find(
+            'amiconfig',
+            'amiconfig-vmwareguest',
             'conary',
             'libelf-lgpl',
             'python-conary',

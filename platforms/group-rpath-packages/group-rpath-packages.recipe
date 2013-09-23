@@ -90,6 +90,8 @@ class GroupRpathPackages(GroupSetRecipe):
             'libelf-lgpl',
             'python-conary',
             ) + local.find(
+            'amiconfig',
+            'amiconfig-vmwareguest',
             'conary',
             'conary-build',
             'conary-policy',
@@ -99,8 +101,6 @@ class GroupRpathPackages(GroupSetRecipe):
         groupRpathTools += (common.find(
             'open-vm-tools',
             'xe-guest-utilities',
-            ) + local.find(
-            'amiconfig',
             )).makeOptional()
         if Arch.x86:
             groupRpathTools += common.find(

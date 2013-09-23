@@ -50,6 +50,7 @@ python-crypto
 python-epdb
 python-formencode
 python-mako
+python-meld3
 python-ordereddict
 python-paste-deploy
 python-paste-filesystem
@@ -61,6 +62,7 @@ python-pyramid_tm
 python-repoze-filesystem
 python-repoze-lru
 python-setproctitle
+python-supervisor
 python-transaction
 python-translationstring
 python-twisted

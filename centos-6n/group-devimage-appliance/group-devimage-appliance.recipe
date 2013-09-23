@@ -66,6 +66,8 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('python-reportlab') # provides sgmlop, which makes rmake xmlrpc work better
         r.add('rpath-product-definition')
 
+        r.add('entsrv-rbuild')
+
         r.add('python-simplejson')
         r.add('xz')
         r.add('lua')
@@ -135,6 +137,8 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                         'conary-repository',
                         'rbuild',
                         'rmake',
+                        'entsrv-client',
+                        'entsrv-rbuild',
                       ]),
                 ('base_label', [
                         'pyovf',

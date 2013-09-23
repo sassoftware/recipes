@@ -62,6 +62,7 @@ python-pyramid_tm
 python-raven
 python-repoze-filesystem
 python-repoze-lru
+python-requests
 python-setproctitle
 python-transaction
 python-translationstring

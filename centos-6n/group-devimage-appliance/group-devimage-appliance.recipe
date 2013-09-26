@@ -117,6 +117,9 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('devimage-custom', r.devLabel)
 
         r.addAll('group-rpm')
+        r.addPostInstallScript(contents="""#!/bin/sh
+/sbin/chkconfig rmake off
+""")
 
     def getAdditionalSearchPath(r):
         """
@@ -174,12 +177,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
             log.info("Package search path:")
             for entry in packageSearchPath:
                 log.info(" %s", entry)
-            # HACK: only return the CNY-3286 search path for real cooks until
-            # 2.1.0 is fully released; this makes it possible to commit recipe
-            # changes without needing a checkout.
-            return [packageSearchPath]
-        else:
-            return packageSearchPath
+        return [packageSearchPath]
 
     def addrPathAppliancePlatformAgent(r):
         pass

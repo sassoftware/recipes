@@ -49,10 +49,10 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
 
         scripts = r.Scripts(
             postInstall=r.Script('''#!/bin/sh
-            /usr/share/upsrv/scripts/group-script
+            /usr/share/upsrv/scripts/post-install
             '''),
             postUpdate=r.Script('''#!/bin/sh
-            /usr/share/upsrv/scripts/group-script
+            /usr/share/upsrv/scripts/post-update
             '''),
             )
         upsrv -= upsrv.components(*r.unwantedComponents)

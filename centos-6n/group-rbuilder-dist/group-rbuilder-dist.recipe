@@ -145,6 +145,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet',
             'puppet-corosync',
             'puppet-stdlib',
+            'python-supervisor',
             'resource-agents',
             'rubygem-hiera:ruby',
             ], rbuilder))

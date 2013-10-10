@@ -94,10 +94,12 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'net-snmp',
             'open-vm-tools',
             'patch',
+            'python-supervisor',
             'rdiff-backup',
             'screen',
             'sqlite',
             'sudo',
+            'tinc',
             )
         appliance -= appliance.find(
             'selinux-policy',

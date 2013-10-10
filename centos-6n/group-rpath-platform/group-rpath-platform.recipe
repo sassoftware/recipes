@@ -84,6 +84,7 @@ resource-agents
 rubygem-hiera
 rubygem-json_pure
 SQLAlchemy
+tinc
 udns
 
 # Contrib - rpl-2-py26

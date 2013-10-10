@@ -58,6 +58,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'patch',
             'patch',
             'postfix',
+            'python-supervisor',
             'rdiff-backup',
             'rsync',
             'screen',
@@ -66,6 +67,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sudo',
             'sysstat',
             'tcpdump',
+            'tinc',
             'vim-enhanced',
             'wget',
             'which',
@@ -145,7 +147,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet',
             'puppet-corosync',
             'puppet-stdlib',
-            'python-supervisor',
             'resource-agents',
             'rubygem-hiera:ruby',
             ], rbuilder))

@@ -147,6 +147,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet',
             'puppet-corosync',
             'puppet-stdlib',
+            'rbuilder-ha',
             'resource-agents',
             'rubygem-hiera:ruby',
             ], rbuilder))
@@ -206,6 +207,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'pcreator',
                         'pyovf',
                         'rbuilder',
+                        'rbuilder-ha',
                         'rbuilder-mcp',
                         'rbuilder-ui',
                         'repodata',

@@ -136,6 +136,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                         'conary-build',
                         'conary-policy',
                         'conary-repository',
+                        'devimage-custom',
                         'rbuild',
                         'rmake',
                         'entsrv-client',

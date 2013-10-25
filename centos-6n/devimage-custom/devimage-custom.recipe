@@ -1,0 +1,20 @@
+#
+# Copyright (c) SAS Institute Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+class DevimageCustom(PackageRecipe):
+    name = 'devimage-custom'
+    version = '1.1'
+
+    def setup(r):
+        # Add some files to be used when new users are created on the system
+        r.addSource('skel-conaryrc', dest='/etc/skel/.conaryrc')
+        r.addSource('skel-emacs', dest='/etc/skel/.emacs')
+        # The skel conaryrc references .conaryrc-rbuild, which will be
+        # recreated by rbuild
+        r.Create('/etc/skel/.conaryrc-rbuild')
+
+        r.addSource('system-conaryrc', dest='/etc/conary/config.d/devimage.conf')
+        r.addSource('system-rmakerc', dest='/etc/rmake/client.d/devimage.conf')

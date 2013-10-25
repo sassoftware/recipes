@@ -1,0 +1,50 @@
+# The global information in a user's ~/.conaryrc applies to all of the
+# contexts.  Each context is below the global section, each with a
+# context name in brackets which is used with "cvc context" to set up
+# a context in a particular subdirectory in the user's home directory.
+
+# Include configuration (re-)created by running rbuild config --ask:
+includeConfigFile ~/.conaryrc-rbuild
+
+# The rest of this file contains overrides relative to ~/.conaryrc-rbuild
+# and additional configuration
+
+# Developers' identity for all working environments
+#contact           devuser@example.com
+#name              Development User
+
+# For working on rBuilder Online, complete this with your rBO credentials
+#user              *.rpath.org rbo_username rbo_password
+
+# For a licensed rBuilder Appliance, un-comment the two config lines 
+# and complete with your credentials and shared conaryrc from the rBA
+# user              *.example.com rba_username rba_password
+#includeConfigFile http://rbuilder.example.com/conaryrc
+
+
+# Using the rBuild tool does not require setting contexts in your
+# ~/.conaryrc, but advanced Conary use may require contexts; the
+# rest of this file contains several examples
+
+###################################################################
+# Context entry for working on version 2 of the example product at
+# rBuilder Online and using components from rPath Linux 2
+[example-2-devel]
+buildLabel        example.rpath.org@corp:example-2-devel
+installLabelPath  example.rpath.org@corp:example-2-devel conary.rpath.com@rpl:2
+
+###################################################################
+# Context entry for working on verion 1 of the sample product at
+# an internal rBuilder appliance and using components from the
+# rPath Appliance Platform 2
+[rap-sample-1-devel]
+buildLabel        sample.example.com@corp:example-1-devel
+installLabelPath  sample.example.com@corp:example-1-devel rap.rpath.com@rpath:linux-2
+
+###################################################################
+# Context entry for working on version 1 of the example product at
+# rBuilder Online and using componentns from rPath Linux 1
+[example-1-devel]
+buildLabel        example.rpath.org@corp:example-1-devel
+installLabelPath  example.rpath.org@corp:example-1-devel conary.rpath.com@rpl:1
+

@@ -21,8 +21,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
     name = 'group-devimage-appliance'
     version = 'tip'
 
-    devLabel = 'devimage.rpath.org@rpath:devimage-5.8-devel'
-
     def addPackages(r):
         # Replace conary
         r.replace('conary')
@@ -114,7 +112,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('nscd')
 
         # Add devimage-specific customizations, such as an /etc/skel setup
-        r.add('devimage-custom', r.devLabel)
+        r.add('devimage-custom')
 
         r.addAll('group-rpm')
         r.addPostInstallScript(contents="""#!/bin/sh

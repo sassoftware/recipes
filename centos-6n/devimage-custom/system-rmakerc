@@ -1,0 +1,5 @@
+# This is required in order to install chroots for CentOS 6
+rpmRequirements trove: rpm-rhel-6:lib(RPM-RHEL-6)
+
+# Not strictly required, but doesn't hurt
+defaultBuildReqs info-rmake-chroot:user

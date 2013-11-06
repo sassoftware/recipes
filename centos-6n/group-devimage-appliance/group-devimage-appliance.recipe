@@ -32,6 +32,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('file')
         r.add('keyutils')
         r.add('less')
+        r.add('nfs-utils')
         r.add('openssh-clients')
         r.add('openssh-server')
         r.add('rsync')

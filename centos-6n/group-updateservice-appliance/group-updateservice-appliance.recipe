@@ -94,6 +94,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'make',
             'nc',
             'net-snmp',
+            'nfs-utils',
             'open-vm-tools',
             'patch',
             'python-supervisor',

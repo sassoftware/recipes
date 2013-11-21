@@ -32,11 +32,13 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'nginx:runtime',
             'pgbouncer:runtime',
             'postgresql92',
+            'puppet',
+            'puppet-stdlib',
             'python-memcached',
             'python-psycopg2',
             'python-pygeoip',
             'python-webob',
-            'group-rapa',
+            'rubygem-hiera:ruby',
             )
         # Add dependencies except for those from the platform
         upsrv += upsrv.depsNeeded(r.mainSearchPath)
@@ -92,6 +94,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'make',
             'nc',
             'net-snmp',
+            'nfs-utils',
             'open-vm-tools',
             'patch',
             'python-supervisor',
@@ -122,7 +125,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'conary-build',
                         'conary-policy',
                         'conary-repository',
-                        'group-rapa',
                         'rmake',
                         'rmake3',
                         'rmake3-multinode-server',

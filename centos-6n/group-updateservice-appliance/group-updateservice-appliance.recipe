@@ -90,7 +90,8 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
         for item in addToMain:
             appliance += item
         appliance += appliance.depsNeeded(r.mainSearchPath)
-        r.Group(appliance)
+        appliance -= appliance.components(*r.unwantedComponents)
+        r.Group(appliance, scripts=scripts)
 
 
     def getAdditionalSearchPath(r):

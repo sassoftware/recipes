@@ -14,11 +14,18 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
         r.makeSearchPath()
         addToMain = []
 
-        ## group-updateservice -- core packages for updateservice
-        # NOTE: This group should not contain *any* platform RPMs
-        upsrv = r.mainSearchPath.find(
-            'conary-web-common',
+        appliance = r.mainSearchPath.find('group-standard').members()
+        appliance -= appliance.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
+            )
+        appliance += r.mainSearchPath.find(
+            'conary',
+            'conary-build',
+            'conary-policy',
+            'conary-repository',
             'conary-rest',
+            'conary-web-common',
             'updateservice',
             'updateservice-appliance',
 
@@ -39,42 +46,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'python-pygeoip',
             'python-webob',
             'rubygem-hiera:ruby',
-            )
-        # Add dependencies except for those from the platform
-        upsrv += upsrv.depsNeeded(r.mainSearchPath)
-        rmtroves = r.mainSearchPath.find('group-os', 'group-rpath-core').flatten()
-        upsrv -= rmtroves.makeInstall()
-        # Manually remove file conflicts with platform
-        upsrv -= upsrv.find(
-            'conary:data',
-            )
 
-        scripts = r.Scripts(
-            postInstall=r.Script('''#!/bin/sh
-            /usr/share/upsrv/scripts/post-install
-            '''),
-            postUpdate=r.Script('''#!/bin/sh
-            /usr/share/upsrv/scripts/post-update
-            '''),
-            )
-        upsrv -= upsrv.components(*r.unwantedComponents)
-        groupUpsrv = upsrv.createGroup('group-updateservice', scripts=scripts)
-        addToMain.append(groupUpsrv)
-
-        ## group-updateservice-extras
-        # NB: These are not installed on the appliance, but kept to simplify
-        # release management.
-        groupExtras = r.mainSearchPath.find(
-            'anaconda-custom-updateservice',
-            ).createGroup('group-updateservice-extras', checkPathConflicts=False)
-        addToMain.append(groupExtras.makeOptional())
-
-        ## group-updateservice-appliance
-        appliance = r.mainSearchPath.find(
-            'group-standard',
-            'group-rpath-core',
-            ).members()
-        appliance += r.mainSearchPath.find(
             # target deployment etc.
             'catalog-service',
             'rbuilder:python',
@@ -88,6 +60,8 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'which',
 
             # Maintenance tools and monitoring
+            'amiconfig',
+            'amiconfig-vmwareguest',
             'keyutils',
             'krb5-workstation',
             'lsof',
@@ -104,9 +78,14 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'sudo',
             'tinc',
             )
-        appliance -= appliance.find(
-            'selinux-policy',
-            'selinux-policy-targeted',
+
+        scripts = r.Scripts(
+            postInstall=r.Script('''#!/bin/sh
+            /usr/share/upsrv/scripts/post-install
+            '''),
+            postUpdate=r.Script('''#!/bin/sh
+            /usr/share/upsrv/scripts/post-update
+            '''),
             )
         for item in addToMain:
             appliance += item

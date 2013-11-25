@@ -73,6 +73,8 @@ class GroupEntitlementServiceAppliance(GroupSetRecipe):
         packageSearchPath = []
         for macro, packages in [
                 ('master_label', [
+                        'amiconfig',
+                        'amiconfig-vmwareguest',
                         'catalog-service',
                         'conary',
                         'conary-build',

@@ -117,6 +117,8 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
         for macro, packages in [
                 # rBuilder components from the build label
                 ('master_label', [
+                        'amiconfig',
+                        'amiconfig-vmwareguest',
                         'anaconda-custom-updateservice',
                         'conary',
                         'conary-build',

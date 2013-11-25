@@ -15,7 +15,6 @@ class GroupRpathPlatform(GroupRecipe):
 
     packages = """
 # Contrib - centos-6n
-amiconfig
 cluster-glue
 corosync
 crmsh

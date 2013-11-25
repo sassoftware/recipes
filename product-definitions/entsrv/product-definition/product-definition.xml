@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.4.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.4.xsd rpd-4.4.xsd" version="4.4">
+    <productName>Cloud Engine Infrastructure</productName>
+    <productShortname>%(project_name)s</productShortname>
+    <productDescription/>
+    <productVersion>entsrv-%(major_version)s</productVersion>
+    <productVersionDescription>Entitlement Service %(major_version)s</productVersionDescription>
+    <conaryRepositoryHostname>pdt.cny.sas.com</conaryRepositoryHostname>
+    <conaryNamespace>sas</conaryNamespace>
+    <imageGroup>group-entsrv-appliance</imageGroup>
+    <baseLabel>%(release_label)s</baseLabel>
+    <stages>
+        <stage labelSuffix="" name="Release"/>
+    </stages>
+    <buildDefinition>
+        <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="Entitlement Service %(major_version)s x86_64 ESX" flavorSetRef="generic">
+            <image autoResolve="false" natNetworking="true" baseFileName="" swapSize="2048" buildOVF10="true" vmMemory="2048" installLabelPath="" freespace="2048"/>
+            <stage ref="Release"/>
+        </build>
+        <build containerTemplateRef="applianceIsoImage" architectureRef="x86_64" name="Entitlement Service %(major_version)s x86_64 ISO" flavorSetRef="generic">
+            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
+            <stage ref="Release"/>
+        </build>
+    </buildDefinition>
+    <platform sourceTrove="platform-definition=/centos6.rpath.com@rpath:centos-6e/6-4">
+        <platformName>CentOS 6</platformName>
+        <platformVersionTrove>group-os</platformVersionTrove>
+        <baseFlavor/>
+        <contentProvider name="repomd" description="Yum Repository">
+            <contentSourceType isSingleton="false" name="repomd" description="Yum Repository"/>
+            <dataSource name="6.3/os/i386" description="CentOS (v. 6.2 for 32-bit x86)"/>
+            <dataSource name="6.3/os/x86_64" description="CentOS (v. 6.2 for 64-bit x86_64)"/>
+            <dataSource name="6.3/updates/i386" description="CentOS (v. 6.2 updates for 32-bit x86)"/>
+            <dataSource name="6.3/updates/x86_64" description="CentOS (v. 6.2 updates for 64-bit x86_64)"/>
+            <dataSource name="6.2/os/i386" description="CentOS (v. 6.2 for 32-bit x86)"/>
+            <dataSource name="6.2/os/x86_64" description="CentOS (v. 6.2 for 64-bit x86_64)"/>
+            <dataSource name="6.2/updates/i386" description="CentOS (v. 6.2 updates for 32-bit x86)"/>
+            <dataSource name="6.2/updates/x86_64" description="CentOS (v. 6.2 updates for 64-bit x86_64)"/>
+            <dataSource name="6.1/os/i386" description="CentOS (v. 6.1 for 32-bit x86)"/>
+            <dataSource name="6.1/os/x86_64" description="CentOS (v. 6.1 for 64-bit x86_64)"/>
+            <dataSource name="6.1/updates/i386" description="CentOS (v. 6.1 updates for 32-bit x86)"/>
+            <dataSource name="6.1/updates/x86_64" description="CentOS (v. 6.1 updates for 64-bit x86_64)"/>
+            <dataSource name="6.0/os/i386" description="CentOS (v. 6.0 for 32-bit x86)"/>
+            <dataSource name="6.0/os/x86_64" description="CentOS (v. 6.0 for 64-bit x86_64)"/>
+            <dataSource name="6.0/updates/i386" description="CentOS (v. 6.0 updates for 32-bit x86)"/>
+            <dataSource name="6.0/updates/x86_64" description="CentOS (v. 6.0 updates for 64-bit x86_64)"/>
+        </contentProvider>
+        <platformInformation>
+            <platformClassifier version="6" name="centos" tags="linux redhat centos-6 rhel-6"/>
+            <originLabel>centos6.rpath.com@rpath:centos-6e</originLabel>
+            <rpmRequirement>trove: rpm-rhel-6:lib(RPM-RHEL-6)</rpmRequirement>
+        </platformInformation>
+        <searchPaths>
+            <searchPath isPlatformTrove="false" label="centos6.rpath.com@rpath:centos-6-common" troveName="group-rpath-packages" version="201207231423-1-6" isGroupSearchPathTrove="true" isResolveTrove="true"/>
+            <searchPath isPlatformTrove="true" label="centos6.rpath.com@rpath:centos-6e" troveName="group-os" version="2012.07.13_0627.51-1-1" isGroupSearchPathTrove="true" isResolveTrove="true"/>
+        </searchPaths>
+        <factorySources>
+            <factorySource label="centos6.rpath.com@rpath:centos-6-common" troveName="group-factories" version="201207231423-1-6"/>
+        </factorySources>
+        <autoLoadRecipes>
+            <autoLoadRecipe troveName="group-superclasses" label="centos6.rpath.com@rpath:centos-6-common"/>
+        </autoLoadRecipes>
+        <architectures>
+            <architecture flavor="is:x86_64 x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (64-bit)" name="x86_64"/>
+            <architecture flavor="is:x86(~i486, ~i586, ~i686, ~cmov, ~mmx, ~sse, ~sse2)" displayName="x86 (32-bit)" name="x86"/>
+        </architectures>
+        <flavorSets>
+            <flavorSet flavor="~!xen, ~!dom0, ~!domU, ~!vmware" displayName="Generic" name="generic"/>
+            <flavorSet flavor="~xen, ~domU, ~!dom0, ~!vmware" displayName="Xen DomU" name="xen"/>
+        </flavorSets>
+        <containerTemplates>
+            <image autoResolve="false" baseFileName="" swapSize="2048" installLabelPath="" containerFormat="amiImage" freespace="1024" amiHugeDiskMountpoint=""/>
+            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" containerFormat="updateIsoImage" showMediaCheck="false"/>
+            <image autoResolve="false" natNetworking="true" baseFileName="" vmSnapshots="false" swapSize="2048" vmMemory="1024" installLabelPath="" containerFormat="vmwareEsxImage" freespace="1024"/>
+            <image autoResolve="false" baseFileName="" installLabelPath="" containerFormat="imageless"/>
+            <image autoResolve="false" baseFileName="" swapSize="2048" vmMemory="1024" installLabelPath="" containerFormat="xenOvaImage" freespace="1024"/>
+            <image autoResolve="false" baseFileName="" swapSize="2048" installLabelPath="" containerFormat="rawHdImage" freespace="1024"/>
+            <image autoResolve="false" natNetworking="true" baseFileName="" vmSnapshots="false" swapSize="2048" vmMemory="1024" installLabelPath="" containerFormat="vmwareImage" freespace="1024" diskAdapter="lsilogic"/>
+            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" containerFormat="applianceIsoImage" showMediaCheck="false"/>
+            <image autoResolve="false" baseFileName="" swapSize="2048" installLabelPath="" containerFormat="rawFsImage" freespace="1024"/>
+            <image autoResolve="false" vhdDiskType="dynamic" baseFileName="" swapSize="2048" installLabelPath="" containerFormat="virtualIronImage" freespace="1024"/>
+            <image autoResolve="false" baseFileName="" swapSize="0" installLabelPath="" containerFormat="tarballImage"/>
+            <image autoResolve="false" bugsUrl="" anacondaCustomTrove="" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" containerFormat="installableIsoImage" showMediaCheck="false"/>
+            <image autoResolve="false" vhdDiskType="dynamic" baseFileName="" swapSize="2048" installLabelPath="" containerFormat="vhdImage" freespace="1024"/>
+            <image autoResolve="false" baseImageTrove="" baseFileName="" installLabelPath="" containerFormat="deferredImage"/>
+        </containerTemplates>
+        <buildTemplates>
+            <buildTemplate containerTemplateRef="vmwareImage" architectureRef="x86" displayName="VMware Workstation" name="VMware Workstation" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="vmwareImage" architectureRef="x86_64" displayName="VMware Workstation" name="VMware Workstation" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="applianceIsoImage" architectureRef="x86_64" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="updateIsoImage" architectureRef="x86" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="applianceIsoImage" architectureRef="x86" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="updateIsoImage" architectureRef="x86_64" displayName="ISO" name="ISO" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86" displayName="Imageless" name="Imageless" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86_64" displayName="Imageless" name="Imageless" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="imageless" architectureRef="x86_64" displayName="Imageless" name="Imageless" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="xenOvaImage" architectureRef="x86" displayName="Xen OVA" name="Xen OVA" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="xenOvaImage" architectureRef="x86_64" displayName="Xen OVA" name="Xen OVA" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="amiImage" architectureRef="x86_64" displayName="EC2 AMI Large/Huge" name="EC2 AMI Large/Huge" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="tarballImage" architectureRef="x86" displayName="Tar Image" name="Tar Image" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="tarballImage" architectureRef="x86" displayName="Tar Image" name="Tar Image" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="tarballImage" architectureRef="x86_64" displayName="Tar Image" name="Tar Image" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="tarballImage" architectureRef="x86_64" displayName="Tar Image" name="Tar Image" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="rawFsImage" architectureRef="x86" displayName="Raw Filesystem" name="Raw Filesystem" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="rawFsImage" architectureRef="x86_64" displayName="Raw Filesystem" name="Raw Filesystem" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="amiImage" architectureRef="x86" displayName="EC2 AMI Small" name="EC2 AMI Small" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" displayName="VMware ESX" name="VMware ESX" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="rawHdImage" architectureRef="x86" displayName="Raw Hard Drive" name="Raw Hard Drive" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="rawHdImage" architectureRef="x86_64" displayName="Raw Hard Drive" name="Raw Hard Drive" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="rawFsImage" architectureRef="x86" displayName="Xen" name="Xen" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="rawFsImage" architectureRef="x86_64" displayName="Xen" name="Xen" flavorSetRef="xen"/>
+            <buildTemplate containerTemplateRef="rawHdImage" architectureRef="x86" displayName="KVM" name="KVM" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="rawHdImage" architectureRef="x86_64" displayName="KVM" name="KVM" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="deferredImage" architectureRef="x86" displayName="Deferred" name="Deferred" flavorSetRef="generic"/>
+            <buildTemplate containerTemplateRef="deferredImage" architectureRef="x86_64" displayName="Deferred" name="Deferred" flavorSetRef="generic"/>
+        </buildTemplates>
+    </platform>
+</productDefinition>

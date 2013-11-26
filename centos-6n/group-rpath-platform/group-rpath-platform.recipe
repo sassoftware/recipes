@@ -24,7 +24,6 @@ gunicorn
 info-haclient
 info-hacluster
 info-jabber
-info-nagios
 info-nginx
 info-pgbouncer
 jabberd
@@ -34,9 +33,7 @@ libgsasl
 librsync
 mercurial
 mod_python
-nagios-plugins
 nginx
-nrpe
 pacemaker
 pgbouncer
 puppet-corosync

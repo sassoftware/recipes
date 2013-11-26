@@ -10,7 +10,7 @@ main_dir=$(pwd)
 dev_project=Newton
 dev_label_prefix="newton.eng.rpath.com@rpath"
 
-platforms="centos-6 rhel-6 windows"
+platforms="centos-6 centos-6n rhel-6 windows"
 
 major_version=4
 #major_version=$(grep major_version ../../bob-plans/config/version.conf | cut -d' ' -f3)

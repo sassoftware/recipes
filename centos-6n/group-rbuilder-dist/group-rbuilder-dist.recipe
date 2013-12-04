@@ -27,34 +27,11 @@ class GroupRbuilderDist(GroupSetRecipe):
         addToMain = []
 
         ## core troveset common to all appliance outputs
-        core = r.mainSearchPath.find('group-standard-workgroup').members()
-        core = core.makeOptional(core.find(
-            # selinux-policy slows down image builds and updates tremendously
-            # but we don't even use it
+        core = r.mainSearchPath.find('group-standard').members()
+        core -= core.find(
             'selinux-policy',
             'selinux-policy-targeted',
-            # remove most stuff from group-rpath-core, the useful bits will be
-            # added back from an in-tree source
-            'cmpi-bindings-conary',
-            'conary',
-            'conary-cim',
-            'conary-cim-configuration',
-            'info-sfcb',
-            'libelf-lgpl',
-            'm2crypto-conary',
-            'openslp-conary',
-            'python-conary',
-            'python-lxml-conary',
-            'pywbem-conary',
-            'rpath-models',
-            'rpath-tools',
-            'sblim-cmpi-base-conary',
-            'sblim-cmpi-devel-conary',
-            'sblim-cmpi-network-conary',
-            'sblim-sfcb-conary',
-            'sblim-sfcb-schema-conary',
-            'smartform-conary',
-            ))
+            )
         core += r.mainSearchPath.find(
             'amiconfig',
             'amiconfig-vmwareguest',
@@ -73,16 +50,18 @@ class GroupRbuilderDist(GroupSetRecipe):
             'ntp',
             'ntpdate',
             'openssh-clients',
-            #'openssh-server',
-            #'open-vm-tools',
+            'openssh-server',
+            'open-vm-tools',
             'pam_krb5',
             'patch',
             'patch',
-            #'postfix',
+            'postfix',
+            'puppet',
+            'puppet-stdlib',
             'python-supervisor',
             'rdiff-backup',
-            'rpath-tools',
             'rsync',
+            'rubygem-hiera:ruby',
             'samba-common',
             'samba-winbind',
             'samba-winbind-clients',
@@ -99,6 +78,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'ypbind',
             'yp-tools',
             )
+        core += core.depsNeeded(r.mainSearchPath)
 
         ## group-rbuilder-appliance
         rbuilder = core + r.mainSearchPath.find(
@@ -199,6 +179,11 @@ class GroupRbuilderDist(GroupSetRecipe):
         return stuff.createGroup(name)
 
     def getAdditionalSearchPath(r):
+        """
+        Set a package search path from a plethora of macros. This covers all
+        the product components and dependencies that aren't part of the
+        platform, e.g. everything except rPA, rPL, and rLS.
+        """
         # Place new packages in the correct section, sorted alphabetically.
         packageSearchPath = []
         for macro, packages in [
@@ -268,7 +253,6 @@ class GroupRbuilderDist(GroupSetRecipe):
     def getAppliancePlatformSearchPath(r):
         return [
             r.troveFromMacro('platform_label', 'group-rpath-platform', None),
-            r.troveFromMacro('vapp_label', 'group-vapp-appliance', None),
             r.troveFromMacro('common_label', 'group-rpath-packages', 'centos6.rpath.com@rpath:centos-6-common'),
             r.troveFromMacro('distro_label', 'group-os', 'centos6.rpath.com@rpath:centos-6e'),
             ]

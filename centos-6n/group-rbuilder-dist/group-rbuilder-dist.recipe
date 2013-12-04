@@ -26,13 +26,42 @@ class GroupRbuilderDist(GroupSetRecipe):
         r.makeSearchPath()
         addToMain = []
 
-        ## core troveset common to all appliance outputs
-        core = r.mainSearchPath.find('group-standard').members()
-        core -= core.find(
+        core = r.troveFromMacro('distro_label', 'group-standard')
+        core = core.makeOptional(core.find(
             'selinux-policy',
             'selinux-policy-targeted',
-            )
-        core += r.mainSearchPath.find(
+            )).update(r.mainSearchPath.find(
+            'puppet',
+            'puppet-stdlib',
+            'rubygem-hiera:ruby',
+            ))
+        vapp_core = r.mainSearchPath.find('group-standard-workgroup')
+        vapp_core = vapp_core.makeOptional(vapp_core.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
+            # remove most stuff from group-rpath-core, the useful bits will be
+            # added back from an in-tree source
+            'cmpi-bindings-conary',
+            'conary',
+            'conary-cim',
+            'conary-cim-configuration',
+            'info-sfcb',
+            'libelf-lgpl',
+            'm2crypto-conary',
+            'openslp-conary',
+            'python-conary',
+            'python-lxml-conary',
+            'pywbem-conary',
+            'rpath-models',
+            'rpath-tools',
+            'sblim-cmpi-base-conary',
+            'sblim-cmpi-devel-conary',
+            'sblim-cmpi-network-conary',
+            'sblim-sfcb-conary',
+            'sblim-sfcb-schema-conary',
+            'smartform-conary',
+            ))
+        system = r.mainSearchPath.find(
             'amiconfig',
             'amiconfig-vmwareguest',
             'conary',
@@ -50,18 +79,15 @@ class GroupRbuilderDist(GroupSetRecipe):
             'ntp',
             'ntpdate',
             'openssh-clients',
-            'openssh-server',
             'open-vm-tools',
             'pam_krb5',
             'patch',
             'patch',
             'postfix',
-            'puppet',
-            'puppet-stdlib',
             'python-supervisor',
             'rdiff-backup',
+            'rpath-tools',
             'rsync',
-            'rubygem-hiera:ruby',
             'samba-common',
             'samba-winbind',
             'samba-winbind-clients',
@@ -78,10 +104,9 @@ class GroupRbuilderDist(GroupSetRecipe):
             'ypbind',
             'yp-tools',
             )
-        core += core.depsNeeded(r.mainSearchPath)
 
         ## group-rbuilder-appliance
-        rbuilder = core + r.mainSearchPath.find(
+        rbuilder = r.mainSearchPath.find(
             # group-rbuilder-appliance
             'catalog-service',
             'conary-web-common',
@@ -128,9 +153,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'rpm-python',  # Fallback RPM
             'group-rpm',
             )
-        rbuilder += rbuilder.depsNeeded(r.mainSearchPath)
-        rbuilder -= rbuilder.components(*r.unwantedComponents)
-
         scripts = r.Scripts(
             preUpdate=r.Script(rba_prescript),
             postInstall=r.Script('#!/bin/bash\n'
@@ -138,8 +160,11 @@ class GroupRbuilderDist(GroupSetRecipe):
             postUpdate=r.Script('#!/bin/bash\n'
                 '/usr/share/rbuilder/scripts/group-script || exit 1\n'),
             )
-        addToMain.append(rbuilder.createGroup('group-rbuilder-appliance',
-            scripts=scripts, imageGroup=True))
+
+        rba = r.makeImageGroup('group-rbuilder-appliance', core + system + rbuilder, scripts=scripts)
+        addToMain.append(rba)
+        rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder, scripts=scripts)
+        addToMain.append(rbv)
 
         # add-on groups
         addToMain.append(r.makeZebra('group-ha', [
@@ -151,10 +176,10 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet-corosync',
             'rbuilder-ha',
             'resource-agents',
-            ], rbuilder))
+            ], rba))
         addToMain.append(r.makeZebra('group-entsrv', [
             'entsrv',
-            ], rbuilder))
+            ], rba))
 
         # extras
         # NB: These are not installed on the appliance, but kept to simplify
@@ -169,7 +194,12 @@ class GroupRbuilderDist(GroupSetRecipe):
         main = addToMain.pop(0)
         for x in addToMain:
             main += x
-        r.Group(main)
+        r.Group(main, checkPathConflicts=False)
+
+    def makeImageGroup(r, name, troveset, scripts=None):
+        troveset += troveset.depsNeeded(r.mainSearchPath)
+        troveset = troveset.makeOptional(troveset.components(*r.unwantedComponents))
+        return troveset.createGroup(name, scripts=scripts, imageGroup=True)
 
     def makeZebra(r, name, pkglist, base):
         "Make an add-on group for C{base} containing the packages named in C{pkglist}"
@@ -179,11 +209,6 @@ class GroupRbuilderDist(GroupSetRecipe):
         return stuff.createGroup(name)
 
     def getAdditionalSearchPath(r):
-        """
-        Set a package search path from a plethora of macros. This covers all
-        the product components and dependencies that aren't part of the
-        platform, e.g. everything except rPA, rPL, and rLS.
-        """
         # Place new packages in the correct section, sorted alphabetically.
         packageSearchPath = []
         for macro, packages in [
@@ -244,17 +269,18 @@ class GroupRbuilderDist(GroupSetRecipe):
                 ).find(*packages))
         return packageSearchPath
 
-    def troveFromMacro(r, macro, troveName, defaultLabel):
-        item = r.macros.get(macro, defaultLabel)
+    def troveFromMacro(r, macro, troveName):
+        item = r.macros[macro]
         if '=' not in item:
             item = troveName + '=' + item
         return r.Repository(r.macros.buildlabel, r.flavor).find(item)
 
     def getAppliancePlatformSearchPath(r):
         return [
-            r.troveFromMacro('platform_label', 'group-rpath-platform', None),
-            r.troveFromMacro('common_label', 'group-rpath-packages', 'centos6.rpath.com@rpath:centos-6-common'),
-            r.troveFromMacro('distro_label', 'group-os', 'centos6.rpath.com@rpath:centos-6e'),
+            r.troveFromMacro('platform_label', 'group-rpath-platform'),
+            r.troveFromMacro('vapp_label', 'group-packages'),
+            r.troveFromMacro('common_label', 'group-rpath-packages'),
+            r.troveFromMacro('distro_label', 'group-os'),
             ]
 
     def makeSearchPath(r):

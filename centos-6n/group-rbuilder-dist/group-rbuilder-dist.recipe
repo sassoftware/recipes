@@ -39,6 +39,13 @@ class GroupRbuilderDist(GroupSetRecipe):
         vapp_core = vapp_core.makeOptional(vapp_core.find(
             'selinux-policy',
             'selinux-policy-targeted',
+            # unneeded or not-working vapp stuff
+            'sasinside-appvirt-sasenterpriseguide',
+            'sasinside-appvirt-sasmanagementconsole',
+            'sasinside-role-master',
+            'sasinside-role-perfmonitor',
+            'sasinside-role-router',
+            'sasinside-role-uploader',
             # remove most stuff from group-rpath-core, the useful bits will be
             # added back from an in-tree source
             'cmpi-bindings-conary',

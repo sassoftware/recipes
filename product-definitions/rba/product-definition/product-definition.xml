@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.6.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.6.xsd rpd-4.6.xsd" version="4.6">
+<productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.5.xsd rpd-4.5.xsd" version="4.5">
     <productName>Cloud Engine Infrastructure</productName>
     <productShortname>%(project_name)s</productShortname>
     <productDescription/>
@@ -12,22 +12,22 @@
     <stages>
         <stage labelSuffix="" name="Release"/>
     </stages>
-    <partitionSchemes>
+    <!--<partitionSchemes>
         <partitionScheme id="esx">
             <partition name="root" mount="/" fstype="ext4" freeSpace="10G"/>
             <partition name="swap" mount="" fstype="swap" minSize="2G"/>
         </partitionScheme>
-    </partitionSchemes>
+    </partitionSchemes>-->
     <buildDefinition>
         <build containerTemplateRef="applianceIsoImage" architectureRef="x86_64" name="Cloud Engine %(major_version)s x86_64 ISO" flavorSetRef="generic">
             <image autoResolve="false" bugsUrl="" anacondaCustomTrove="%(master_label)s" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
             <stage ref="Release"/>
         </build>
         <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="Cloud Engine vapp %(major_version)s ESX" flavorSetRef="generic">
-            <image autoResolve="false" natNetworking="true" baseFileName="" vmCPUs="1" swapSize="0" buildOVF10="true" vmMemory="4096" installLabelPath="" freespace="0"/>
+            <image autoResolve="false" natNetworking="true" baseFileName="" vmCPUs="1" swapSize="2048" buildOVF10="true" vmMemory="4096" installLabelPath="" freespace="10240"/>
             <stage ref="Release"/>
             <imageGroup>group-rbuilder-vapp</imageGroup>
-            <partitionScheme ref="esx"/>
+            <!--<partitionScheme ref="esx"/>-->
         </build>
     </buildDefinition>
     <platform sourceTrove="platform-definition=/centos6.rpath.com@rpath:centos-6e/6-4">

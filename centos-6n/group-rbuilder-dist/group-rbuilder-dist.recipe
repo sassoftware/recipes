@@ -46,6 +46,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sasinside-role-perfmonitor',
             'sasinside-role-router',
             'sasinside-role-uploader',
+            'sasinside-thirdparty-webserver-sasrouter',
             # remove most stuff from group-rpath-core, the useful bits will be
             # added back from an in-tree source
             'cmpi-bindings-conary',
@@ -170,7 +171,11 @@ class GroupRbuilderDist(GroupSetRecipe):
 
         rba = r.makeImageGroup('group-rbuilder-appliance', core + system + rbuilder, scripts=scripts)
         addToMain.append(rba)
-        rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder, scripts=scripts)
+
+        vapp = r.mainSearchPath.find(
+            'sasinside-role-appengine',
+            )
+        rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder + vapp, scripts=scripts)
         addToMain.append(rbv)
 
         # add-on groups
@@ -261,6 +266,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'rpath-storage',
                         'rpath-tools',
                         'rpath-xmllib',
+                        'sasinside-role-appengine',
                         'smartform',
                         'wmiclient',
                         'xobj',

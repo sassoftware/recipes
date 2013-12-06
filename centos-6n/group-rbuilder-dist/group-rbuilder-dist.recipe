@@ -173,7 +173,7 @@ class GroupRbuilderDist(GroupSetRecipe):
         addToMain.append(rba)
 
         vapp = r.mainSearchPath.find(
-            'sasinside-role-appengine',
+            'sasinside-role-master-appengine',
             )
         rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder + vapp, scripts=scripts)
         addToMain.append(rbv)
@@ -266,7 +266,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'rpath-storage',
                         'rpath-tools',
                         'rpath-xmllib',
-                        'sasinside-role-appengine',
+                        'sasinside-role-master-appengine',
                         'smartform',
                         'wmiclient',
                         'xobj',

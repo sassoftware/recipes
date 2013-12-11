@@ -198,7 +198,6 @@ class GroupRbuilderDist(GroupSetRecipe):
         # release management.
         extras = r.mainSearchPath.find(
             'anaconda-custom',
-            'media-template',
             ).makeOptional()
         addToMain.append(extras)
 
@@ -242,7 +241,6 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'jobslave',
                         'mcp',
                         'mcp-server',
-                        'media-template',
                         'pcreator',
                         'pyovf',
                         'rbuilder',

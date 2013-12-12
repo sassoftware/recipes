@@ -35,11 +35,15 @@ class GroupRbuilderDist(GroupSetRecipe):
             'puppet-stdlib',
             'rubygem-hiera:ruby',
             ))
-        vapp_core = r.mainSearchPath.find('group-standard-workgroup')
-        vapp_core = vapp_core.makeOptional(vapp_core.find(
+        vapp_core = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
+        # Flatten packages but don't strongly include components or the groups that were flattened
+        vapp_core = vapp_core.flatten().getInstall()
+        vapp_core -= vapp_core.findByName(r'group-.*|.*:.*')
+        vapp_core -= vapp_core.find(
             'selinux-policy',
             'selinux-policy-targeted',
             # unneeded or not-working vapp stuff
+            'conary-config-entitlement',
             'sasinside-appvirt-sasenterpriseguide',
             'sasinside-appvirt-sasmanagementconsole',
             'sasinside-role-master',
@@ -57,6 +61,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'libelf-lgpl',
             'm2crypto-conary',
             'openslp-conary',
+            'open-vm-tools',
             'python-conary',
             'python-lxml-conary',
             'pywbem-conary',
@@ -69,8 +74,12 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sblim-sfcb-schema-conary',
             'smartform-conary',
             # WORKAROUND for mismatched platform groups
+            'nfs-utils',
             'openssl',
-            ))
+            'openssh-clients',
+            'sudo',
+            'sysstat',
+            )
         system = r.mainSearchPath.find(
             'amiconfig',
             'amiconfig-vmwareguest',
@@ -211,7 +220,7 @@ class GroupRbuilderDist(GroupSetRecipe):
     def makeImageGroup(r, name, troveset, scripts=None):
         troveset += troveset.depsNeeded(r.mainSearchPath)
         troveset = troveset.makeOptional(troveset.components(*r.unwantedComponents))
-        return troveset.createGroup(name, scripts=scripts, checkPathConflicts=False) # XXX workaround lack of checkOnlyByDefault, fix in 2014
+        return troveset.createGroup(name, scripts=scripts, imageGroup=True)
 
     def makeZebra(r, name, pkglist, base):
         "Make an add-on group for C{base} containing the packages named in C{pkglist}"
@@ -290,7 +299,6 @@ class GroupRbuilderDist(GroupSetRecipe):
     def getAppliancePlatformSearchPath(r):
         return [
             r.troveFromMacro('platform_label', 'group-rpath-platform'),
-            r.troveFromMacro('vapp_label', 'group-packages'),
             r.troveFromMacro('common_label', 'group-rpath-packages'),
             r.troveFromMacro('distro_label', 'group-os'),
             ]

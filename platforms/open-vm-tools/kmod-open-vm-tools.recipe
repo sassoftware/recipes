@@ -52,7 +52,7 @@ class KmodOpenVMTools(OpenVmTools):
     def unpackOpenVMTools(r):
         r.macros.ovmtoolsver = OpenVmTools.version.replace('_', '-')
         r.macros.ovmname = OpenVmTools.name
-        r.macros.ovmdir = r.ovmdir 
+        r.macros.ovmdir = '%s' % r.ovmdir 
         #r.addArchive('mirror://sourceforge/%(name)s/%(name)s-%(version)s.tar.gz')
         r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/'
             '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')

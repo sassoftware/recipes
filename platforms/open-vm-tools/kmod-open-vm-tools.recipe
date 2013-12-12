@@ -57,7 +57,7 @@ class KmodOpenVMTools(OpenVmTools):
         r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/'
             '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
         r.addPatch('modules_makefile.patch')
-        r.addPatch('configure_patch_vmci.patch')
+        #r.addPatch('configure_patch_vmci.patch')
 
     def setupOpenVMTools(r):
         # Build VMware kernel modules

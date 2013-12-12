@@ -68,6 +68,8 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sblim-sfcb-conary',
             'sblim-sfcb-schema-conary',
             'smartform-conary',
+            # WORKAROUND for mismatched platform groups
+            'openssl',
             ))
         system = r.mainSearchPath.find(
             'amiconfig',
@@ -102,7 +104,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'screen',
             'sqlite',
             'strace',
-            'sudo',
             'sysstat',
             'tcpdump',
             'tinc',
@@ -210,7 +211,7 @@ class GroupRbuilderDist(GroupSetRecipe):
     def makeImageGroup(r, name, troveset, scripts=None):
         troveset += troveset.depsNeeded(r.mainSearchPath)
         troveset = troveset.makeOptional(troveset.components(*r.unwantedComponents))
-        return troveset.createGroup(name, scripts=scripts, imageGroup=True)
+        return troveset.createGroup(name, scripts=scripts, checkPathConflicts=False) # XXX workaround lack of checkOnlyByDefault, fix in 2014
 
     def makeZebra(r, name, pkglist, base):
         "Make an add-on group for C{base} containing the packages named in C{pkglist}"

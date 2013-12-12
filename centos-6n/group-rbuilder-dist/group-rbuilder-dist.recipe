@@ -185,6 +185,8 @@ class GroupRbuilderDist(GroupSetRecipe):
         vapp = r.mainSearchPath.find(
             'sasinside-role-master-appengine',
             )
+        vapp += vapp_core + system + rbuilder
+        vapp = vapp.makeOptional(vapp.find('rbuilder:appliance'))  # omit static iptables rules, etc.
         rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder + vapp, scripts=scripts)
         addToMain.append(rbv)
 

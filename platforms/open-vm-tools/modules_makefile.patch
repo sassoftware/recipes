@@ -1,0 +1,22 @@
+--- open-vm-tools-8.6.5-621624/modules/Makefile.in.orig	2012-07-13 10:24:02.004557503 -0400
++++ open-vm-tools-8.6.5-621624/modules/Makefile.in	2012-07-13 11:26:22.530472074 -0400
+@@ -568,17 +568,11 @@ install-exec-hook:
+ @SOLARIS_TRUE@	   $(MAKE) VM_UNAME=$(KERNEL_RELEASE) MV=mv RM=rm                      \
+ @SOLARIS_TRUE@	      -C "$(modulesrc)/$(MODULES_OS)/$$MOD" install || exit 1;         \
+ @SOLARIS_TRUE@	done
+-@FREEBSD_TRUE@	for MOD in $(MODULES); do                                              \
+-@FREEBSD_TRUE@	   $(INSTALL) -d $(DESTDIR)$(MODULES_DIR);                             \
+-@FREEBSD_TRUE@	   $(INSTALL) -m644 $(modulesrc)/$(MODULES_OS)/$$MOD.ko                \
+-@FREEBSD_TRUE@	      $(DESTDIR)$(MODULES_DIR);                                        \
+-@FREEBSD_TRUE@	done
+ @LINUX_TRUE@	for MOD in $(MODULES); do                                              \
+-@LINUX_TRUE@	   $(INSTALL) -d $(DESTDIR)`eval echo '$$'$${MOD}dir`;                 \
++@LINUX_TRUE@	   $(INSTALL) -d $(DESTDIR)$(MODULES_DIR);                             \
+ @LINUX_TRUE@	   $(INSTALL) -m644 $(modulesrc)/$(MODULES_OS)/$$MOD/$$MOD.ko          \
+-@LINUX_TRUE@	      $(DESTDIR)`eval echo '$$'$${MOD}dir`;                            \
++@LINUX_TRUE@	      $(DESTDIR)$(MODULES_DIR);                                        \
+ @LINUX_TRUE@	done
+-@LINUX_TRUE@	eval "$$DEPMOD"
+ 
+ uninstall-hook:
+ 	for MOD in $(MODULES); do                                              \

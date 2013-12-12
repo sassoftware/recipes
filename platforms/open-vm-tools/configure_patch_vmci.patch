@@ -1,0 +1,41 @@
+--- configure.old	2013-06-06 15:10:14.512860807 -0400
++++ configure	2013-06-06 15:13:44.453549235 -0400
+@@ -22511,7 +22511,6 @@ if test "$os" = "linux"; then
+ 
+    LIBVMTOOLS_LIBADD="$LIBVMTOOLS_LIBADD -lrt"
+ 
+-   MODULES="$MODULES vmxnet vmhgfs"
+    # See if we need vmci and vsock modules. Starting with 3.9 they made
+    # their way into mainline kernel.
+    if test "$osVersion" -lt 309000; then
+@@ -22520,6 +22519,9 @@ if test "$os" = "linux"; then
+    if test "$osVersion" -lt 300000; then
+       MODULES="$MODULES vmblock vmsync"
+    fi
++   # Fix for VMCI Unknown symbol issues RCE-1714
++   MODULES="$MODULES vmxnet vmhgfs"
++
+    buildHgfsmounter=yes
+ fi
+ 
+--- configure.ac.old	2013-06-06 15:10:37.416373753 -0400
++++ configure.ac	2013-06-06 15:14:45.193901598 -0400
+@@ -947,7 +947,6 @@ if test "$os" = "linux"; then
+ 
+    LIBVMTOOLS_LIBADD="$LIBVMTOOLS_LIBADD -lrt"
+ 
+-   MODULES="$MODULES vmxnet vmhgfs"
+    # See if we need vmci and vsock modules. Starting with 3.9 they made
+    # their way into mainline kernel.
+    if test "$osVersion" -lt 309000; then
+@@ -956,6 +955,10 @@ if test "$os" = "linux"; then
+    if test "$osVersion" -lt 300000; then
+       MODULES="$MODULES vmblock vmsync"
+    fi
++
++   # Fix for VMCI Unknown symbol issues RCE-1714
++   MODULES="$MODULES vmxnet vmhgfs"
++
+    buildHgfsmounter=yes
+ fi
+ 

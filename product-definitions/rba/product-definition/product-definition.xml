@@ -25,7 +25,7 @@
             <stage ref="Release"/>
         </build>
         <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="Cloud Engine vapp %(major_version)s ESX" flavorSetRef="generic">
-            <image autoResolve="false" natNetworking="true" baseFileName="" vmCPUs="1" swapSize="0" buildOVF10="true" vmMemory="4096" installLabelPath="" freespace="0"/>
+            <image autoResolve="false" natNetworking="true" baseFileName="" vmCPUs="1" swapSize="0" buildOVF10="true" vmMemory="8192" installLabelPath="" freespace="0"/>
             <stage ref="Release"/>
             <imageGroup>group-rbuilder-vapp</imageGroup>
             <partitionScheme ref="esx"/>

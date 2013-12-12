@@ -1,0 +1,73 @@
+#
+# Copyright (c) 2005-2009 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+class OpenVmTools(CPackageRecipe):
+    name = "open-vm-tools"
+    version = "9.4.0_1280544"
+
+    # requirements that we used on other platforms
+    buildRequires = [ 'chkconfig:rpm', 
+                      'libicu-devel:rpm', 
+                      'libstdc++:rpm',
+                      'pkgconfig:rpm', 
+                      'gcc-c++:rpm', 
+                      'pam-devel:rpm',
+                      'glibc-common:rpm', 
+                      'glib2-devel:rpm', 
+                      'glib2:rpm', 
+                      # From a spec file posted at http://www.davehollis.com
+                      # Needed for procps and X
+                      'libXinerama-devel:rpm',
+                      'libXrandr-devel:rpm',
+                      'libXrender-devel:rpm',
+                      'libXext-devel:rpm',
+                      'libXtst-devel:rpm',
+                      'libicu-devel:rpm',
+                      'procps:rpm',
+                      # 'graphviz-devel',
+                      # 'uriparser-devel',
+                      'libXScrnSaver-devel:rpm',
+                      # and more of our own after build failures
+                      'gtk2-devel:rpm',
+                      'libICE-devel:rpm',
+                      'fuse-devel:rpm',
+                    ]
+
+    ovmdir = 'stable-9.4.x'
+    configopts =  ' --without-dnet --without-gtkmm --disable-multimon --without-x  --disable-static --disable-dependency-tracking '
+
+    def setup(r):
+        r.macros.version = r.macros.version.replace('_', '-')
+        r.macros.ovmdir = r.ovmdir
+        #r.addArchive('mirror://sourceforge/%(name)s/%(name)s-%(version)s.tar.gz')
+        #
+        #r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/stable-9.2.x/%(name)s-%(version)s.tar.gz')
+        r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/%(ovmdir)s/%(name)s-%(version)s.tar.gz')
+        r.addSource('xautostart.conf')
+        r.addSource('vmware-guestd.init')
+        r.addSource('redirect.sh' , mode=0755)
+        #r.addPatch('legacy-glib.patch')
+        r.Replace('CFLAGS -Werror"', 'CFLAGS"', 'configure')
+        r.Configure(r.configopts +
+                    '--without-kernel-modules --without-root-privileges')
+        r.Run('./redirect.sh')
+        if Arch.x86:
+            # advice from http://www.mail-archive.com/open-vm-tools-devel@lists.sourceforge.net/msg00568.html
+            r.Make('CFLAGS="-O2 -march=i586 -g -DGLIBC_VERSION_22"')
+        else:
+            r.Make()
+        r.MakeDirs('%(sysconfdir)s/vmware-tools',
+                   '/mnt/hgfs',)
+        r.MakeInstall()
+        # work around install of broken symlink
+        r.Remove('%(essentialsbindir)s/mount.vmhgfs')
+        r.Symlink('%(sbindir)s/mount.vmhgfs', '%(essentialsbindir)s/')
+
+        r.Install('xautostart.conf', '%(sysconfdir)s/vmware-tools/xautostart.conf',
+                  mode=0644)
+        r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
+                  mode=0755)
+        r.ExcludeDirectories(exceptions='/mnt/hgfs')

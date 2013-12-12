@@ -1,0 +1,89 @@
+#
+# Copyright (c) 2011 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+loadRecipe('open-vm-tools')
+loadInstalled('kernel')
+class KmodOpenVMTools(OpenVmTools):
+    name = 'kmod-open-vm-tools'
+    version = OpenVmTools.version
+
+    buildRequires = [ 'gcc-c++:rpm', 
+                      'libICE-devel:rpm', 
+                      'libstdc++-devel:rpm',
+                      'pam-devel:rpm', 
+                      'pkgconfig:rpm', 
+                      'glib2-devel:rpm',
+                      'kernel:rpm', 
+                      'kernel-devel:rpm', 
+                      'libicu-devel:rpm',
+                      'procps:rpm',
+                      'tag-kernel:tagdescription',
+                      'redhat-rpm-config',
+                      'vim-enhanced:rpm',
+                      'fuse-devel:rpm',
+                    ]
+
+    Flags.debug = False
+
+    def setup(r):
+        # Use unpack method from open-vm-tools.recipe update
+        #r.unpack()
+        r.unpackOpenVMTools()
+        r.setupOpenVMTools()
+
+    def detectKVers(r):
+        """
+        Find the kver for all kernel modules that have been installed.
+        """
+        import glob
+        testPath = '/lib/modules/*'
+
+        buildTrees = glob.glob(testPath)
+        if len(buildTrees) == 0:
+            raise RuntimeError("No kernel modules found.")
+
+        kvers = [ x.split('/')[-1] for x in buildTrees ]
+
+        return kvers
+
+
+    def unpackOpenVMTools(r):
+        r.macros.ovmtoolsver = OpenVmTools.version.replace('_', '-')
+        r.macros.ovmname = OpenVmTools.name
+        r.macros.ovmdir = OpenVmTools.ovmdir 
+        #r.addArchive('mirror://sourceforge/%(name)s/%(name)s-%(version)s.tar.gz')
+        r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/'
+            '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
+        r.addPatch('modules_makefile.patch')
+        r.addPatch('configure_patch_vmci.patch')
+
+    def setupOpenVMTools(r):
+        # Build VMware kernel modules
+        # Insert logic to determine kernel flavor here.
+        r.macros.variant = ''
+        if Flags.debug:
+            # assume debug kernel
+            #r.macros.variant = '.debug'
+            r.macros.variant = ''
+
+        KernelVer = r.detectKVers()[0]
+        r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
+        r.macros.kmoddir = '/lib/modules/%(kvers)s/kernel/'
+        r.Configure(r.configopts +
+                '--with-kernel-release=%(kvers)s '
+                '--with-linuxdir=/lib/modules/%(kvers)s '
+                '--disable-static --disable-dependency-tracking '
+                )
+        for m in ('vmblock', 'vmci', 'vmhgfs',
+                  'vmsync', 'vsock', 'vmxnet'):
+            r.Replace('HEADER_DIR =', 'HEADER_DIR ?=', 'modules/linux/' + m + '/Makefile')
+
+
+        r.Make('HEADER_DIR=%(kmoddir)s/../build/include VM_KBUILD=26 modules', dir='modules')
+
+
+        r.MakeInstall('MODULES_DIR=/lib/modules/%(kvers)s/extra/open-vm-tools'
+                ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s ', dir='modules')
+

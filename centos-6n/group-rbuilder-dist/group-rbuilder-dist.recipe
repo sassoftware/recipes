@@ -32,6 +32,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'selinux-policy',
             'selinux-policy-targeted',
             )).update(vapp_core.find(
+            'facter',
             'hiera',
             'puppet',
             'ruby-augeas:ruby',

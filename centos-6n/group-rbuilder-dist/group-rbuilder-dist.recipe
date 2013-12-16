@@ -34,6 +34,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             )).update(vapp_core.find(
             'facter',
             'hiera',
+            'info-puppet',
             'puppet',
             'ruby-augeas:ruby',
             'ruby-json:ruby',

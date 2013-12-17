@@ -1,15 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <productDefinition xmlns="http://www.rpath.com/permanent/rpd-4.6.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.rpath.com/permanent/rpd-4.6.xsd rpd-4.6.xsd" version="4.6">
-    <productName>Cloud Engine Infrastructure</productName>
+    <productName>App Engine Infrastructure</productName>
     <productShortname>%(project_name)s</productShortname>
     <productDescription/>
-    <productVersion>rba-%(major_version)s</productVersion>
-    <productVersionDescription>SAS Cloud Engine %(major_version)s</productVersionDescription>
+    <productVersion>%(product_version)s</productVersion>
+    <productVersionDescription>SAS App Engine %(major_version)s</productVersionDescription>
     <conaryRepositoryHostname>pdt.cny.sas.com</conaryRepositoryHostname>
     <conaryNamespace>sas</conaryNamespace>
     <imageGroup>group-rbuilder-appliance</imageGroup>
     <baseLabel>%(release_label)s</baseLabel>
     <stages>
+        <stage labelSuffix="-qa" name="QA"/>
         <stage labelSuffix="" name="Release"/>
     </stages>
     <partitionSchemes>
@@ -27,6 +28,7 @@
         </build>
         <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="Cloud Engine vapp %(major_version)s ESX" flavorSetRef="generic">
             <image autoResolve="false" natNetworking="true" baseFileName="" vmCPUs="4" swapSize="0" buildOVF10="true" vmMemory="8192" installLabelPath="" freespace="0"/>
+            <stage ref="QA"/>
             <stage ref="Release"/>
             <imageGroup>group-rbuilder-vapp</imageGroup>
             <partitionScheme ref="esx"/>

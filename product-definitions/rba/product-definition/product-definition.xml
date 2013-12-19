@@ -16,8 +16,8 @@
     <partitionSchemes>
         <partitionScheme id="esx">
             <partition name="boot"  mount="/boot" fstype="ext4"         minSize="500M"/>
-            <partition name="root"  mount="/"     fstype="ext4"         minSize="50G"/>
-            <partition name="dummy" mount="dummy" fstype="unallocated"  minSize="50G"/>
+            <partition name="root"  mount="/"     fstype="ext4"         minSize="100G"/>
+            <partition name="dummy" mount="dummy" fstype="unallocated"  minSize="200G"/>
             <partition name="swap"  mount=""      fstype="swap"         minSize="2G"/>
         </partitionScheme>
     </partitionSchemes>

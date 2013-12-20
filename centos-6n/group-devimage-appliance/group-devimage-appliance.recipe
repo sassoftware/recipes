@@ -22,8 +22,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
     version = 'tip'
 
     def addPackages(r):
-        # Replace conary
-        r.replace('conary')
+        r.add('conary')
         r.add('conary-build')
         r.add('conary-repository')
         r.add('conary-policy')
@@ -222,4 +221,3 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         """
 
         r.addAll('group-standard', flatten=True)
-        r.addAll('group-rpath-core', flatten=True)

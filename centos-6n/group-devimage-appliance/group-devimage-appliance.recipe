@@ -226,3 +226,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('open-vm-tools')
         r.add('amiconfig')
         r.add('amiconfig-vmwareguest')
+
+    def addConaryCIM(r):
+        pass

@@ -102,7 +102,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                 ('master_label', [
                         'amiconfig',
                         'amiconfig-vmwareguest',
-                        'anaconda-custom-updateservice',
                         'conary',
                         'conary-build',
                         'conary-policy',

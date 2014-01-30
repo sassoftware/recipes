@@ -1,0 +1,42 @@
+--- src/vboxguest-4.3.6/vboxsf/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.6/vboxsf/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+@@ -82,8 +82,9 @@ endif
+ 
+ install: $(MODULE)
+ 	@mkdir -p $(MODULE_DIR); \
+-	install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
+-	PATH="$(PATH):/bin:/sbin" depmod -a;
++	install -m 0664 $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#PATH="$(PATH):/bin:/sbin" depmod -a;
+ 
+ endif # eq($(MAKECMDGOALS),clean)
+ 
+--- src/vboxguest-4.3.6/vboxguest/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.6/vboxguest/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+@@ -82,8 +82,9 @@ endif
+ 
+ install: $(MODULE)
+ 	@mkdir -p $(MODULE_DIR); \
+-	install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
+-	PATH="$(PATH):/bin:/sbin" depmod -a;
++	install -m 0664 $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#PATH="$(PATH):/bin:/sbin" depmod -a;
+ 
+ endif # eq($(MAKECMDGOALS),clean)
+
+--- src/vboxguest-4.3.6/vboxvideo/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.6/vboxvideo/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+@@ -82,8 +82,9 @@ endif
+ 
+ install: $(MODULE)
+ 	@mkdir -p $(MODULE_DIR); \
+-	install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
+-	PATH="$(PATH):/bin:/sbin" depmod -a;
++	install -m 0664 $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#install -m 0664 -o root -g root $(MODULE).$(MODULE_EXT) $(MODULE_DIR); \
++	#PATH="$(PATH):/bin:/sbin" depmod -a;
+ 
+ endif # eq($(MAKECMDGOALS),clean)
+

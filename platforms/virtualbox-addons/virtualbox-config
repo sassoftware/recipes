@@ -1,0 +1,17 @@
+# VBoxGuestAdditions installation record.
+# Package installation directory
+INSTALL_DIR='/opt/VBoxGuestAdditions-4.3.6'
+# Additional installation modules
+INSTALL_MODULES_DIR='/opt/VBoxGuestAdditions-4.3.6/installer/'
+INSTALL_MODULES_LIST=''
+# Package uninstaller.  If you repackage this software, please make sure
+# that this prints a message and returns an error so that the default
+# uninstaller does not attempt to delete the files installed by your
+# package.
+UNINSTALLER=''
+# Package version
+INSTALL_VER='4.3.6'
+INSTALL_REV='91406'
+# Build type and user name for logging purposes
+BUILD_TYPE='release'
+USERNAME='vbox'

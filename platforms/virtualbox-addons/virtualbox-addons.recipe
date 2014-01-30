@@ -1,0 +1,131 @@
+
+
+class VirtualboxAddons(CPackageRecipe):
+
+    name = 'virtualbox-addons'
+    version = '4.3.6_91406'
+
+    buildRequires = [ 'chkconfig:rpm',
+                      'fltk-conary',
+                    ]
+
+
+    def setup(r):
+        r.macros.version = r.macros.version.replace('_', '-')
+        r.macros.major = r.macros.version.split('-')[0]
+        r.macros.optdir = '%(destdir)s/opt/VBoxGuestAdditions-%(version)s'
+        if Arch.x86:
+            r.macros.tarball = 'VBoxGuestAdditions-x86.tar.bz2'
+        else:
+            r.macros.tarball = 'VBoxGuestAdditions-amd64.tar.bz2'
+
+        r.addSource('VBoxGuestAdditions-x86.tar.bz2')
+        r.addSource('VBoxGuestAdditions-amd64.tar.bz2')
+        # Made available for licensing
+        r.addSource('http://download.virtualbox.org/virtualbox/4.3.6/VirtualBox-4.3.6.tar.bz2')
+        r.addSource('routines.sh')
+        r.addSource('module-autologon')
+        r.addSource('60-vboxadd.rules')
+        r.addSource('virtualbox-config')
+        r.addSource('virtualbox-guest.modules')
+
+        r.addArchive('%(tarball)s', dir='%(optdir)s')
+        #r.addArchive('%(tarball)s', dir='%(destdir)s')
+        r.MakeDirs('%(optdir)s/installer')
+        r.Copy('module-autologon', '%(optdir)s/installer/')
+        r.Copy('routines.sh', '%(optdir)s')
+
+
+        # Create users vboxadd 498 group vboxsf 498
+        r.Group('vboxsf', 498)
+        r.User('vboxadd', 498, group='vboxsf', 
+                    groupid=498, 
+                    comment='Virtualbox user', 
+                    homedir='%(localstatedir)s/run/vboxadd', 
+                    provideGroup=False)
+
+        for init in ('vboxadd', 'vboxadd-service' ,'vboxadd-x11'):
+            r.Install('%(optdir)s/init/' + init, '%(initdir)s/' + init, mode=0755)
+
+        r.TagSpec('initscript', '%(initdir)s/')
+
+
+        for binary in ('VBoxControl', 'VBoxClient' ,'VBoxClient-all'):
+            r.Install('%(optdir)s/bin/' + binary,
+                        '%(bindir)s/' + binary,
+                        mode = 0755)
+
+        for sbinary in ('vbox-greeter', 'VBoxService'):
+            r.Install('%(optdir)s/sbin/' + sbinary,
+                        '%(sbindir)s/' + sbinary,
+                        mode = 0755)
+
+        r.Symlink('%(datadir)s/', '%(optdir)s/share/VBoxGuestAdditions')
+
+        r.Symlink('%(libdir)s/', '%(optdir)s/lib/VBoxGuestAdditions')
+
+        for solib in ('VBoxOGLcrutil.so', 
+                        'VBoxOGLfeedbackspu.so', 
+                        'VBoxOGLpassthroughspu.so',
+                        'VBoxOGLarrayspu.so', 
+                        'VBoxOGLerrorspu.so', 
+                        'VBoxOGLpackspu.so', 
+                        'VBoxOGL.so',
+                        ):
+            r.Symlink('%(libdir)s/', '%(optdir)s/lib/'+solib)
+
+
+        r.Install('%(optdir)s/lib/VBoxGuestAdditions/mount.vboxsf',
+                  '%(essentialsbindir)s/mount.vboxsf',
+                  mode = 0755)
+
+        r.Install('%(optdir)s/lib/VBoxGuestAdditions/pam_vbox.so', 
+                  '%(libdir)s/security/pam_vbox.so',
+                  mode = 0755)
+
+        r.Install('virtualbox-config',
+                  '%(localstatedir)s/lib/VBoxGuestAdditions/config',
+                  mode = 0644)
+
+        r.Install('virtualbox-guest.modules',
+                  '%(sysconfdir)s/sysconfig/modules/virtualbox-guest.modules',
+                  mode = 0755)
+
+        r.Install('60-vboxadd.rules', '%(sysconfdir)s/udev/rules.d/60-vboxadd.rules', mode = 0644)
+
+        r.Install('%(optdir)s/src/vbox*', '/usr/src/VirtualBox/kernel/')
+        r.ComponentSpec('module-source', '/usr/src/VirtualBox/kernel/')
+        r.ByDefault(exceptions=':module-source')
+
+
+        for f in [  '%(libdir)s/security/pam_vbox.so',
+                    '%(essentialsbindir)s/mount.vboxsf',
+                    '%(bindir)s/VBoxControl',
+                    '%(sysconfdir)s/udev/rules.d/60-vboxguest.rules',
+                    '%(sysconfdir)s/sysconfig/modules/virtualbox-guest.modules',
+                    '%(initdir)s/vboxadd',
+                    '%(localstatedir)s/lib/VBoxGuestAdditions/config',
+                    ]:
+            r.PackageSpec('virtualbox-addons-vboxsf', f)
+
+        r.ComponentProvides('%(version)s')
+
+        r.Requires('info-vboxsf:group',
+                   '%(initdir)s/vboxadd')
+        r.Requires('info-vboxadd:user',
+                   '%(initdir)s/vboxadd')
+        r.Requires('kmod-virtualbox-addons:lib',
+                   '%(initdir)s/vboxadd')
+
+        r.Requires('info-vboxsf:group',
+                   '%(initdir)s/vboxadd-service')
+        r.Requires('info-vboxadd:user',
+                   '%(initdir)s/vboxadd-service')
+        r.Requires('kmod-virtualbox-addons:lib',
+                   '%(initdir)s/vboxadd-service')
+        r.Requires('virtualbox-addons-vboxsf:lib',
+                   '%(initdir)s/vboxadd-service')
+        r.Requires('virtualbox-addons-vboxsf:runtime',
+                   '%(initdir)s/vboxadd-service')
+                    
+       

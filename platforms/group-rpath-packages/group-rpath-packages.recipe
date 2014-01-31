@@ -105,17 +105,17 @@ class GroupRpathPackages(GroupSetRecipe):
             'info-vboxsf',
             'virtualbox-addons-vboxsf',
             )).makeOptional()
+        # The versions built on the centos-6-%(forest)s labels 
+        # do not have all the flavors so this is not necessary
+        # leaving the stanza for future when moved to platform
         if Arch.x86:
             groupRpathTools += local.find(
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
                 'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
         else:
             groupRpathTools += local.find(
-                'kmod-open-vm-tools[kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
                 'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
 

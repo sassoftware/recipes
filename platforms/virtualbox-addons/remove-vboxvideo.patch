@@ -1,0 +1,64 @@
+--- src/vboxguest-4.3.6/Makefile.orig    2014-01-14 12:35:55.877689713 -0500
++++ src/vboxguest-4.3.6/Makefile        2014-01-14 12:34:32.085912254 -0500
+@@ -19,7 +19,7 @@ ifneq ($(KBUILD_EXTMOD),)
+ 
+ # DKMS
+ 
+-obj-m = vboxguest/ vboxsf/ vboxvideo/
++obj-m = vboxguest/ vboxsf/
+ 
+ else # ! KBUILD_EXTMOD
+ 
+@@ -47,49 +47,30 @@ all:
+ 	    fi; \
+ 	    echo; \
+ 	fi
+-	@if [ -d vboxvideo ]; then \
+-	    if [ -f vboxguest/Module.symvers ]; then \
+-	        cp vboxguest/Module.symvers vboxvideo; \
+-	    fi; \
+-	    echo "*** Building 'vboxvideo' module ***"; \
+-	    $(MAKE) KBUILD_VERBOSE=$(KBUILD_VERBOSE) -C vboxvideo; \
+-	    if [ -f vboxvideo/vboxvideo.ko ]; then \
+-	        cp vboxvideo/vboxvideo.ko .; \
+-	    else \
+-	        cp vboxvideo/vboxvideo.o .; \
+-	    fi; \
+-	    echo; \
+-	fi
++
+ 
+ install:
+ 	@$(MAKE) KBUILD_VERBOSE=$(KBUILD_VERBOSE) -C vboxguest install
+ 	@if [ -d vboxsf ]; then \
+ 	    $(MAKE) KBUILD_VERBOSE=$(KBUILD_VERBOSE) -C vboxsf install; \
+ 	fi
+-	@if [ -d vboxvideo ]; then \
+-	    $(MAKE) KBUILD_VERBOSE=$(KBUILD_VERBOSE) -C vboxvideo install; \
+-	fi
++
+ 
+ clean:
+ 	@$(MAKE) -C vboxguest clean
+ 	@if [ -d vboxsf ]; then \
+ 	    $(MAKE) -C vboxsf clean; \
+ 	fi
+-	@if [ -d vboxvideo ]; then \
+-	    $(MAKE) -C vboxvideo clean; \
+-	fi
+-	rm -f vboxguest.*o vboxsf.*o vboxvideo.*o
++	rm -f vboxguest.*o vboxsf.*o
+ 
+ check:
+ 	@$(MAKE) KBUILD_VERBOSE=$(KBUILD_VERBOSE) -C vboxguest check
+ 
+ load:
+-	@/sbin/rmmod vboxvideo || true
+ 	@/sbin/rmmod vboxvfs || true
+ 	@/sbin/rmmod vboxsf || true
+ 	@/sbin/rmmod vboxguest || true
+ 	@/sbin/insmod vboxguest.ko
+ 	@if [ -f vboxsf.ko ]; then /sbin/insmod vboxsf.ko; fi
+-	@if [ -f vboxvideo.ko ]; then /sbin/insmod vboxvideo.ko; fi
+ 
+ endif # ! KBUILD_EXTMOD

@@ -41,6 +41,9 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         r.addArchive('%(tarball)s', dir='%(maindir)s')
 
         r.addPatch('makefile_footer.patch')
+        
+        # Ripping out vboxvideo because of drm abi breakage
+        r.addPatch('remove-vboxvideo.patch') 
 
 
     def detectKVers(r):
@@ -75,13 +78,18 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         r.macros.kinclude = 'src/%(kvers)s/include'
         r.macros.vboxsrc = 'src/vboxguest-%(major)s'
 
+        # Copy the kernel source into the build
+        # Necessary for the upcoming hack
+        r.Copy('../../../../../../../usr/src/kernels/%(kvers)s', 'src/')
 
+
+        # Currently I had to remove this because drm kernel abi breaks 
+        # between 2.6.32-279 and 2.6.32-358
         # HACK HACK HACK FIXME 
         # drm includes is missing some files it needs... blame someone
         # see http://wiki.centos.org/HowTos/Virtualization/VirtualBox/CentOSguest
-        r.Copy('../../../../../../../usr/src/kernels/%(kvers)s', 'src/')
-        for dfix in ('drm.h', 'drm_sarea.h', 'drm_mode.h', 'drm_fourcc.h'):
-            r.Copy('../../../../../../../usr/include/drm/' + dfix, '%(kinclude)s/drm/')
+        #for dfix in ('drm.h', 'drm_sarea.h', 'drm_mode.h', 'drm_fourcc.h'):
+        #    r.Copy('../../../../../../../usr/include/drm/' + dfix, '%(kinclude)s/drm/')
         # END HACK
 
         r.Make('KERN_DIR=%(kdevel)s', dir = '%(vboxsrc)s')

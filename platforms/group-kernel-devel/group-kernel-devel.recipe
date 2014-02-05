@@ -6,7 +6,10 @@ class GroupKernelDevel(GroupSetRecipe):
     def setup(r):
         r.dumpAll()
 
-        local = r.Repository(r.macros.distro_label, r.flavor)
+         if Arch.x86_64: 
+            local = r.Repository(r.macros.distro_label, 'is: x86_64') 
+        else: 
+            local = r.Repository(r.macros.distro_label,  'is: x86')
 
         pkgs = local.find(
                 'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_220.23.1.el6-1-1',
@@ -16,12 +19,6 @@ class GroupKernelDevel(GroupSetRecipe):
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_431.3.1.el6-1-1',
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_358.23.2.el6-1-1',
                 )
-
-        if Arch.x86:
-            pass
-
-        if Arch.x86_64:
-            pass
 
         r.Group(pkgs, checkPathConflicts=False, scripts=None)
 

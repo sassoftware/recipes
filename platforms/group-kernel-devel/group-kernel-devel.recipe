@@ -15,7 +15,7 @@ class GroupKernelDevel(GroupSetRecipe):
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_279.22.1.el6-1-1',
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_431.3.1.el6-1-1',
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_358.23.2.el6-1-1',
-                ])
+                ]))
 
         r.Group(pkgs, checkPathConflicts=False, scripts=None)
 

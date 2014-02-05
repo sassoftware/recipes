@@ -9,7 +9,7 @@ class GroupKernelDevel(GroupSetRecipe):
         if Arch.x86_64: 
             local = r.Repository(r.macros.distro_label, 'is: x86_64') 
         else: 
-            local = r.Repository(r.macros.distro_label,  'is: x86')
+            local = r.Repository(r.macros.distro_label,  'is: x86(i486,i586,i686)')
 
         pkgs = local.find(
                 'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_220.23.1.el6-1-1',

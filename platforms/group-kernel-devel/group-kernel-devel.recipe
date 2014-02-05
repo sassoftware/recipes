@@ -1,8 +1,7 @@
-import time
 
 class GroupKernelDevel(GroupSetRecipe):
     name = 'group-kernel-devel'
-    version = '0.' + time.strftime('%Y%m%d%H%M', time.localtime())
+    version = '1'
 
     def setup(r):
         r.dumpAll()

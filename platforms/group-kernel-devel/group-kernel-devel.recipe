@@ -7,7 +7,7 @@ class GroupKernelDevel(GroupSetRecipe):
     def setup(r):
         r.dumpAll()
 
-        local = r.Repository(r.cfg.buildLabel, r.flavor)
+        local = r.Repository(r.distro_label, r.flavor)
 
         pkgs = local.find(
                 'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_220.23.1.el6-1-1',

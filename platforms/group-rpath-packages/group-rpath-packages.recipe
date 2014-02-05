@@ -191,7 +191,13 @@ class GroupRpathPackages(GroupSetRecipe):
             'rpath-tools',
             'm2crypto-conary',
             'iconfig',
+            'info-vboxadd',
+            'info-vboxsf',
+            'virtualbox-addons-vboxsf',
+            'kmod-virtualbox-addons',
             )
+
+
         groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
         packages += groupRpathCore
 

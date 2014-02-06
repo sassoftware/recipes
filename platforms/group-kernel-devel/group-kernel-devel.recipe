@@ -7,7 +7,7 @@ class GroupKernelDevel(GroupSetRecipe):
         r.dumpAll()
         
         local = r.Repository(r.macros.distro_label, r.flavor) 
-
+        # Kernel is usually only bumped once per release 
         pkgs = local.find(*('%s[%s]' % (x, r.flavor) for x in [
                 'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_220.23.1.el6-1-1',
                 'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_131.21.1.el6-1-1',

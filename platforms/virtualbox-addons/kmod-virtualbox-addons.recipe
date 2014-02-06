@@ -8,6 +8,8 @@ class KmodVirtualboxAddons(VirtualboxAddons):
     buildRequires = [ 'gcc:rpm',
                       'glib2-devel:rpm',
                       'kernel:rpm',
+                      'kernel-abi-whitelists',
+                      'kabi-whitelists',
                       'group-kernel-devel',
                       'libicu-devel:rpm',
                       'vim-enhanced:rpm',
@@ -45,11 +47,12 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         """
         import glob
         #testPath = '/lib/modules/*'
+        # Only works because we are installing group-kernel-devel
         testPath = '/usr/src/kernels/*'
 
         buildTrees = glob.glob(testPath)
-        #if len(buildTrees) == 0:
-        #    raise RuntimeError("No kernel modules found.")
+        if len(buildTrees) == 0:
+            raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 

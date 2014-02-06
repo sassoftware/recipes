@@ -71,25 +71,25 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         KernelVers = r.detectKVers()
         for KernelVer in KernelVers:
             r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
-            r.macros.kmoddir = '%(destdir)s/lib/modules/%(kvers)s/kernel/extra'
-            r.macros.kdevel = '../../%(kvers)s'
-            r.macros.kinclude = 'src/%(kvers)s/include'
-            r.macros.vboxsrc = 'src/vboxguest-%(major)s'
+            r.macros.kmoddir = '%(destdir)s/lib/modules/%(kvers)s/kernel/extra' % r.macros
+            r.macros.kdevel = '../../%(kvers)s' % r.macros
+            r.macros.kinclude = 'src/%(kvers)s/include' % r.macros
+            r.macros.vboxsrc = 'src/vboxguest-%(major)s' % r.macros
 
 
             # HACK HACK HACK FIXME 
             # drm includes is missing some files it needs... blame someone
             # see http://wiki.centos.org/HowTos/Virtualization/VirtualBox/CentOSguest
-            r.Copy('../../../../../../../usr/src/kernels/%(kvers)s', 'src/')
+            r.Copy('../../../../../../../usr/src/kernels/%(kvers)s'  % r.macros, 'src/')
             for dfix in ('drm.h', 'drm_sarea.h', 'drm_mode.h', 'drm_fourcc.h'):
-                r.Copy('../../../../../../../usr/include/drm/' + dfix, '%(kinclude)s/drm/')
+                r.Copy('../../../../../../../usr/include/drm/' + dfix, '%(kinclude)s/drm/' % r.macros)
             # END HACK
             
-            r.Make(' clean', dir = '%(vboxsrc)s')
-            r.Make('KERN_DIR=%(kdevel)s', dir = '%(vboxsrc)s')
+            r.Make(' clean', dir = '%(vboxsrc)s' % r.macros)
+            r.Make('KERN_DIR=%(kdevel)s' % r.macros, dir = '%(vboxsrc)s' % r.macros)
             r.MakeInstall('KERN_DIR=%(kdevel)s '
                 'MODULE_DIR=%(kmoddir)s/virtualbox-addons '
-                'KERNEL_VER=%(kvers)s ', dir = '%(vboxsrc)s')
+                'KERNEL_VER=%(kvers)s ' % r.macros, dir = '%(vboxsrc)s' % r.macros)
         
         r.Requires(exceptDeps='rpm: kernel*')
 

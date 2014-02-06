@@ -70,6 +70,7 @@ class KmodVirtualboxAddons(VirtualboxAddons):
 
         KernelVers = r.detectKVers()
         for KernelVer in KernelVers:
+            r.macros.destdir = '%(destdir)s'
             r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
             r.macros.kmoddir = '%(destdir)s/lib/modules/%(kvers)s/kernel/extra' % r.macros
             r.macros.kdevel = '../../%(kvers)s' % r.macros

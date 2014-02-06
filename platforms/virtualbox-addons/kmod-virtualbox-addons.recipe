@@ -51,8 +51,8 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         testPath = '/usr/src/kernels/*'
 
         buildTrees = glob.glob(testPath)
-        if len(buildTrees) == 0:
-            raise RuntimeError("No kernel modules found.")
+        #if len(buildTrees) == 0:
+        #    raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 

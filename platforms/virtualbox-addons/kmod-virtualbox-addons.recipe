@@ -84,7 +84,8 @@ class KmodVirtualboxAddons(VirtualboxAddons):
             for dfix in ('drm.h', 'drm_sarea.h', 'drm_mode.h', 'drm_fourcc.h'):
                 r.Copy('../../../../../../../usr/include/drm/' + dfix, '%(kinclude)s/drm/')
             # END HACK
-
+            
+            r.Make(' clean', dir = '%(vboxsrc)s')
             r.Make('KERN_DIR=%(kdevel)s', dir = '%(vboxsrc)s')
             r.MakeInstall('KERN_DIR=%(kdevel)s '
                 'MODULE_DIR=%(kmoddir)s/virtualbox-addons '

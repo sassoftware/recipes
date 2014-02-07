@@ -94,6 +94,6 @@ class KmodVirtualboxAddons(VirtualboxAddons):
                 'MODULE_DIR=%(kmoddir)s/virtualbox-addons '
                 'KERNEL_VER=%(kvers)s ' % r.macros, dir = '%(vboxsrc)s' % r.macros)
         
-        r.Requires(exceptDeps='rpm: kernel*')
+        r.Requires(exceptDeps='rpm: kernel.*')
 
 

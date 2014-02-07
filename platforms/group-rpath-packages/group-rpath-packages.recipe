@@ -40,11 +40,14 @@ class GroupRpathPackages(GroupSetRecipe):
             'mercurial-conary',
             'python-setuptools-conary',
             'xtail-conary',
-
+            'fltk-conary',
             # Not sure what group to put these in yet...
             'puppet',
             'facter',
             'info-puppet',
+            )
+        packages += local.find(
+            'virtualbox-addons',
             )
 
         ## group-superclasses

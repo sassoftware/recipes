@@ -70,14 +70,14 @@ class KmodVirtualboxAddons(VirtualboxAddons):
 
         KernelVers = r.detectKVers()
         for KernelVer in KernelVers:
-            r.macros.destdir = '%(destdir)s'
+            r.macros.modules = '../../../_ROOT_/lib/modules'
             r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
-            r.macros.kmoddir = '%(destdir)s/lib/modules/%(kvers)s/kernel/extra' % r.macros
+            r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
             r.macros.kdevel = '../../%(kvers)s' % r.macros
             r.macros.kinclude = 'src/%(kvers)s/include' % r.macros
             r.macros.vboxsrc = 'src/vboxguest-%(major)s' % r.macros
 
-
+            
             # HACK HACK HACK FIXME 
             # drm includes is missing some files it needs... blame someone
             # see http://wiki.centos.org/HowTos/Virtualization/VirtualBox/CentOSguest

@@ -7,12 +7,10 @@ class KmodVirtualboxAddons(VirtualboxAddons):
 
     buildRequires = [ 'gcc:rpm',
                       'glib2-devel:rpm',
-                      'kernel:rpm',
                       'kernel-abi-whitelists:rpm',
                       'kabi-whitelists:rpm',
                       'group-kernel-devel',
                       'libicu-devel:rpm',
-                      'vim-enhanced:rpm',
                       'redhat-rpm-config:rpm',
                       'tag-kernel',
                     ]
@@ -93,7 +91,8 @@ class KmodVirtualboxAddons(VirtualboxAddons):
             r.MakeInstall('KERN_DIR=%(kdevel)s '
                 'MODULE_DIR=%(kmoddir)s/virtualbox-addons '
                 'KERNEL_VER=%(kvers)s ' % r.macros, dir = '%(vboxsrc)s' % r.macros)
-        #r.ByDefault(exceptions=':supdoc')       
-        r.Requires(exceptDeps=r'rpm\:\ kernel.*')
+        
+        r.ByDefault(exceptions=':supdoc')       
+        r.RPMRequires(exceptDeps='rpm: kernel.*')
 
 

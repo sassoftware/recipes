@@ -1,7 +1,7 @@
 
 loadRecipe('virtualbox-addons')
 
-class KmodVirtualboxAddons(VirtualboxAddons):
+class KmodVirtualboxAddons(VirtualboxAddons, CapsuleRecipe):
     name = 'kmod-virtualbox-addons'
     version = VirtualboxAddons.version
 

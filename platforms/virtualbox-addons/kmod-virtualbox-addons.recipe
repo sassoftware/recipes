@@ -92,6 +92,6 @@ class KmodVirtualboxAddons(VirtualboxAddons):
                 'KERNEL_VER=%(kvers)s ' % r.macros, dir = '%(vboxsrc)s' % r.macros)
         
         r.ByDefault(exceptions=':supdoc')       
-        del r.KmodRequires
+        r.KmodRequires(exceptions='.*')
 
 

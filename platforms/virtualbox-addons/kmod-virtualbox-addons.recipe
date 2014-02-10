@@ -1,7 +1,7 @@
 
 loadRecipe('virtualbox-addons')
 
-class KmodVirtualboxAddons(VirtualboxAddons, CapsuleRecipe):
+class KmodVirtualboxAddons(VirtualboxAddons):
     name = 'kmod-virtualbox-addons'
     version = VirtualboxAddons.version
 
@@ -20,7 +20,6 @@ class KmodVirtualboxAddons(VirtualboxAddons, CapsuleRecipe):
     def setup(r):
         r.unpackVirtualboxAddons()
         r.makeVirtualboxAddons()
-
 
     def unpackVirtualboxAddons(r):
         r.macros.version = r.macros.version.replace('_', '-')
@@ -93,6 +92,6 @@ class KmodVirtualboxAddons(VirtualboxAddons, CapsuleRecipe):
                 'KERNEL_VER=%(kvers)s ' % r.macros, dir = '%(vboxsrc)s' % r.macros)
         
         r.ByDefault(exceptions=':supdoc')       
-        r.RPMRequires(exceptDeps='rpm: kernel.*')
+        del r.KmodRequires
 
 

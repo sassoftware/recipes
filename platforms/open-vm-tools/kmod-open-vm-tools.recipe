@@ -76,6 +76,7 @@ class KmodOpenVMTools(OpenVmTools):
                     'vmsync', 'vsock', 'vmxnet'):
                     r.Replace('HEADER_DIR =', 'HEADER_DIR ?=', 'modules/linux/' + m + '/Makefile')
 
+        configured = False
         for KernelVer in KernelVers:
 
             r.macros.modules = '/tmp/rmake/builds/kmod-open-vm-tools/_ROOT_/lib/modules'
@@ -85,8 +86,8 @@ class KmodOpenVMTools(OpenVmTools):
             r.macros.kinclude = '%(kdevel)s/include' % r.macros
             r.macros.vmsrc = '%(ovmname)s-%(ovmtoolsver)s' % r.macros
 
-
-            r.Make(' clean',  dir='modules')
+            if configured:
+                r.Make(' clean',  dir='modules')
 
             r.Configure(r.configopts +
                     '--with-kernel-release=%(kvers)s '
@@ -99,4 +100,5 @@ class KmodOpenVMTools(OpenVmTools):
             r.Make('MODULES_DIR=%(kmoddir)s/open-vm-tools'
                     ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s install-exec' % r.macros, dir='modules')
 
-            
+            configured = True
+

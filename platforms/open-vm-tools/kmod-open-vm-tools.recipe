@@ -56,11 +56,10 @@ class KmodOpenVMTools(OpenVmTools):
         r.macros.ovmtoolsver = OpenVmTools.version.replace('_', '-')
         r.macros.ovmname = OpenVmTools.name
         r.macros.ovmdir = '%s' % r.ovmdir 
-        #r.addArchive('mirror://sourceforge/%(name)s/%(name)s-%(version)s.tar.gz')
         r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/'
-            '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
+                        '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
         r.addPatch('modules_makefile.patch')
-        #r.addPatch('configure_patch_vmci.patch')
+        r.addPatch('kernel_devel.patch')
 
     def setupOpenVMTools(r):
         # Build VMware kernel modules
@@ -72,6 +71,11 @@ class KmodOpenVMTools(OpenVmTools):
             r.macros.variant = ''
 
         KernelVers = r.detectKVers()
+
+        for m in ('vmblock', 'vmci', 'vmhgfs',
+                    'vmsync', 'vsock', 'vmxnet'):
+                    r.Replace('HEADER_DIR =', 'HEADER_DIR ?=', 'modules/linux/' + m + '/Makefile')
+
         for KernelVer in KernelVers:
 
             r.macros.modules = '/tmp/rmake/builds/kmod-open-vm-tools/_ROOT_/lib/modules'
@@ -79,10 +83,10 @@ class KmodOpenVMTools(OpenVmTools):
             r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
             r.macros.kdevel = '/usr/src/kernels/%(kvers)s' % r.macros
             r.macros.kinclude = '%(kdevel)s/include' % r.macros
-            r.macros.vmsrc = 'src/%(ovmname)s-%(ovmtoolsver)s' % r.macros
+            r.macros.vmsrc = '%(ovmname)s-%(ovmtoolsver)s' % r.macros
 
 
-            r.Make(' clean', dir = '%(vmsrc)s' % r.macros)
+            r.Make(' clean',  dir='modules')
 
             r.Configure(r.configopts +
                     '--with-kernel-release=%(kvers)s '
@@ -90,15 +94,9 @@ class KmodOpenVMTools(OpenVmTools):
                     '--disable-static --disable-dependency-tracking ' % r.macros
                     )
 
-            for m in ('vmblock', 'vmci', 'vmhgfs',
-                    'vmsync', 'vsock', 'vmxnet'):
-                r.Replace('HEADER_DIR =', 'HEADER_DIR ?=', 'modules/linux/' + m + '/Makefile')
+            r.Make('HEADER_DIR=%(kinclude)s VM_KBUILD=26 modules' % r.macros, dir='modules')
 
-
-            r.Make('HEADER_DIR=%(kmoddir)s/../build/include VM_KBUILD=26 modules' % r.macros, dir='modules')
-
-
-            r.MakeInstall('MODULES_DIR=%(kmoddir)s/open-vm-tools'
-                    ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s ' % r.macros, dir='modules')
+            r.Make('MODULES_DIR=%(kmoddir)s/open-vm-tools'
+                    ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s install-exec' % r.macros, dir='modules')
 
             

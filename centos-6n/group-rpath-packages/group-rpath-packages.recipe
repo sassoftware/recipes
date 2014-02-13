@@ -32,7 +32,7 @@ class GroupRpathPackages(GroupSetRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
-        local = r.Repository(r.macros.buildlabel, r.flavor)
+        local = r.Repository(r.macros.master_label, r.flavor)
         common = r.Repository(r.macros.common_label, r.flavor)
 
         ## group-superclasses

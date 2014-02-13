@@ -91,8 +91,7 @@ class KmodOpenVMTools(OpenVmTools):
 
             r.Configure(r.configopts +
                     '--with-kernel-release=%(kvers)s '
-                    '--with-linuxdir=/lib/modules/%(kvers)s '
-                    '--disable-static --disable-dependency-tracking ' % r.macros
+                    '--with-linuxdir=%(kdevel)s ' % r.macros
                     )
 
             r.Make('HEADER_DIR=%(kinclude)s VM_KBUILD=26 modules' % r.macros, dir='modules')

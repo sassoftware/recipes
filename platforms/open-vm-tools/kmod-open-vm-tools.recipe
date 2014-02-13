@@ -101,5 +101,6 @@ class KmodOpenVMTools(OpenVmTools):
 
             configured = True
 
+        r.ByDefault(exceptions=':supdoc')
         r.KmodRequires(exceptions='.*')
 

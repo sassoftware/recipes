@@ -1,13 +1,13 @@
---- configure   2014-02-13 13:57:00.271337634 -0500
-+++ configure.orig  2014-02-13 13:55:55.665943517 -0500
-@@ -2902,9 +2902,7 @@ if test "$with_kernel_modules" = "yes";
+--- configure.orig  2014-02-13 13:55:55.665943517 -0500
++++ configure   2014-02-13 13:57:00.271337634 -0500
+@@ -2902,7 +2902,9 @@ if test "$with_kernel_modules" = "yes";
           if test ! -d "$LINUXDIR/kernel/"; then
               as_fn_error $? "$LINUXDIR/kernel does not exist" "$LINENO" 5
           fi
--         #LINUXINCLUDE="$LINUXDIR/build/include"
--         # HACKED TO USE /usr/src/kernel/$(uname -r)
--         LINUXINCLUDE="$LINUXDIR/include"
-+         LINUXINCLUDE="$LINUXDIR/build/include"
+-         LINUXINCLUDE="$LINUXDIR/build/include"
++         #LINUXINCLUDE="$LINUXDIR/build/include"
++         # HACKED TO USE /usr/src/kernel/$(uname -r)
++         LINUXINCLUDE="$LINUXDIR/include"
           if test ! -d "$LINUXINCLUDE"; then
              as_fn_error $? "Can't find include dir under $LINUXDIR" "$LINENO" 5
           fi

@@ -125,7 +125,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'amiconfig',
             'amiconfig-vmwareguest',
             'conary',
-            #'rpath-tools',
+            'rpath-tools',
             )
         groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
         packages += groupRpathCore

@@ -82,6 +82,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'conary-build',
             'conary-policy',
             'conary-repository',
+            'rpath-models',
             'rpath-tools',
             )
         # Optional

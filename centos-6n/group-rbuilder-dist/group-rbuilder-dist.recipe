@@ -87,6 +87,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'rpm-python',
             'sudo',
             'sysstat',
+            'wget',
             )
         system = r.mainSearchPath.find(
             'amiconfig',

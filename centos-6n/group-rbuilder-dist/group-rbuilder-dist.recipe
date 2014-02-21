@@ -84,6 +84,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'nfs-utils',
             'openssl',
             'openssh-clients',
+            'postfix',
             'rpm-python',
             'sudo',
             'sysstat',

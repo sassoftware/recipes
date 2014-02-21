@@ -40,11 +40,14 @@ class GroupRpathPackages(GroupSetRecipe):
             'mercurial-conary',
             'python-setuptools-conary',
             'xtail-conary',
-
+            'fltk-conary',
             # Not sure what group to put these in yet...
             'puppet',
             'facter',
             'info-puppet',
+            )
+        packages += local.find(
+            'virtualbox-addons',
             )
 
         ## group-superclasses
@@ -98,21 +101,29 @@ class GroupRpathPackages(GroupSetRecipe):
             'conary-repository',
             )
         # Optional
-        groupRpathTools += (common.find(
+
+        groupRpathTools += (local.find(
             'open-vm-tools',
-            'xe-guest-utilities',
+            'info-vboxadd',
+            'info-vboxsf',
+            'virtualbox-addons-vboxsf',
             )).makeOptional()
+        # The versions built on the centos-6-%(forest)s labels 
+        # do not have all the flavors so this is not necessary
+        # leaving the stanza for future when moved to platform
         if Arch.x86:
-            groupRpathTools += common.find(
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
+            groupRpathTools += local.find(
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
         else:
-            groupRpathTools += common.find(
-                'kmod-open-vm-tools[kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.debug]',
+            groupRpathTools += local.find(
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
+
+
+        groupRpathTools += common.find('xe-guest-utilities')
         groupRpathTools = r.rmcomps(groupRpathTools).createGroup('group-rpath-tools')
         packages += groupRpathTools
 
@@ -183,7 +194,13 @@ class GroupRpathPackages(GroupSetRecipe):
             'rpath-tools',
             'm2crypto-conary',
             'iconfig',
+            'info-vboxadd',
+            'info-vboxsf',
+            'virtualbox-addons-vboxsf',
+            'kmod-virtualbox-addons',
             )
+
+
         groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
         packages += groupRpathCore
 

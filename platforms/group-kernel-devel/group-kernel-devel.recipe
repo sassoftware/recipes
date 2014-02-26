@@ -1,7 +1,10 @@
+# Group with all the latest versions of kernel-devel in it for building kmods
+
+import time
 
 class GroupKernelDevel(GroupSetRecipe):
     name = 'group-kernel-devel'
-    version = '1'
+    version = time.strftime('%Y.%m.%d_%H%M.%S')
 
     def setup(r):
         r.dumpAll()
@@ -10,11 +13,13 @@ class GroupKernelDevel(GroupSetRecipe):
         # Kernel is usually only bumped once per release 
         pkgs = local.find(*('%s[%s]' % (x, r.flavor) for x in [
                 'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_220.23.1.el6-1-1',
-                'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_131.21.1.el6-1-1',
-                'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_71.29.1.el6-1-1',
-                'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_279.22.1.el6-1-1',
-                'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_431.3.1.el6-1-1',
-                'kernel-devel=/centos6.rpath.com@rpath:centos-6e/2.6.32_358.23.2.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_131.21.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_71.29.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_279.22.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_431.5.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_358.23.2.el6-1-1',
+
+
                 ]))
 
         r.Group(pkgs, checkPathConflicts=False, scripts=None)

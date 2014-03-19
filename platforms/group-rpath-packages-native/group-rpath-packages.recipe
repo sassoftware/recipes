@@ -116,10 +116,10 @@ class GroupRpathPackages(GroupSetRecipe):
             'open-vm-tools',
             'info-vboxadd',
             'info-vboxsf',
-            'fltk-conary',
             'virtualbox-addons',
             'virtualbox-addons-vboxsf',
             ) + common.find(
+            'fltk-conary',
             'xe-guest-utilities',
             )).makeOptional()
         # The versions built on the centos-6-%(forest)s labels 

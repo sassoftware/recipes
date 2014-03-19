@@ -101,9 +101,11 @@ class VirtualboxAddons(CPackageRecipe):
         for f in [  '%(libdir)s/security/pam_vbox.so',
                     '%(essentialsbindir)s/mount.vboxsf',
                     '%(bindir)s/VBoxControl',
+                    '%(sbindir)s/VBoxService',
                     '%(sysconfdir)s/udev/rules.d/60-vboxguest.rules',
                     '%(sysconfdir)s/sysconfig/modules/virtualbox-guest.modules',
                     '%(initdir)s/vboxadd',
+                    '%(initdir)s/vboxadd-service',
                     '%(localstatedir)s/lib/VBoxGuestAdditions/config',
                     ]:
             r.PackageSpec('virtualbox-addons-vboxsf', f)

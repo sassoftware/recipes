@@ -32,15 +32,14 @@ class GroupRpathPackages(GroupSetRecipe):
         Use.dom0.setPlatform(False)
         Use.vmware.setPlatform(False)
 
-        local = r.Repository(r.macros.master_label, r.flavor)
+        local  = r.Repository(r.macros.buildlabel, r.flavor)
+        master = r.Repository(r.macros.master_label, r.flavor)
         common = r.Repository(r.macros.common_label, r.flavor)
 
         # Some things really don't need to be in a subgroup
         packages = common.find(
             # Not sure what group to put these in yet...
-            'puppet',
-            'facter',
-            'info-puppet',
+            'xtail-conary',
             )
 
         ## group-superclasses
@@ -78,41 +77,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'factory-version',
             'factory-puppet-pc',
             ).createGroup('group-factories')
-        packages += groupFactories.makeOptional()
-
-        ## group-rpath-tools
-        groupRpathTools = common.find(
-            'distro-policy',
-            'libelf-lgpl',
-            ) + local.find(
-            'amiconfig',
-            'amiconfig-vmwareguest',
-            'conary',
-            'conary-build',
-            'conary-policy',
-            'conary-repository',
-            'rpath-tools',
-            'rpath-models',
-            'smartform',
-            )
-        # Optional
-        groupRpathTools += (common.find(
-            'open-vm-tools',
-            'xe-guest-utilities',
-            )).makeOptional()
-        if Arch.x86:
-            groupRpathTools += common.find(
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
-                ).makeOptional()
-        else:
-            groupRpathTools += common.find(
-                'kmod-open-vm-tools[kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.debug]',
-                ).makeOptional()
-        groupRpathTools = r.rmcomps(groupRpathTools).createGroup('group-rpath-tools')
-        packages += groupRpathTools
+        packages += groupFactories.makeOptional()        
 
         ## group-tags
         groupTags = common.find(
@@ -131,6 +96,50 @@ class GroupRpathPackages(GroupSetRecipe):
             ).createGroup('group-tags')
         packages += groupTags.makeOptional()
 
+        ## group-rpath-tools
+        groupRpathTools = common.find(
+            'distro-policy',
+            'libelf-lgpl',
+            ) + master.find(
+            'amiconfig',
+            'amiconfig-vmwareguest',
+            'conary',
+            'conary-build',
+            'conary-policy',
+            'conary-repository',
+            'rpath-tools',
+            'rpath-models',
+            'smartform',
+            )
+        # Optional
+        groupRpathTools += (local.find(
+            'open-vm-tools',
+            'info-vboxadd',
+            'info-vboxsf',
+            'fltk-conary',
+            'virtualbox-addons',
+            'virtualbox-addons-vboxsf',
+            ) + common.find(
+            'xe-guest-utilities',
+            )).makeOptional()
+        # The versions built on the centos-6-%(forest)s labels 
+        # do not have all the flavors so this is not necessary
+        # leaving the stanza for future when moved to platform
+        if Arch.x86:
+            groupVMTools += local.find(
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
+                ).makeOptional()
+        else:
+            groupVMTools += local.find(
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
+                ).makeOptional()
+
+
+        groupRpathTools = r.rmcomps(groupRpathTools).createGroup('group-rpath-tools')
+        packages += groupRpathTools
+
         ## group-rpath-core
         # Built from things already in the packages set
         groupRpathCore = packages.find(
@@ -138,6 +147,10 @@ class GroupRpathPackages(GroupSetRecipe):
             'amiconfig-vmwareguest',
             'conary',
             'rpath-tools',
+            'open-vm-tools',
+            'kmod-open-vm-tools',
+            'virtualbox-addons-vboxsf',
+            'kmod-virtualbox-addons',
             )
         groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
         packages += groupRpathCore

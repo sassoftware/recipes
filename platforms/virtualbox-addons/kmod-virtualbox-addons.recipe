@@ -75,7 +75,6 @@ class KmodVirtualboxAddons(VirtualboxAddons):
             r.macros.vboxsrc = 'src/vboxguest-%(major)s' % r.macros
 
             
-            print r.macros
 
             # HACK HACK HACK FIXME 
             # drm includes is missing some files it needs... blame someone

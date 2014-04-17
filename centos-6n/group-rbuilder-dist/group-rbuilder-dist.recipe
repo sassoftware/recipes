@@ -179,6 +179,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'rmake3-multinode-server',
             'rmake3-node',
             'rpm-python',  # Fallback RPM
+            'python-reportlab', # provides sgmlop, which makes rmake xmlrpc work better
             'group-rpm',
             )
         scripts = r.Scripts(

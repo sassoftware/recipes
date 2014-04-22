@@ -1,0 +1,238 @@
+
+
+class ParallelTools(CPackageRecipe):
+
+    name = 'parallel-tools'
+    version = "9.0.24172.951362"
+
+    buildRequires = [ 'chkconfig:rpm', 
+
+                    ]
+    XorgVersion = 'xorg.7.1'
+    X11_Support = True
+
+    def setup(r):
+        r.macros.version = r.macros.version.replace('_', '-')
+        r.macros.major = '.'.join(r.macros.version.split('.')[:3])
+        r.macros.tools = 'tools'
+        r.macros.kmods = 'kmods'
+        r.macros.installer = 'installer'
+        r.macros.prllib = '%(libdir)s/parallels-tools'
+        r.macros.prlsrc = '/usr/src/parallels-tools/%(name)s-%(major)s'
+        r.macros.prlmnt = '/media/psf'
+        r.macros.prlcfg = '%(sysconfdir)s/prltools'
+        r.macros.xorg = r.XorgVersion
+
+        if Arch.x86_64:        
+            r.macros.tarball = 'prltools.x64.tar.gz'
+            r.macros.iagent = 'iagent64'
+        else:
+            r.macros.tarball = 'prltools.tar.gz'
+            r.macros.iagent = 'iagent32'
+
+
+        r.addArchive('%(name)s-%(major)s.tar.gz')
+
+        # If we have to supply the source
+        r.addSource('%(name)s-%(major)s.tar.gz', dir='%(prlsrc)s')
+
+
+        dir_list = [    '/usr/lib/parallels-tools',
+                        '/etc/prltools',
+                    ]
+
+        sbin_list = [   'prl_nettool',
+                        'prl_snapshot',
+                    ]
+
+        bin_list = [    'prlhosttime',
+                        'prl_istatus',
+                        'prl_showvmcfg',
+                        'prlshprof',
+                        # X Support not implemented yet
+                        #'prl_wmouse_d',
+                    ]
+
+        init_list = [   'prltoolsd',
+                    ]
+
+
+        hotplug_list = ['parallels-memory-hotplug.rules',
+                        'parallels-cpu-hotplug.rules',
+                    ]
+
+        extra_list =   [    'prlfs.te',
+                            'prlvtg.te',
+                            'xserver-config.py',
+                            'blacklist-parallels.conf',
+                            'detect-xserver.sh',
+                            'hname.sh',
+                            'parallels_tools.initramfs-hook',
+                            'prlfsmountd.sh',
+                            'prltoolsd.sh',
+                            'prl-x11.conf',
+                            'prl-x11.sh',
+                            '%(iagent)s',
+                    ]
+
+        # X Support not implemented yet
+        xbin_list = [   'prlcc',
+                        'prlcp',
+                        'prldnd',
+                        'prlsga',
+                        #'prltoolsd', # have to install anyway so prltoolsd works
+                    ]
+
+        xsbin_list = [  'prl-opengl-switcher.sh',
+                        'prl-xorgconf-fixer',
+                    ]
+
+
+        desktop_list = ['prlcc.desktop',
+                        'prl_wmouse_d.desktop', 
+                        'ptiagent.desktop',
+                    ]
+
+        X11init_list = ['prl-x11',
+                    ]
+
+
+        r.MakeDirs('%(prlmnt)s', mode = 0555)
+        r.MakeDirs('%(prllib)s', component='lib')
+        r.MakeDirs('%(prlcfg)s', mode = 0744)
+
+        r.Copy('%(tools)s', '%(prllib)s')
+
+        r.Copy('%(kmods)s', '%(prlsrc)s')
+
+
+        r.Run('tar -zxvf %(builddir)s/%(tools)s/%(tarball)s -C %(destdir)s/%(prllib)s')
+
+        for binary in bin_list:
+            r.Install('%(prllib)s/bin/' + binary, 
+                        '%(bindir)s/' + binary, 
+                        mode = 0755)
+
+ 
+        for sbinary in sbin_list:
+            r.Install('%(prllib)s/sbin/' + sbinary, 
+                        '%(sbindir)s/' + sbinary, 
+                        mode = 0755)
+
+        for init in init_list:            
+            r.Install('%(installer)s/' + init + '.sh',
+                        '%(initdir)s/' + init,
+                        mode = 0755)
+  
+        for hotplug in hotplug_list:
+            r.Install(  '%(tools)s/' + hotplug, 
+                        '%(sysconfdir)s/udev/rules.d/99-' + hotplug, 
+                        mode = 0644)
+
+        for extra in extra_list:
+            r.Copy('%(installer)s/' + extra, '%(prllib)s')
+
+
+        r.Install( '%(installer)s/prlfsmountd.sh', 
+                   '%(bindir)s/prlfsmountd',
+                    mode = 0755)
+        
+        # prltoolsd will fail without this binary.
+        r.Install('%(prllib)s/%(xorg)s/usr/bin/prltoolsd',
+                            '%(bindir)s/prltoolsd',
+                            mode = 0755)
+
+
+        # Install /etc/pm/sleep.d/99prltoolsd-hibernate
+        r.Install(  '%(tools)s/99prltoolsd-hibernate', 
+                        '%(sysconfdir)s/pm/sleep.d/99prltoolsd-hibernate', 
+                        mode = 0644)
+
+        r.Install( '%(installer)s/blacklist-parallels.conf', 
+                   '%(sysconfdir)s/modprobe.d/blacklist-parallels.conf',
+                    mode = 0644)
+
+        if r.X11_Support:
+
+            # X Support not implemented yet
+            r.MakeDirs('%(sysconfdir)s/xdg/autostart', component='xorg')
+            r.ExcludeDirectories(exceptions='%(sysconfdir)s/xdg/autostart')
+
+            for binary in xbin_list:
+                r.Install('%(prllib)s/%(xorg)s/usr/bin/' + binary,
+                            '%(bindir)s/' + binary,
+                            mode = 0755)
+                r.ComponentSpec('xorg', '%(bindir)s/' + binary)
+
+            for sbinary in xsbin_list:
+                r.Install('%(prllib)s/sbin/' + sbinary,
+                            '%(sbindir)s/' + sbinary,
+                            mode = 0755)
+                r.ComponentSpec('xorg', '%(sbindir)s/' + sbinary)
+
+            for desktop in desktop_list:
+                r.Install(  '%(tools)s/' + desktop, 
+                            '%(prlcfg)s/' + desktop, 
+                            mode = 0644)
+                r.Symlink('%(sysconfdir)s/xdg/autostart', '%(prlcfg)s/' + desktop )
+                r.ComponentSpec('xorg', '%(prlcfg)s/' + desktop)
+        
+            for X11init in X11init_list:            
+                r.Install('%(installer)s/' + X11init + '.sh',
+                            '%(initdir)s/' + X11init,
+                            mode = 0755)
+                r.ComponentSpec('xorg', '%(initdir)s/' + X11init)
+
+            r.Install(  '%(tools)s/parallels-tools.png', 
+                        '%(datadir)s/icons/hicolor/48x48/apps/parallels-tools.png',
+                        mode = 0644)
+
+            r.ComponentSpec('xorg', '%(datadir)s/icons/hicolor/48x48/apps/parallels-tools.png')
+
+            r.Install(  '%(installer)s/%(iagent)s/parallels-wrapper', 
+                        '%(bindir)s/ptiagent-cmd',
+                        mode = 755)
+
+            r.ComponentSpec('xorg', '%(bindir)s/ptiagent-cmd')
+
+            r.Install(  'install-gui',
+                        '%(bindir)s/ptiagent',
+                        mode = 755)
+
+            r.ComponentSpec('xorg', '%(bindir)s/ptiagent')
+            r.Requires('parallel-tools-fs:runtime',
+                            '%(bindir)s/ptiagent')
+
+
+        r.TagSpec('initscript', '%(initdir)s/')             
+
+        r.ComponentSpec('module-source', '%(prlsrc)s/kmods')
+        r.ByDefault(exceptions=':module-source')
+
+        r.ComponentSpec('xorg', '%(prllib)s/xorg.*/')
+        r.ByDefault(exceptions=':xorg')
+        
+        r.ComponentSpec('compiz', '%(prllib)s/lib/compiz/')
+        r.ByDefault(exceptions=':compiz')
+
+
+        for f in [  '%(initdir)s/prltoolsd',
+                    '%(bindir)s/prltoolsd',
+                    '%(bindir)s/prlfsmountd'
+                    '%(sysconfdir)s/pm/sleep.d/99prltoolsd-hibernate',
+                    '%(sysconfdir)s/modprobe.d/blacklist-parallels.conf',
+                    '%(sysconfdir)s/udev/rules.d/99-parallels-memory-hotplug.rules',
+                    '%(sysconfdir)s/udev/rules.d/99-parallels-cpu-hotplug.rules',
+                    '%(prllib)s/parallels_tools.initramfs-hook',
+
+                ]:
+            r.PackageSpec('parallel-tools-fs', f)
+
+        r.Requires('kmod-parallel-tools:lib',
+                    '%(initdir)s/prltoolsd')
+
+        r.Requires('parallel-tools-fs:runtime',
+                    '%(sbindir)s/prl_nettool')
+                    
+
+            

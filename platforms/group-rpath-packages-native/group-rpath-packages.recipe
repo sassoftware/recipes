@@ -118,7 +118,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'info-vboxsf',
             'virtualbox-addons',
             'virtualbox-addons-vboxsf',
-            'parallel-tools',
+            #'parallel-tools', # Remove for the time being on unresolved dep
             'parallel-tools-fs',
             ) + common.find(
             'fltk-conary',

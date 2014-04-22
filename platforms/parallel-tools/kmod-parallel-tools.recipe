@@ -79,7 +79,6 @@ class KmodParallelTools(ParallelTools):
             r.macros.kinclude = '%(kdevel)s/include' % r.macros
             r.macros.src = '%(src)s' % r.macros
 
-            print r.macros
 
             r.Make( 'KVER=%(kvers)s '
                     'KERNEL_DIR=%(kdevel)s ' 

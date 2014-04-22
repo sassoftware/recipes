@@ -224,6 +224,7 @@ class ParallelTools(CPackageRecipe):
                     '%(sysconfdir)s/udev/rules.d/99-parallels-memory-hotplug.rules',
                     '%(sysconfdir)s/udev/rules.d/99-parallels-cpu-hotplug.rules',
                     '%(prllib)s/parallels_tools.initramfs-hook',
+                    '%(prllib)s/%(iagent)s/libs/libutil.so.1/libutil.so.1',
 
                 ]:
             r.PackageSpec('parallel-tools-fs', f)

@@ -218,7 +218,7 @@ class ParallelTools(CPackageRecipe):
 
         for f in [  '%(initdir)s/prltoolsd',
                     '%(bindir)s/prltoolsd',
-                    '%(bindir)s/prlfsmountd'
+                    '%(bindir)s/prlfsmountd',
                     '%(sysconfdir)s/pm/sleep.d/99prltoolsd-hibernate',
                     '%(sysconfdir)s/modprobe.d/blacklist-parallels.conf',
                     '%(sysconfdir)s/udev/rules.d/99-parallels-memory-hotplug.rules',

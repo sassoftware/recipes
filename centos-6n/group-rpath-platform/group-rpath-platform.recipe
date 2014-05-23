@@ -31,6 +31,7 @@ kernel-drbd
 libevent
 libgsasl
 librsync
+lzop
 mercurial
 mod_python
 nginx

@@ -122,9 +122,9 @@ MochiKit
 yui
 
 # Postgres
-info-postgres=postgres.rb.rpath.com@rpath:postgres-9.2-devel
-postgresql92=postgres.rb.rpath.com@rpath:postgres-9.2-devel
-python-pgsql=postgres.rb.rpath.com@rpath:postgres-9.2-devel
+info-postgres=postgres.cny.sas.com@sas:postgres-9.2-devel
+postgresql92=postgres.cny.sas.com@sas:postgres-9.2-devel
+python-pgsql=postgres.cny.sas.com@sas:postgres-9.2-devel
 
 # Miscellaneous
 conary-web-common=conary.rpath.com@rpl:1

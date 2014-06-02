@@ -8,6 +8,10 @@ class DevimageCustom(PackageRecipe):
     name = 'devimage-custom'
     version = '1.1'
 
+    buildRequires = [
+        'rpath-tools:postinstall',
+    ]
+
     def setup(r):
         # Add some files to be used when new users are created on the system
         r.addSource('skel-conaryrc', dest='/etc/skel/.conaryrc')
@@ -18,3 +22,10 @@ class DevimageCustom(PackageRecipe):
 
         r.addSource('system-conaryrc', dest='/etc/conary/config.d/devimage.conf')
         r.addSource('system-rmakerc', dest='/etc/rmake/client.d/devimage.conf')
+
+        r.macros.scriptdir = '%(datadir)s/%(name)s/scripts/'
+        r.addSource('update_config.sh', dest='%(scriptdir)s', mode=0755)
+        r.Symlink('%(scriptdir)s/update_config.sh',
+                  '%(sysconfdir)s/cron.daily/')
+        r.Symlink('%(scriptdir)s/update_config.sh',
+                  '%(prefix)s/lib/rpath-tools/postinstall.d/')

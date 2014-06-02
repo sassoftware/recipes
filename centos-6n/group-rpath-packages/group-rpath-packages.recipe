@@ -89,17 +89,21 @@ class GroupRpathPackages(GroupSetRecipe):
         groupRpathTools += (common.find(
             'open-vm-tools',
             'xe-guest-utilities',
+            'info-vboxadd',
+            'info-vboxsf',
+            'virtualbox-addons',
+            'virtualbox-addons-vboxsf',
+            'fltk-conary',
             )).makeOptional()
         if Arch.x86:
             groupRpathTools += common.find(
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.pae,!kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
         else:
             groupRpathTools += common.find(
-                'kmod-open-vm-tools[kmod-open-vm-tools.debug]',
-                'kmod-open-vm-tools[!kmod-open-vm-tools.debug]',
+                'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
+                'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
         groupRpathTools = r.rmcomps(groupRpathTools).createGroup('group-rpath-tools')
         packages += groupRpathTools

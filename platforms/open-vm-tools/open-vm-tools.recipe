@@ -68,6 +68,11 @@ class OpenVmTools(CPackageRecipe):
 
         r.Install('xautostart.conf', '%(sysconfdir)s/vmware-tools/xautostart.conf',
                   mode=0644)
+
+        # FIXME APPENG-2138 vmsvc Failed to get nic info
+        r.Install('tools.conf', '%(sysconfdir)s/vmware-tools/tools.conf',
+                    mode=0644)
+
         r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
                   mode=0755)
         r.ExcludeDirectories(exceptions='/mnt/hgfs')

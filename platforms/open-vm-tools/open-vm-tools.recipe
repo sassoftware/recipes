@@ -47,6 +47,7 @@ class OpenVmTools(CPackageRecipe):
         #r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/stable-9.2.x/%(name)s-%(version)s.tar.gz')
         r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/%(ovmdir)s/%(name)s-%(version)s.tar.gz')
         r.addSource('xautostart.conf')
+        r.addSource('tools.conf')
         r.addSource('vmware-guestd.init')
         r.addSource('redirect.sh' , mode=0755)
         #r.addPatch('legacy-glib.patch')
@@ -67,7 +68,12 @@ class OpenVmTools(CPackageRecipe):
         r.Symlink('%(sbindir)s/mount.vmhgfs', '%(essentialsbindir)s/')
 
         r.Install('xautostart.conf', '%(sysconfdir)s/vmware-tools/xautostart.conf',
-                  mode=0644)
+                    mode=0644)
+
+        # FIXME APPENG-2138 vmsvc Failed to get nic info
+        r.Install('tools.conf', '%(sysconfdir)s/vmware-tools/tools.conf',
+                    mode=0644)
+
         r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
-                  mode=0755)
+                    mode=0755)
         r.ExcludeDirectories(exceptions='/mnt/hgfs')

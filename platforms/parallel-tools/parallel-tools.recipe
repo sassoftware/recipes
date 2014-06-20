@@ -33,6 +33,8 @@ class ParallelTools(CPackageRecipe):
 
         r.addArchive('%(name)s-%(major)s.tar.gz')
 
+        r.addPatch('prl-tools_init.patch')
+
         # If we have to supply the source
         r.addSource('%(name)s-%(major)s.tar.gz', dir='%(prlsrc)s')
 

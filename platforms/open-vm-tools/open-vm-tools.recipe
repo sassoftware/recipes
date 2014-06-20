@@ -47,6 +47,7 @@ class OpenVmTools(CPackageRecipe):
         #r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/stable-9.2.x/%(name)s-%(version)s.tar.gz')
         r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/%(ovmdir)s/%(name)s-%(version)s.tar.gz')
         r.addSource('xautostart.conf')
+        r.addSource('tools.conf')
         r.addSource('vmware-guestd.init')
         r.addSource('redirect.sh' , mode=0755)
         #r.addPatch('legacy-glib.patch')

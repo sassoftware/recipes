@@ -114,6 +114,29 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         # Add devimage-specific customizations, such as an /etc/skel setup
         r.add('devimage-custom')
 
+        # Add packages required for developing rPath-related technology
+        r.add('testutils')
+        r.add('forester')
+        r.add('gunicorn')
+        r.add('info-nginx')
+        r.add('nginx')
+        r.add('python-setproctitle')
+        r.add('python-webob')
+        r.add('elfutils')
+        r.add('elfutils-libs')
+        r.add('genisoimage')
+        r.add('glibc-static')
+        r.add('gnupg')
+        r.add('libcap-devel')
+        r.add('libelf-lgpl')
+        r.add('lzo')
+        r.add('lzop')
+        r.add('memcached')
+        r.add('openssl-devel')
+        r.add('perl-CGI')
+        r.add('popt-devel')
+        r.add('sqlite-devel')
+
         r.addAll('group-rpm')
         r.addPostInstallScript(contents="""#!/bin/sh
 /sbin/chkconfig rmake off
@@ -160,6 +183,23 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
 
                 # Platform overrides/extras
                 ('contrib_label', [
+                        'info-nginx',
+                        'nginx',
+                        'python-setproctitle',
+                        'python-webob',
+                    ]),
+
+                # contrib-common components
+                ('common_label_def', [
+                        'gunicorn',
+                    ]),
+
+	        # internal components
+                ('testutils_label', [
+                        'testutils',
+                    ]),
+                ('buildtools_label', [
+                        'forester',
                     ]),
               ]:
             if macro not in r.macros:

@@ -181,19 +181,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                 # Other components
                 ('rpm_label',               ['group-rpm']),
 
-                # Platform overrides/extras
-                ('contrib_label', [
-                        'info-nginx',
-                        'nginx',
-                        'python-setproctitle',
-                        'python-webob',
-                    ]),
-
-                # contrib-common components
-                ('common_label_def', [
-                        'gunicorn',
-                    ]),
-
 	        # internal components
                 ('testutils_label', [
                         'testutils',

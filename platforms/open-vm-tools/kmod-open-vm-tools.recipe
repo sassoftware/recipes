@@ -70,6 +70,8 @@ class KmodOpenVMTools(OpenVmTools):
             #r.macros.variant = '.debug'
             r.macros.variant = ''
 
+        r.Symlink('/lib/modules/kabi-current', '/lib/modules/kabi')
+
         KernelVers = r.detectKVers()
 
         for m in ('vmblock', 'vmci', 'vmhgfs',

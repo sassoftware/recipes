@@ -126,7 +126,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         r.add('elfutils-libs')
         r.add('genisoimage')
         r.add('glibc-static')
-        r.add('gnupg')
+        r.add('gnupg2')
         r.add('libcap-devel')
         r.add('libelf-lgpl')
         r.add('lzo')

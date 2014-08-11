@@ -26,7 +26,7 @@ class GroupRbuilderDist(GroupSetRecipe):
         r.makeSearchPath()
         addToMain = []
 
-        vapp_core = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
+        vapp_core = r.troveFromMacro('vapp_label', 'group-vapp')
         core = r.troveFromMacro('distro_label', 'group-standard')
         core = core.makeOptional(core.find(
             'selinux-policy',
@@ -47,8 +47,6 @@ class GroupRbuilderDist(GroupSetRecipe):
         vapp_core = vapp_core.flatten().getInstall()
         vapp_core -= vapp_core.findByName(r'group-.*|.*:.*')
         vapp_core -= vapp_core.find(
-            'selinux-policy',
-            'selinux-policy-targeted',
             # unneeded or not-working vapp stuff
             'sasinside-appvirt-sasmanagementconsole',
             'sasinside-role-master',
@@ -56,34 +54,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sasinside-role-router',
             'sasinside-role-uploader',
             'sasinside-thirdparty-webserver-sasrouter',
-            # remove most stuff from group-rpath-core, the useful bits will be
-            # added back from an in-tree source
-            #'conary',
-            #'libelf-lgpl',
-            #'m2crypto-conary',
-            #'openslp-conary',
-            'open-vm-tools',
-            #'python-conary',
-            #'python-lxml-conary',
-            #'pywbem-conary',
-            #'rpath-models',
-            #'rpath-tools',
-            #'sblim-cmpi-base-conary',
-            #'sblim-cmpi-devel-conary',
-            #'sblim-cmpi-network-conary',
-            #'sblim-sfcb-conary',
-            #'sblim-sfcb-schema-conary',
-            #'smartform-conary',
-            #'smartform',
-            # WORKAROUND for mismatched platform groups
-            'nfs-utils',
-            'openssl',
-            'openssh-clients',
-            'postfix',
-            'rpm-python',
-            'sudo',
-            'sysstat',
-            'wget',
             )
         system = r.mainSearchPath.find(
             'amiconfig',

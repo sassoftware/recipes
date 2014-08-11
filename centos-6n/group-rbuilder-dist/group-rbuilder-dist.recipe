@@ -27,11 +27,12 @@ class GroupRbuilderDist(GroupSetRecipe):
         addToMain = []
 
         vapp_core = r.troveFromMacro('vapp_label', 'group-vapp')
+        vapp_standard = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
         core = r.troveFromMacro('distro_label', 'group-standard')
         core = core.makeOptional(core.find(
             'selinux-policy',
             'selinux-policy-targeted',
-            )).update(vapp_core.find(
+            )).update(vapp_standard.find(
             'facter',
             'hiera',
             'info-puppet',

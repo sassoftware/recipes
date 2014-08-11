@@ -37,14 +37,10 @@ class GroupRbuilderDist(GroupSetRecipe):
             'hiera',
             'info-puppet',
             'puppet',
-            'puppet-server',
             'ruby-augeas:ruby',
             'ruby-json:ruby',
             'ruby-shadow:ruby',
             'rubygem-json',
-            'info-sas',
-            'user-sas',
-            'sun-jre',
             )).update(r.mainSearchPath.find(
             'puppet-stdlib',
             ))
@@ -62,6 +58,20 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sasinside-thirdparty-webserver-sasrouter',
             'sasinside-thirdparty-webserver-sasrouter-ssl-terminator',
             )
+        vapp_core = vapp_core.makeOptional(vapp_standard.find(
+            'facter',
+            'hiera',
+            'info-puppet',
+            'info-sas',
+            'puppet',
+            'puppet-server',
+            'ruby-augeas:ruby',
+            'ruby-json:ruby',
+            'ruby-shadow:ruby',
+            'rubygem-json',
+            'sun-jre',
+            'user-sas',
+            ))
         system = r.mainSearchPath.find(
             'amiconfig',
             'amiconfig-vmwareguest',

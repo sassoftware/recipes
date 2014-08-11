@@ -37,10 +37,14 @@ class GroupRbuilderDist(GroupSetRecipe):
             'hiera',
             'info-puppet',
             'puppet',
+            'puppet-server',
             'ruby-augeas:ruby',
             'ruby-json:ruby',
             'ruby-shadow:ruby',
             'rubygem-json',
+            'info-sas',
+            'user-sas',
+            'sun-jre',
             )).update(r.mainSearchPath.find(
             'puppet-stdlib',
             ))
@@ -51,10 +55,12 @@ class GroupRbuilderDist(GroupSetRecipe):
             # unneeded or not-working vapp stuff
             'sasinside-appvirt-sasmanagementconsole',
             'sasinside-role-master',
+            'sasinside-role-master-baseos',
             'sasinside-role-perfmonitor',
             'sasinside-role-router',
             'sasinside-role-uploader',
             'sasinside-thirdparty-webserver-sasrouter',
+            'sasinside-thirdparty-webserver-sasrouter-ssl-terminator',
             )
         system = r.mainSearchPath.find(
             'amiconfig',

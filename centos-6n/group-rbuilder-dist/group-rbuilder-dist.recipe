@@ -50,7 +50,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'selinux-policy',
             'selinux-policy-targeted',
             # unneeded or not-working vapp stuff
-            'conary-config-entitlement',
             'sasinside-appvirt-sasmanagementconsole',
             'sasinside-role-master',
             'sasinside-role-perfmonitor',

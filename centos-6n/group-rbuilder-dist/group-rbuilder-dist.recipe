@@ -26,12 +26,12 @@ class GroupRbuilderDist(GroupSetRecipe):
         r.makeSearchPath()
         addToMain = []
 
-        vapp_standard = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
+        vapp_core = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
         core = r.troveFromMacro('distro_label', 'group-standard')
         core = core.makeOptional(core.find(
             'selinux-policy',
             'selinux-policy-targeted',
-            )).update(vapp_standard.find(
+            )).update(vapp_core.find(
             'facter',
             'hiera',
             'info-puppet',
@@ -43,26 +43,49 @@ class GroupRbuilderDist(GroupSetRecipe):
             )).update(r.mainSearchPath.find(
             'puppet-stdlib',
             ))
-
-        # vapp_core is simply core + the vapp bits, minus the parts we don't want
-        vapp_core = core + r.troveFromMacro('vapp_label', 'group-vapp')
-        vapp_core = vapp_core.update(vapp_standard.find(
-            'info-sas',
-            'sun-jre',
-            'user-sas',
-            ))
+        # Flatten packages but don't strongly include components or the groups that were flattened
+        vapp_core = vapp_core.flatten().getInstall()
+        vapp_core -= vapp_core.findByName(r'group-.*|.*:.*')
         vapp_core -= vapp_core.find(
+            'selinux-policy',
+            'selinux-policy-targeted',
             # unneeded or not-working vapp stuff
             'sasinside-appvirt-sasmanagementconsole',
             'sasinside-role-master',
-            'sasinside-role-master-baseos',
             'sasinside-role-perfmonitor',
             'sasinside-role-router',
             'sasinside-role-uploader',
             'sasinside-thirdparty-webserver-sasrouter',
-            'sasinside-thirdparty-webserver-sasrouter-ssl-terminator',
+            # remove most stuff from group-rpath-core, the useful bits will be
+            # added back from an in-tree source
+            'conary',
+            'python-crypto',
+            #'libelf-lgpl',
+            #'m2crypto-conary',
+            #'openslp-conary',
+            'open-vm-tools',
+            #'python-conary',
+            #'python-lxml-conary',
+            #'pywbem-conary',
+            #'rpath-models',
+            #'rpath-tools',
+            #'sblim-cmpi-base-conary',
+            #'sblim-cmpi-devel-conary',
+            #'sblim-cmpi-network-conary',
+            #'sblim-sfcb-conary',
+            #'sblim-sfcb-schema-conary',
+            #'smartform-conary',
+            #'smartform',
+            # WORKAROUND for mismatched platform groups
+            'nfs-utils',
+            'openssl',
+            'openssh-clients',
+            'postfix',
+            'rpm-python',
+            'sudo',
+            'sysstat',
+            'wget',
             )
-
         system = r.mainSearchPath.find(
             'amiconfig',
             'amiconfig-vmwareguest',

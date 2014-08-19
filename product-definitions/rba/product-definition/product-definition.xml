@@ -33,6 +33,13 @@
             <imageGroup>group-rbuilder-vapp</imageGroup>
             <partitionScheme ref="esx"/>
         </build>
+        <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="%(product_version)s-esx" flavorSetRef="generic">
+            <image autoResolve="false" natNetworking="true" baseFileName="%(product_version)s-esx" vmCPUs="4" swapSize="0" buildOVF10="true" vmMemory="8192" installLabelPath="" freespace="0"/>
+            <stage ref="QA"/>
+            <stage ref="Release"/>
+            <imageGroup>group-rbuilder-vapp</imageGroup>
+            <partitionScheme ref="esx"/>
+        </build>
     </buildDefinition>
     <platform sourceTrove="platform-definition=/centos6.rpath.com@rpath:centos-6e/6-4">
         <platformName>CentOS 6</platformName>

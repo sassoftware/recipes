@@ -4,10 +4,10 @@
 # A copy is available at http://www.rpath.com/permanent/mit-license.html
 #
 loadRecipe('open-vm-tools')
-loadInstalled('kernel')
+#loadInstalled('kernel')
 class KmodOpenVMTools(OpenVmTools):
     name = 'kmod-open-vm-tools'
-    version = OpenVmTools.version
+    version = '9.4.0_1280544'
 
     buildRequires = [ 'gcc-c++:rpm', 
                       'libICE-devel:rpm', 
@@ -15,7 +15,11 @@ class KmodOpenVMTools(OpenVmTools):
                       'pam-devel:rpm', 
                       'pkgconfig:rpm', 
                       'glib2-devel:rpm',
-                      'group-kernel-devel',
+                      #'group-kernel-devel',
+                      'kernel',
+                      'kernel-devel',
+                      'kernel-abi-whitelists:rpm',
+                      'kabi-whitelists:rpm',
                       'libicu-devel:rpm',
                       'procps:rpm',
                       'tag-kernel:tagdescription',
@@ -49,7 +53,7 @@ class KmodOpenVMTools(OpenVmTools):
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 
-        return kvers
+        return max(kvers)
 
 
     def unpackOpenVMTools(r):
@@ -70,37 +74,33 @@ class KmodOpenVMTools(OpenVmTools):
             #r.macros.variant = '.debug'
             r.macros.variant = ''
 
-        KernelVers = r.detectKVers()
+        KernelVer = r.detectKVers()
 
         for m in ('vmblock', 'vmci', 'vmhgfs',
                     'vmsync', 'vsock', 'vmxnet'):
                     r.Replace('HEADER_DIR =', 'HEADER_DIR ?=', 'modules/linux/' + m + '/Makefile')
 
-        configured = False
-        for KernelVer in KernelVers:
 
-            r.macros.modules = '/tmp/rmake/builds/kmod-open-vm-tools/_ROOT_/lib/modules'
-            r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
-            r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
-            r.macros.kdevel = '/usr/src/kernels/%(kvers)s' % r.macros
-            r.macros.kinclude = '%(kdevel)s/include' % r.macros
-            r.macros.vmsrc = '%(ovmname)s-%(ovmtoolsver)s' % r.macros
+        r.macros.modules = '/tmp/rmake/builds/kmod-open-vm-tools/_ROOT_/lib/modules'
+        r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
+        r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
+        r.macros.kdevel = '/usr/src/kernels/%(kvers)s' % r.macros
+        r.macros.kinclude = '%(kdevel)s/include' % r.macros
+        r.macros.vmsrc = '%(ovmname)s-%(ovmtoolsver)s' % r.macros
 
-            if configured:
-                r.Make(' clean',  dir='modules')
 
-            r.Configure(r.configopts +
-                    '--with-kernel-release=%(kvers)s '
-                    '--with-linuxdir=%(kdevel)s ' % r.macros
-                    )
+        r.Configure(r.configopts +
+                '--with-kernel-release=%(kvers)s '
+                '--with-linuxdir=%(kdevel)s ' % r.macros
+                )
 
-            r.Make('HEADER_DIR=%(kinclude)s VM_KBUILD=26 modules' % r.macros, dir='modules')
+        r.Make('HEADER_DIR=%(kinclude)s VM_KBUILD=26 modules' % r.macros, dir='modules')
 
-            r.Make('MODULES_DIR=%(kmoddir)s/open-vm-tools'
-                    ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s install-exec' % r.macros, dir='modules')
-
-            configured = True
+        r.Make('MODULES_DIR=%(kmoddir)s/open-vm-tools'
+                ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s install-exec' % r.macros, dir='modules')
 
         r.ByDefault(exceptions=':supdoc')
-        r.KmodRequires(exceptions='.*')
+        #r.KmodRequires(exceptions='.*')
+        r.Requires('soname: /lib/modules/%(kvers)s/kernel/drivers/scsi/sg.ko' % r.macros, '/lib/modules/%(kvers)s/kernel/extra/open-vm-tools/vmhgfs.ko')
+ 
 

@@ -9,7 +9,7 @@ class KmodParallelTools(ParallelTools):
                       'glib2-devel:rpm',
                       'kernel-abi-whitelists:rpm',
                       'kabi-whitelists:rpm',
-                      'group-kernel-devel',
+                      'kernel-devel',
                       'libicu-devel:rpm',
                       'redhat-rpm-config:rpm',
                       'tag-kernel',
@@ -56,7 +56,7 @@ class KmodParallelTools(ParallelTools):
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 
-        return kvers
+        return max(kvers)
 
     def makeParallelTools(r):
         # Build VMware kernel modules
@@ -69,30 +69,30 @@ class KmodParallelTools(ParallelTools):
             r.macros.variant = ''
 
 
-        KernelVers = r.detectKVers()
-        for KernelVer in KernelVers:
+        KernelVer = r.detectKVers()
 
-            r.macros.modules = '/tmp/rmake/builds/kmod-parallel-tools/_ROOT_/lib/modules'
-            r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
-            r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
-            r.macros.kdevel = '/usr/src/kernels/%(kvers)s' % r.macros
-            r.macros.kinclude = '%(kdevel)s/include' % r.macros
-            r.macros.src = '%(src)s' % r.macros
+        r.macros.modules = '/tmp/rmake/builds/kmod-parallel-tools/_ROOT_/lib/modules'
+        r.macros.kvers = '%s%s' % (KernelVer, r.macros.variant)
+        r.macros.kmoddir = '%(modules)s/%(kvers)s/kernel/extra' % r.macros
+        r.macros.kdevel = '/usr/src/kernels/%(kvers)s' % r.macros
+        r.macros.kinclude = '%(kdevel)s/include' % r.macros
+        r.macros.src = '%(src)s' % r.macros
 
+        print r.macros
 
-            r.Make( 'KVER=%(kvers)s '
-                    'KERNEL_DIR=%(kdevel)s ' 
-                    'clean', dir = '%(src)s' % r.macros)
-            r.Make( 'KVER=%(kvers)s '
-                    'KERNEL_DIR=%(kdevel)s ' 
-                    % r.macros, dir = '%(src)s' % r.macros)
-            r.MakeInstall(
-                    'KVER=%(kvers)s '
-                    'KERNEL_DIR=%(kdevel)s '
-                    'MODULE_DIR=%(kmoddir)s/parallel-tools ' 
-                    % r.macros, dir = '%(src)s' % r.macros)
-        
+        r.Make( 'KVER=%(kvers)s '
+                'KERNEL_DIR=%(kdevel)s ' 
+                'clean', dir = '%(src)s' % r.macros)
+        r.Make( 'KVER=%(kvers)s '
+                'KERNEL_DIR=%(kdevel)s ' 
+                % r.macros, dir = '%(src)s' % r.macros)
+        r.MakeInstall(
+                'KVER=%(kvers)s '
+                'KERNEL_DIR=%(kdevel)s '
+                'MODULE_DIR=%(kmoddir)s/parallel-tools ' 
+                % r.macros, dir = '%(src)s' % r.macros)
+    
         r.ByDefault(exceptions=':supdoc')       
-        r.KmodRequires(exceptions='.*')
 
+        r.Requires('soname: /lib/modules/%(kvers)s/kernel/drivers/scsi/sg.ko' % r.macros, '/lib/modules/%(kvers)s/kernel/extra/parallel-tools/prl_fs.ko')
 

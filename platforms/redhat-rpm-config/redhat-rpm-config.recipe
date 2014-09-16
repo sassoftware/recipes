@@ -1,0 +1,14 @@
+class RedhatRpmConfig(CapsuleRecipe):
+    name = 'redhat-rpm-config'
+    version = '9.0.3_42.el6.patched'
+
+    def setup(r):
+        r.addCapsule('redhat-rpm-config-9.0.3-42.el6.patched.noarch.rpm', use=Arch.x86)
+        r.addCapsule('redhat-rpm-config-9.0.3-42.el6.patched.noarch.rpm', use=Arch.x86_64)
+
+        # add flavoring
+        if Arch.x86:
+            pass
+        elif Arch.x86_64:
+            pass
+

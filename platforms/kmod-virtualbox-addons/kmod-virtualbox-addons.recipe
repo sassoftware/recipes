@@ -43,13 +43,16 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         Find the kver for all kernel modules that have been installed.
         """
         import glob
-        #testPath = '/lib/modules/*'
-        # Only works because we are installing group-kernel-devel
+
+        # Only works when we install group-kernel-devel or kernel-devel
         testPath = '/usr/src/kernels/*'
 
         buildTrees = glob.glob(testPath)
-        #if len(buildTrees) == 0:
-        #    raise RuntimeError("No kernel modules found.")
+        #Need to trick it until kernel-devel is installed
+        if not len(buildTrees):
+            testPath = '/lib/modules/*'
+            buildTrees = glob.glob(testPath)
+            if not len(buildTrees): raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 

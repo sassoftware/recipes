@@ -15,7 +15,6 @@ class KmodOpenVMTools(OpenVmTools):
                       'pam-devel:rpm', 
                       'pkgconfig:rpm', 
                       'glib2-devel:rpm',
-                      #'group-kernel-devel',
                       'kernel',
                       'kernel-devel',
                       'kernel-abi-whitelists:rpm',
@@ -53,7 +52,7 @@ class KmodOpenVMTools(OpenVmTools):
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 
-        return max(kvers)
+        return kvers
 
 
     def unpackOpenVMTools(r):
@@ -74,7 +73,7 @@ class KmodOpenVMTools(OpenVmTools):
             #r.macros.variant = '.debug'
             r.macros.variant = ''
 
-        KernelVer = r.detectKVers()
+        KernelVer = r.detectKVers()[0]
 
         for m in ('vmblock', 'vmci', 'vmhgfs',
                     'vmsync', 'vsock', 'vmxnet'):

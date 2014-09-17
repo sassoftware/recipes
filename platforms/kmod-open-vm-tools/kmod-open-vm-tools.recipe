@@ -40,19 +40,21 @@ class KmodOpenVMTools(OpenVmTools):
         Find the kver for all kernel modules that have been installed.
         """
         import glob
-        #testPath = '/lib/modules/*'
+        
         # Only works because we are installing group-kernel-devel
         testPath = '/usr/src/kernels/*'
 
 
         buildTrees = glob.glob(testPath)
-        #no longer works until group-kernel-devel is isntalled
-        #if len(buildTrees) == 0:
-        #    raise RuntimeError("No kernel modules found.")
+        #Need to trick it until kernel-devel is installed
+        if not len(buildTrees):
+            testPath = '/lib/modules/*'
+            buildTrees = glob.glob(testPath)
+            if not len(buildTrees): raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 
-        return kvers
+        return max(kvers)
 
 
     def unpackOpenVMTools(r):
@@ -73,7 +75,7 @@ class KmodOpenVMTools(OpenVmTools):
             #r.macros.variant = '.debug'
             r.macros.variant = ''
 
-        KernelVer = r.detectKVers()[0]
+        KernelVer = r.detectKVers()
 
         for m in ('vmblock', 'vmci', 'vmhgfs',
                     'vmsync', 'vsock', 'vmxnet'):

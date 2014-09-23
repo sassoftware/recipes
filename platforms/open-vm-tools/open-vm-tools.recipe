@@ -75,5 +75,5 @@ class OpenVmTools(CPackageRecipe):
                     mode=0644)
 
         r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
-                  mode=0755)
+                    mode=0755)
         r.ExcludeDirectories(exceptions='/mnt/hgfs')

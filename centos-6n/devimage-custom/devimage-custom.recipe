@@ -21,6 +21,8 @@ class DevimageCustom(PackageRecipe):
         r.Create('/etc/skel/.conaryrc-rbuild')
 
         r.addSource('system-conaryrc', dest='/etc/conary/config.d/devimage.conf')
+        r.addSource('repomaps', dest='/etc/conary/config.d/')
+        r.InitialContents('/etc/conary/config.d/repomaps')
         r.addSource('system-rmakerc', dest='/etc/rmake/client.d/devimage.conf')
 
         r.macros.scriptdir = '%(datadir)s/%(name)s/scripts/'

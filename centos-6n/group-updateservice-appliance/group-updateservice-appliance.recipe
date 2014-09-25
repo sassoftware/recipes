@@ -41,6 +41,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'postgresql92',
             'puppet',
             'puppet-stdlib',
+            'python-dateutil',
             'python-memcached',
             'python-psycopg2',
             'python-pygeoip',

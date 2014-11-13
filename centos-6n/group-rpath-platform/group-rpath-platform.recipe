@@ -20,7 +20,7 @@ corosync
 crmsh
 drbd
 ec2-ami-tools
-gunicorn
+gunicorn=contrib.rpath.org@rpath:centos-6n/0.17.4-3-1
 info-haclient
 info-hacluster
 info-jabber
@@ -99,7 +99,7 @@ python-dateutil
 python-httplib2
 python-keyutils
 python-memcached
-python-novaclient
+python-novaclient=contrib.rpath.org@rpl:2-py26/2.6.1-1-1
 python-pam
 python-wokkel
 python-xattr

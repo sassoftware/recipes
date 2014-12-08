@@ -1,0 +1,11 @@
+--- find-requires.ksyms.orig	2014-08-19 13:12:51.107846250 +0000
++++ find-requires.ksyms	2014-08-19 13:13:06.001513985 +0000
+@@ -45,7 +45,7 @@ fi
+ 
+ check_kabi() {
+     arch=$(uname -m)
+-    kabi_file="/lib/modules/kabi/kabi_whitelist_$arch"
++    kabi_file="/lib/modules/kabi-current/kabi_whitelist_$arch"
+ 
+     # If not installed, output a warning and return (continue)
+     if [ ! -f "$kabi_file" ]; then

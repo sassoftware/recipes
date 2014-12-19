@@ -80,6 +80,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'file',
             'keyutils',
             'less',
+            'nc',
             'nfs-utils',
             'openssl',
             'openssh-clients',

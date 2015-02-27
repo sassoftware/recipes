@@ -29,6 +29,7 @@ class GroupRbuilderDist(GroupSetRecipe):
         vapp_core = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
         core = r.troveFromMacro('distro_label', 'group-standard')
         core = core.makeOptional(core.find(
+            'kernel',
             'selinux-policy',
             'selinux-policy-targeted',
             )).update(vapp_core.find(
@@ -97,6 +98,8 @@ class GroupRbuilderDist(GroupSetRecipe):
             'conary',
             'dstat',
             'file',
+            'kernel-buildme',
+            'kexec-tools',
             'keyutils',
             'krb5-workstation',
             'less',

@@ -131,11 +131,14 @@ conary-web-common=conary.rpath.com@rpl:1
 info-apache=conary.rpath.com@rpl:2
 info-rmake=conary.rpath.com@rpl:2
 info-rmake-chroot=conary.rpath.com@rpl:2
-kernel-buildme=buildme.cny.sas.com@sas:buildme-6-devel
-kexec-tools=buildme.cny.sas.com@sas:buildme-6-devel
 rapa-plugin-rPath=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
 group-rpm=rpm.rpath.org@rpath:centos-6-devel
+"""
+
+    x86_64_only = """
+kernel-buildme=buildme.cny.sas.com@sas:buildme-6-devel
+kexec-tools=buildme.cny.sas.com@sas:buildme-6-devel
 """
 
     def setup(r):
@@ -156,7 +159,10 @@ group-rpm=rpm.rpath.org@rpath:centos-6-devel
 
     @property
     def packageManifest(r):
-        for pkg in r.packages.split('\n'):
+        items = r.packages
+        if Arch.x86_64:
+            items += r.x86_64_only
+        for pkg in items.split('\n'):
             pkg = pkg.strip()
             if not pkg or pkg.startswith('#'):
                 continue

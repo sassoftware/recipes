@@ -150,6 +150,11 @@ bitstream-vera-fonts=conary.rpath.com@rpl:2
 group-rpm=rpm.rpath.org@rpath:centos-6-devel
 """
 
+    x86_64_only = """
+kernel-buildme=buildme.cny.sas.com@sas:buildme-6-devel
+kexec-tools=buildme.cny.sas.com@sas:buildme-6-devel
+"""
+
     def setup(r):
         r.setGroupSearchPath()
         #r.addAll('group-os', flatten=True)
@@ -168,7 +173,10 @@ group-rpm=rpm.rpath.org@rpath:centos-6-devel
 
     @property
     def packageManifest(r):
-        for pkg in r.packages.split('\n'):
+        items = r.packages
+        if Arch.x86_64:
+            items += r.x86_64_only
+        for pkg in items.split('\n'):
             pkg = pkg.strip()
             if not pkg or pkg.startswith('#'):
                 continue

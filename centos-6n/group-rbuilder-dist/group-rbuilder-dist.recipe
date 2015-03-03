@@ -210,7 +210,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             'corosync',
             'crmsh',
             'drbd',
-            'kernel-drbd',
             'pacemaker',
             'puppet-corosync',
             'rbuilder-ha',

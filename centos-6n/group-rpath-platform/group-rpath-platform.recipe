@@ -27,7 +27,6 @@ info-jabber
 info-nginx
 info-pgbouncer
 jabberd
-kernel-drbd
 libevent
 libgsasl
 librsync

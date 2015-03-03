@@ -55,6 +55,7 @@ python-jsonpointer
 python-jsonschema
 python-keystoneclient
 python-mako
+python-markupsafe
 python-meld3
 python-netaddr
 python-novaclient
@@ -68,6 +69,7 @@ python-psycopg2
 python-pygeoip
 python-pyramid
 python-pyramid_beaker
+python-pyramid_mako
 python-pyramid_simpleform
 python-pyramid_tm
 python-pytz

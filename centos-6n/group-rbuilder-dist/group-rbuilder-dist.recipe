@@ -90,6 +90,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'strace',
             'sudo',
             'sysstat',
+            'unzip',
             'wget',
             )
         system = r.mainSearchPath.find(
@@ -130,6 +131,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sysstat',
             'tcpdump',
             'tinc',
+            'unzip',
             'vim-enhanced',
             'wget',
             'which',

@@ -117,7 +117,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
         # Add packages required for developing rPath-related technology
         r.add('testutils')
         r.add('forester')
-        r.add('jbutler')
         r.add('gunicorn')
         r.add('info-nginx')
         r.add('nginx')
@@ -182,13 +181,12 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                 # Other components
                 ('rpm_label',               ['group-rpm']),
 
-                # internal components
+	        # internal components
                 ('testutils_label', [
                         'testutils',
                     ]),
                 ('buildtools_label', [
                         'forester',
-                        'jbutler',
                     ]),
               ]:
             if macro not in r.macros:

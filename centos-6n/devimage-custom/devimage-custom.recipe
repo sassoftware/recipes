@@ -24,6 +24,9 @@ class DevimageCustom(PackageRecipe):
         r.addSource('repomaps', dest='/etc/conary/config.d/')
         r.InitialContents('/etc/conary/config.d/repomaps')
         r.addSource('system-rmakerc', dest='/etc/rmake/client.d/devimage.conf')
+        r.addSource('system-rbuildrc', dest='/etc/rbuildrc')
+        for src in ('sasappliance', 'sasfactory', 'sasgroup', 'saspackage'):
+            r.addSource(src, dest='/etc/conary/recipeTemplates/' + src)
 
         r.macros.scriptdir = '%(datadir)s/%(name)s/scripts/'
         r.addSource('update_config.sh', dest='%(scriptdir)s', mode=0755)

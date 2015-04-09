@@ -269,7 +269,6 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'jobslave',
                         'mcp',
                         'mcp-server',
-                        'pcreator',
                         'pyovf',
                         'rbuilder',
                         'rbuilder-ha',

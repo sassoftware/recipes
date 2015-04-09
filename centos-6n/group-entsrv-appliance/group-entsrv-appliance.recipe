@@ -87,7 +87,6 @@ class GroupEntitlementServiceAppliance(GroupSetRecipe):
                         'info-entsrv',
                         'jobslave',
                         'mcp',
-                        'pcreator',
                         'pyovf',
                         'rbuilder',
                         'repodata',

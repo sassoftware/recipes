@@ -120,7 +120,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'conary-rest',
                         'jobslave',
                         'mcp',
-                        'pcreator',
                         'pyovf',
                         'rbuilder',
                         'repodata',

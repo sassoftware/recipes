@@ -293,7 +293,6 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'rpath-xmllib',
                         'sasinside-role-master-appengine',
                         'smartform',
-                        'wmiclient',
                         'xobj',
                       ]),
                 ('aemon_label', [

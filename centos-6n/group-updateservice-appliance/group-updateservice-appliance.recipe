@@ -113,7 +113,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                         'rmake3-node',
                         'updateservice',
                         'updateservice-appliance',
-                        'wmiclient',
                       ]),
                 ('base_label', [
                         'catalog-service',

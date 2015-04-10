@@ -103,7 +103,6 @@ class GroupEntitlementServiceAppliance(GroupSetRecipe):
                         'rpath-tools',
                         'rpath-xmllib',
                         'smartform',
-                        'wmiclient',
                         'xobj',
                       ]),
               ]:

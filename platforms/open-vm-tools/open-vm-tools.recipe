@@ -60,8 +60,7 @@ class OpenVmTools(CPackageRecipe):
             r.Make('CFLAGS="-O2 -march=i586 -g -DGLIBC_VERSION_22"')
         else:
             r.Make()
-        r.MakeDirs('%(sysconfdir)s/vmware-tools',
-                   '/mnt/hgfs',)
+        r.MakeDirs('%(sysconfdir)s/vmware-tools')
         r.MakeInstall()
         # work around install of broken symlink
         r.Remove('%(essentialsbindir)s/mount.vmhgfs')
@@ -76,4 +75,3 @@ class OpenVmTools(CPackageRecipe):
 
         r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
                     mode=0755)
-        r.ExcludeDirectories(exceptions='/mnt/hgfs')

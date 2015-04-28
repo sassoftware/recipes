@@ -7,7 +7,7 @@ loadRecipe('open-vm-tools')
 #loadInstalled('kernel')
 class KmodOpenVMTools(OpenVmTools):
     name = 'kmod-open-vm-tools'
-    version = '9.4.0_1280544'
+    version = '9.4.6_1770165'
 
     buildRequires = [ 'gcc-c++:rpm', 
                       'libICE-devel:rpm', 
@@ -15,6 +15,7 @@ class KmodOpenVMTools(OpenVmTools):
                       'pam-devel:rpm', 
                       'pkgconfig:rpm', 
                       'glib2-devel:rpm',
+                      #'group-kernel-devel',
                       'kernel',
                       'kernel-devel',
                       'kernel-abi-whitelists:rpm',
@@ -29,44 +30,39 @@ class KmodOpenVMTools(OpenVmTools):
 
     Flags.debug = False
 
+    extraopts = ' --with-kernel-release=%(kvers)s --with-linuxdir=%(kdevel)s '
+
     def setup(r):
         # Use unpack method from open-vm-tools.recipe update
-        #r.unpack()
         r.unpackOpenVMTools()
-        r.setupOpenVMTools()
+        r.prepOpenVMTools()
+        r.buildOpenVMTools()
 
     def detectKVers(r):
         """
         Find the kver for all kernel modules that have been installed.
         """
         import glob
-        
+        #testPath = '/lib/modules/*'
         # Only works because we are installing group-kernel-devel
         testPath = '/usr/src/kernels/*'
 
 
         buildTrees = glob.glob(testPath)
-        #Need to trick it until kernel-devel is installed
-        if not len(buildTrees):
-            testPath = '/lib/modules/*'
-            buildTrees = glob.glob(testPath)
-            if not len(buildTrees): raise RuntimeError("No kernel modules found.")
+        #no longer works until group-kernel-devel is isntalled
+        #if len(buildTrees) == 0:
+        #    raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 
         return max(kvers)
 
 
-    def unpackOpenVMTools(r):
+    def buildOpenVMTools(r):
+        # Pull versions from open-vm-tools
         r.macros.ovmtoolsver = OpenVmTools.version.replace('_', '-')
         r.macros.ovmname = OpenVmTools.name
-        r.macros.ovmdir = '%s' % r.ovmdir 
-        r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/'
-                        '%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
-        r.addPatch('modules_makefile.patch')
-        r.addPatch('kernel_devel.patch')
-
-    def setupOpenVMTools(r):
+        r.macros.ovmdir = '%s' % r.ovmdir
         # Build VMware kernel modules
         # Insert logic to determine kernel flavor here.
         r.macros.variant = ''
@@ -90,18 +86,12 @@ class KmodOpenVMTools(OpenVmTools):
         r.macros.vmsrc = '%(ovmname)s-%(ovmtoolsver)s' % r.macros
 
 
-        r.Configure(r.configopts +
-                '--with-kernel-release=%(kvers)s '
-                '--with-linuxdir=%(kdevel)s ' % r.macros
-                )
-
         r.Make('HEADER_DIR=%(kinclude)s VM_KBUILD=26 modules' % r.macros, dir='modules')
 
         r.Make('MODULES_DIR=%(kmoddir)s/open-vm-tools'
                 ' KERNEL_RELEASE=%(kvers)s VM_UNAME=%(kvers)s install-exec' % r.macros, dir='modules')
 
         r.ByDefault(exceptions=':supdoc')
-        #r.KmodRequires(exceptions='.*')
         r.Requires('soname: /lib/modules/%(kvers)s/kernel/drivers/scsi/sg.ko' % r.macros, '/lib/modules/%(kvers)s/kernel/extra/open-vm-tools/vmhgfs.ko')
  
 

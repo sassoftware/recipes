@@ -6,10 +6,11 @@
 
 class OpenVmTools(CPackageRecipe):
     name = "open-vm-tools"
-    version = "9.4.0_1280544"
+    version = '9.4.6_1770165'
 
     # requirements that we used on other platforms
     buildRequires = [ 'chkconfig:rpm', 
+                      'libtool:rpm',
                       'libicu-devel:rpm', 
                       'libstdc++:rpm',
                       'pkgconfig:rpm', 
@@ -36,31 +37,63 @@ class OpenVmTools(CPackageRecipe):
                       'fuse-devel:rpm',
                     ]
 
+    ovmname = 'open-vm-tools'
     ovmdir = 'stable-9.4.x'
     configopts =  ' --without-dnet --without-gtkmm --disable-multimon --without-x  --disable-static --disable-dependency-tracking '
+    extraopts = ' --without-kernel-modules --without-root-privileges'
+    
 
-    def setup(r):
+    def unpackOpenVMTools(r):
         r.macros.version = r.macros.version.replace('_', '-')
+        r.macros.ovmtoolsver = r.macros.version.replace('_','-')
+        r.macros.ovmname = r.ovmname
         r.macros.ovmdir = r.ovmdir
-        #r.addArchive('mirror://sourceforge/%(name)s/%(name)s-%(version)s.tar.gz')
-        #
-        #r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/stable-9.2.x/%(name)s-%(version)s.tar.gz')
-        r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(name)s/%(ovmdir)s/%(name)s-%(version)s.tar.gz')
+        r.addArchive('http://sourceforge.net/projects/open-vm-tools/files/%(ovmname)s/%(ovmdir)s/%(ovmname)s-%(ovmtoolsver)s.tar.gz')
         r.addSource('xautostart.conf')
-        r.addSource('tools.conf')
         r.addSource('vmware-guestd.init')
         r.addSource('redirect.sh' , mode=0755)
-        #r.addPatch('legacy-glib.patch')
-        r.Replace('CFLAGS -Werror"', 'CFLAGS"', 'configure')
-        r.Configure(r.configopts +
-                    '--without-kernel-modules --without-root-privileges')
+        r.addPatch('g_info_redefine.patch')
+        r.addPatch('ip_route_config.patch')
+        r.addPatch('sizeof_argument.patch')
+        r.addPatch('kernel_devel-9.4.6.patch')
+        r.addPatch('modules_makefile-9.4.6.patch')
+
+
+    def prepOpenVMTools(r):
+        r.macros.cflags += " -Wno-unused-local-typedefs -Wno-deprecated-declarations -Wno-sizeof-pointer-memaccess -D_DEFAULT_SOURCE"
+        r.macros.cxxflags += " -Wno-unused-local-typedefs -Wno-deprecated-declarations  -Wno-sizeof-pointer-memaccess -D_DEFAULT_SOURCE"
+
+        # Required for version 9.4.0+
+        r.Environment('CUSTOM_PROCPS_NAME', 'procps')
+
+
+        r.Replace('CFLAGS -Werror"', 'CFLAGS"', 'configure.ac')
+
+        r.Run('autoreconf -i')
+
+        r.Configure(r.configopts + r.extraopts)
+
         r.Run('./redirect.sh')
+
+
+
+    def setup(r):
+
+        r.unpackOpenVMTools()
+
+        r.prepOpenVMTools()
+
         if Arch.x86:
             # advice from http://www.mail-archive.com/open-vm-tools-devel@lists.sourceforge.net/msg00568.html
             r.Make('CFLAGS="-O2 -march=i586 -g -DGLIBC_VERSION_22"')
         else:
             r.Make()
-        r.MakeDirs('%(sysconfdir)s/vmware-tools')
+
+        r.MakeDirs('%(sysconfdir)s/vmware-tools',
+                   '/mnt/hgfs',)
+
+        r.InitialContents('/mnt/hgfs')
+
         r.MakeInstall()
         # work around install of broken symlink
         r.Remove('%(essentialsbindir)s/mount.vmhgfs')
@@ -68,10 +101,6 @@ class OpenVmTools(CPackageRecipe):
 
         r.Install('xautostart.conf', '%(sysconfdir)s/vmware-tools/xautostart.conf',
                   mode=0644)
-
-        # FIXME APPENG-2138 vmsvc Failed to get nic info
-        r.Install('tools.conf', '%(sysconfdir)s/vmware-tools/tools.conf',
-                    mode=0644)
-
         r.Install('vmware-guestd.init', '%(initdir)s/vmtoolsd',
-                    mode=0755)
+                  mode=0755)
+        r.ExcludeDirectories(exceptions='/mnt/hgfs')

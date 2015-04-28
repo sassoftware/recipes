@@ -66,7 +66,6 @@ start() {
     echo -n $"Starting VMware toolsd: "
     #modprobe -q vmmemctl
     modprobe -q vmsync
-    mkdir -p /mnt/hgfs
     $STARTPROC /usr/bin/vmtoolsd $OPTIONS
     RETVAL=$?
     showstatus $RETVAL

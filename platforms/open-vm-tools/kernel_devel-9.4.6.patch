@@ -1,0 +1,13 @@
+--- configure.ac	2015-04-27 11:45:28.294643506 -0400
++++ configure.ac.new	2015-04-27 12:07:19.867641747 -0400
+@@ -148,7 +148,9 @@ if test "$with_kernel_modules" = "yes"; 
+          if test ! -d "$LINUXDIR/kernel/"; then
+              AC_MSG_ERROR([$LINUXDIR/kernel does not exist])
+          fi
+-         LINUXINCLUDE="$LINUXDIR/build/include"
++         #LINUXINCLUDE="$LINUXDIR/build/include"
++         # HACKED TO USE /usr/src/kernel/$(uname -r)
++         LINUXINCLUDE="$LINUXDIR/include"
+          if test ! -d "$LINUXINCLUDE"; then
+             AC_MSG_ERROR([Can't find include dir under $LINUXDIR])
+          fi

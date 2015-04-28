@@ -1,0 +1,16 @@
+--- modules/Makefile.am	2014-07-01 18:21:14.000000000 -0400
++++ modules/Makefile.am.new	2015-04-27 15:17:28.000000000 -0400
+@@ -71,11 +71,10 @@ if FREEBSD
+ endif
+ if LINUX
+ 	for MOD in $(MODULES); do                                              \
+-	   $(INSTALL) -d $(DESTDIR)`eval echo '$$'$${MOD}dir`;                 \
++	   $(INSTALL) -d $(DESTDIR)$(MODULES_DIR);                 \
+ 	   $(INSTALL) -m644 $(modulesrc)/$(MODULES_OS)/$$MOD/$$MOD.ko          \
+-	      $(DESTDIR)`eval echo '$$'$${MOD}dir`;                            \
++	      $(DESTDIR)$(MODULES_DIR);                            \
+ 	done
+-	eval "$$DEPMOD"
+ endif
+ 
+ uninstall-hook:

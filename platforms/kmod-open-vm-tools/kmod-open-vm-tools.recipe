@@ -43,15 +43,16 @@ class KmodOpenVMTools(OpenVmTools):
         Find the kver for all kernel modules that have been installed.
         """
         import glob
-        #testPath = '/lib/modules/*'
+
+        kvers = []
         # Only works because we are installing group-kernel-devel
         testPath = '/usr/src/kernels/*'
-
-
         buildTrees = glob.glob(testPath)
-        #no longer works until group-kernel-devel is isntalled
-        #if len(buildTrees) == 0:
-        #    raise RuntimeError("No kernel modules found.")
+        if len(buildTrees) == 0:
+            testPath = '/lib/modules/*'
+            buildTrees = glob.glob(testPath)
+        if len(buildTrees) == 0:
+            raise RuntimeError("No kernel modules found.")
 
         kvers = [ x.split('/')[-1] for x in buildTrees ]
 

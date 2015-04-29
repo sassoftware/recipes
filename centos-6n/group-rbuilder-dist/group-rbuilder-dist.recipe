@@ -175,7 +175,6 @@ class GroupRbuilderDist(GroupSetRecipe):
 
             # Jobmaster
             'jobmaster',
-            'rbuilder-mcp',
 
             # rMake Multinode Server and Configuration.
             'rmake',
@@ -272,7 +271,6 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'pyovf',
                         'rbuilder',
                         'rbuilder-ha',
-                        'rbuilder-mcp',
                         'rbuilder-ui',
                         'restlib',
                         'rmake',

@@ -149,6 +149,7 @@ info-rmake-chroot=conary.rpath.com@rpl:2
 rapa-plugin-rPath=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
 group-rpm=rpm.rpath.org@rpath:centos-6-devel
+anaconda-utils=conary.rpath.com@rpl:2
 """
 
     x86_64_only = """

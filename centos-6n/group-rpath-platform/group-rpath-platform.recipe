@@ -38,6 +38,7 @@ pacemaker
 pgbouncer
 puppet-corosync
 puppet-stdlib
+python-alabaster
 python-alembic
 python-argparse
 python-Babel
@@ -45,10 +46,12 @@ python-beaker
 python-boto
 python-chameleon
 python-crypto
+python-docutils
 python-epdb
 python-formencode
 python-glanceclient
 python-iso8601
+python-jinja2
 python-jsonpatch
 python-jsonpointer
 python-jsonschema
@@ -66,6 +69,7 @@ python-pbr
 python-PrettyTable
 python-psycopg2
 python-pygeoip
+python-pygments
 python-pyramid
 python-pyramid_beaker
 python-pyramid_mako
@@ -78,6 +82,9 @@ python-repoze-lru
 python-requests
 python-setproctitle
 python-six
+python-snowballstemmer
+python-sphinx
+python-sphinx-rtd-theme
 python-stevedore
 python-supervisor
 python-transaction

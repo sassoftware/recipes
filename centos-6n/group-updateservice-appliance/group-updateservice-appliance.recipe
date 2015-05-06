@@ -62,7 +62,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
 
             # Maintenance tools and monitoring
             'amiconfig',
-            'amiconfig-vmwareguest',
             'keyutils',
             'krb5-workstation',
             'lsof',
@@ -102,7 +101,6 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
                 # rBuilder components from the build label
                 ('master_label', [
                         'amiconfig',
-                        'amiconfig-vmwareguest',
                         'conary',
                         'conary-build',
                         'conary-policy',

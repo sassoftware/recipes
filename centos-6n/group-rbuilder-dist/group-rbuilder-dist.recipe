@@ -95,7 +95,6 @@ class GroupRbuilderDist(GroupSetRecipe):
             )
         system = r.mainSearchPath.find(
             'amiconfig',
-            'amiconfig-vmwareguest',
             'conary',
             'dstat',
             'file',
@@ -252,7 +251,6 @@ class GroupRbuilderDist(GroupSetRecipe):
         for macro, packages in [
                 ('master_label', [
                         'amiconfig',
-                        'amiconfig-vmwareguest',
                         'anaconda-custom',
                         'catalog-service',
                         'conary',

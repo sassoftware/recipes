@@ -93,6 +93,7 @@ class GroupRpathPackages(GroupSetRecipe):
             'tag-pangomodule',
             'tag-shell',
             'tag-usergroup-info',
+            'tag-chkconfig-override',
             ).createGroup('group-tags')
         packages += groupTags.makeOptional()
 

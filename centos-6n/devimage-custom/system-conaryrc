@@ -3,4 +3,4 @@
 autoLoadRecipes group-superclasses=centos6.rpath.com@rpath:centos-6-common
 
 # A sane default search path for finding packages
-installLabelPath centos6.rpath.com@rpath:centos-6e centos6.rpath.com@rpath:centos-6-common contrib.rpath.org@rpath:centos-6n
+installLabelPath centos6.rpath.com@rpath:centos-6e centos6.rpath.com@rpath:centos-6-common

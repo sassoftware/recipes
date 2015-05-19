@@ -14,7 +14,7 @@ class GroupRpathPlatform(GroupRecipe):
     checkPathConflicts = False
 
     packages = """
-# Contrib - centos-6n
+# Contrib
 cluster-glue
 corosync
 crmsh
@@ -51,6 +51,7 @@ python-epdb
 python-formencode
 python-glanceclient
 python-iso8601
+python-jenkinsapi
 python-jinja2
 python-jsonpatch
 python-jsonpointer
@@ -109,12 +110,11 @@ SQLAlchemy
 tinc
 udns
 
-# Contrib - rpl-2-py26
-django=contrib.rpath.org@rpath:centos-6n/1.3.5-2-1
-django-cache-memcached=contrib.rpath.org@rpath:centos-6n/1.3.5-2-1
-django-db-postgres=contrib.rpath.org@rpath:centos-6n/1.3.5-2-1
-django-rest-interface=contrib.rpath.org@rpl:2-py26/r81-5-0.1
-django-debug-toolbar=contrib.rpath.org@rpl:2-py26
+django=1.3.5-2-1
+django-cache-memcached=1.3.5-2-1
+django-db-postgres=1.3.5-2-1
+django-rest-interface=r81-5-1
+django-debug-toolbar
 markdown
 paramiko
 python-cssutils
@@ -173,10 +173,8 @@ kexec-tools=buildme.cny.sas.com@sas:buildme-6-devel
 
     def setGroupSearchPath(r):
         r.setSearchPath(
-            'contrib.rpath.org@rpath:centos-6n',
-            'contrib.rpath.org@rpl:2-py26',
+            'contrib.cny.sas.com@sas:centos-6n',
             'conary.rpath.com@rpl:2-py26',
-            'contrib.rpath.org@rpl:2',
             'conary.rpath.com@rpl:2',
         )
 

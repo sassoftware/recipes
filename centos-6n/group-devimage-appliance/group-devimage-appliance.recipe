@@ -182,16 +182,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                 # Other components
                 ('rpm_label',               ['group-rpm']),
 
-                # contrib dependencies
-                ('contrib_py_label', [
-                    'python-jenkinsapi',
-                    ]),
-
-                # ditro dependencies
-                ('distro_label', [
-                    'PyYAML',
-                    ]),
-
                 ('buildtools_label', [
                         'forester',
                         'jbutler',

@@ -20,6 +20,7 @@ corosync
 crmsh
 drbd
 ec2-ami-tools
+git
 gunicorn
 info-haclient
 info-hacluster
@@ -38,6 +39,7 @@ pacemaker
 pgbouncer
 puppet-corosync
 puppet-stdlib
+pyflakes
 python-alabaster
 python-alembic
 python-argparse
@@ -108,6 +110,7 @@ rubygem-hiera
 rubygem-json_pure
 SQLAlchemy
 tinc
+tmux
 udns
 
 django=1.3.5-2-1

@@ -61,22 +61,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             # added back from an in-tree source
             'conary',
             'python-crypto',
-            #'libelf-lgpl',
-            #'m2crypto-conary',
-            #'openslp-conary',
             'open-vm-tools',
-            #'python-conary',
-            #'python-lxml-conary',
-            #'pywbem-conary',
-            #'rpath-models',
-            #'rpath-tools',
-            #'sblim-cmpi-base-conary',
-            #'sblim-cmpi-devel-conary',
-            #'sblim-cmpi-network-conary',
-            #'sblim-sfcb-conary',
-            #'sblim-sfcb-schema-conary',
-            #'smartform-conary',
-            #'smartform',
             # WORKAROUND for mismatched platform groups
             'file',
             'keyutils',
@@ -227,6 +212,51 @@ class GroupRbuilderDist(GroupSetRecipe):
             ).makeOptional()
         addToMain.append(extras)
 
+        # devel
+        devel = rba + r.mainSearchPath.find(
+            'asciidoc',
+            'autoconf',
+            'automake',
+            'binutils',
+            'bison',
+            'ctags',
+            'distro-policy',
+            'elfutils',
+            'elfutils-libelf-devel',
+            'expat-devel',
+            'flex',
+            'gcc',
+            'gcc-c++',
+            'gdb',
+            'gdbm-devel',
+            'gettext',
+            'git',
+            'glibc-utils',
+            'intltool',
+            'libcap-devel',
+            'libidn-devel',
+            'libtool',
+            'libxml2-devel',
+            'lzop',
+            'man',
+            'man-pages',
+            'openssl-devel',
+            #'pyflakes',
+            'python-devel',
+            'python-keyutils',
+            'python-requests',
+            'python-webunit',
+            'rbuild',
+            'sqlite-devel',
+            'testutils',
+            #'tmux',
+            'xmlto',
+            'xz',
+            'zlib-devel',
+            )
+        devel += r.mainSearchPath['group-tags'].flatten().components('tagdescription')
+        addToMain.append(r.makeImageGroup('group-rbuilder-devel', devel))
+
         ## group-rbuilder-dist -- just a bucket for the things created above
         main = addToMain.pop(0)
         for x in addToMain:
@@ -267,6 +297,7 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'mcp',
                         'mcp-server',
                         'pyovf',
+                        'rbuild',
                         'rbuilder',
                         'rbuilder-ha',
                         'rbuilder-ui',
@@ -287,10 +318,8 @@ class GroupRbuilderDist(GroupSetRecipe):
                         'rpath-xmllib',
                         'sasinside-role-master-appengine',
                         'smartform',
+                        'testutils',
                         'xobj',
-                      ]),
-                ('aemon_label', [
-                        'aemon',
                       ]),
                 ]:
             label = r.macros.get(macro)

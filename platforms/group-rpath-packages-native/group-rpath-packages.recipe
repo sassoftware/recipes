@@ -118,8 +118,6 @@ class GroupRpathPackages(GroupSetRecipe):
             'info-vboxsf',
             'virtualbox-addons',
             'virtualbox-addons-vboxsf',
-            #'parallel-tools', # Remove for the time being on unresolved dep
-            'parallel-tools-fs',
             ) + common.find(
             'fltk-conary',
             'xe-guest-utilities',
@@ -131,13 +129,11 @@ class GroupRpathPackages(GroupSetRecipe):
             groupRpathTools += local.find(
                 'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
                 'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
-                'kmod-parallel-tools[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
         else:
             groupRpathTools += local.find(
                 'kmod-open-vm-tools[~!kmod-open-vm-tools.debug]',
                 'kmod-virtualbox-addons[~!kmod-virtualbox-addons.debug]',
-                'kmod-parallel-tools[~!kmod-virtualbox-addons.debug]',
                 ).makeOptional()
 
 
@@ -154,8 +150,6 @@ class GroupRpathPackages(GroupSetRecipe):
             'kmod-open-vm-tools',
             'virtualbox-addons-vboxsf',
             'kmod-virtualbox-addons',
-            'parallel-tools-fs',
-            'kmod-parallel-tools',
             )
         groupRpathCore = r.rmcomps(groupRpathCore).createGroup('group-rpath-core')
         packages += groupRpathCore

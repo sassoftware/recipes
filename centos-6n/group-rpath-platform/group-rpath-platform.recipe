@@ -173,6 +173,7 @@ rapa-plugin-rPath=conary.rpath.com@rpl:2
 bitstream-vera-fonts=conary.rpath.com@rpl:2
 group-rpm=rpm.rpath.org@rpath:centos-6-devel
 anaconda-utils=conary.rpath.com@rpl:2
+group-puppet-everything=puppet.cny.sas.com@sas:puppet-5
 """
 
     x86_64_only = """

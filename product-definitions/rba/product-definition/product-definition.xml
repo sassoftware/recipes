@@ -13,32 +13,10 @@
         <stage labelSuffix="-qa" name="QA"/>
         <stage labelSuffix="" name="Release"/>
     </stages>
-    <partitionSchemes>
-        <partitionScheme id="esx">
-            <partition name="boot"  mount="/boot" fstype="ext4"         minSize="500M"/>
-            <partition name="root"  mount="/"     fstype="ext4"         minSize="100G"/>
-            <partition name="dummy" mount="dummy" fstype="unallocated"  minSize="200G"/>
-            <partition name="swap"  mount=""      fstype="swap"         minSize="2G"/>
-        </partitionScheme>
-    </partitionSchemes>
     <buildDefinition>
         <build containerTemplateRef="applianceIsoImage" architectureRef="x86_64" name="SAS App Engine %(major_version)s x86_64 ISO" flavorSetRef="generic">
             <image autoResolve="false" bugsUrl="" anacondaCustomTrove="%(master_label)s" mediaTemplateTrove="" baseFileName="" maxIsoSize="681574400" betaNag="false" anacondaTemplatesTrove="centos6.rpath.com@rpath:centos-6-common" installLabelPath="" showMediaCheck="false"/>
             <stage ref="Release"/>
-        </build>
-        <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="SAS App Engine vApp %(major_version)s ESX" flavorSetRef="generic">
-            <image autoResolve="false" natNetworking="true" baseFileName="%(product_version)s-esx" vmCPUs="4" swapSize="0" buildOVF10="true" vmMemory="8192" installLabelPath="" freespace="0"/>
-            <stage ref="QA"/>
-            <stage ref="Release"/>
-            <imageGroup>group-rbuilder-vapp</imageGroup>
-            <partitionScheme ref="esx"/>
-        </build>
-        <build containerTemplateRef="vmwareEsxImage" architectureRef="x86_64" name="%(product_version)s-esx" flavorSetRef="generic">
-            <image autoResolve="false" natNetworking="true" baseFileName="%(product_version)s-esx" vmCPUs="4" swapSize="0" buildOVF10="true" vmMemory="8192" installLabelPath="" freespace="0"/>
-            <stage ref="QA"/>
-            <stage ref="Release"/>
-            <imageGroup>group-rbuilder-vapp</imageGroup>
-            <partitionScheme ref="esx"/>
         </build>
     </buildDefinition>
     <platform sourceTrove="platform-definition=/centos6.rpath.com@rpath:centos-6e/6-4">

@@ -26,58 +26,12 @@ class GroupRbuilderDist(GroupSetRecipe):
         r.makeSearchPath()
         addToMain = []
 
-        vapp_core = r.troveFromMacro('vapp_label', 'group-standard-workgroup')
         core = r.troveFromMacro('distro_label', 'group-standard')
         core = core.makeOptional(core.find(
             'kernel',
             'selinux-policy',
             'selinux-policy-targeted',
-            )).update(vapp_core.find(
-            'facter',
-            'hiera',
-            'info-puppet',
-            'puppet',
-            'ruby-augeas:ruby',
-            'ruby-json:ruby',
-            'ruby-shadow:ruby',
-            'rubygem-json',
-            )).update(r.mainSearchPath.find(
-            'puppet-stdlib',
             ))
-        # Flatten packages but don't strongly include components or the groups that were flattened
-        vapp_core = vapp_core.flatten().getInstall()
-        vapp_core -= vapp_core.findByName(r'group-.*|.*:.*')
-        vapp_core -= vapp_core.find(
-            'selinux-policy',
-            'selinux-policy-targeted',
-            # unneeded or not-working vapp stuff
-            'sasinside-appvirt-sasmanagementconsole',
-            'sasinside-role-master',
-            'sasinside-role-perfmonitor',
-            'sasinside-role-router',
-            'sasinside-role-uploader',
-            'sasinside-thirdparty-webserver-sasrouter',
-            # remove most stuff from group-rpath-core, the useful bits will be
-            # added back from an in-tree source
-            'conary',
-            'python-crypto',
-            'open-vm-tools',
-            # WORKAROUND for mismatched platform groups
-            'file',
-            'keyutils',
-            'less',
-            'nc',
-            'nfs-utils',
-            'openssl',
-            'openssh-clients',
-            'postfix',
-            'rpm-python',
-            'strace',
-            'sudo',
-            'sysstat',
-            'unzip',
-            'wget',
-            )
         system = r.mainSearchPath.find(
             'amiconfig',
             'conary',
@@ -121,6 +75,11 @@ class GroupRbuilderDist(GroupSetRecipe):
             'which',
             'ypbind',
             'yp-tools',
+
+            # puppet
+            'puppet',
+            'puppet-stdlib',
+            'rubygem-hiera:ruby',
             )
 
         ## group-rbuilder-appliance
@@ -181,14 +140,6 @@ class GroupRbuilderDist(GroupSetRecipe):
 
         rba = r.makeImageGroup('group-rbuilder-appliance', core + system + rbuilder, scripts=scripts)
         addToMain.append(rba)
-
-        vapp = r.mainSearchPath.find(
-            'sasinside-role-master-appengine',
-            )
-        vapp += vapp_core + system + rbuilder
-        vapp = vapp.makeOptional(vapp.find('rbuilder:appliance'))  # omit static iptables rules, etc.
-        rbv = r.makeImageGroup('group-rbuilder-vapp', vapp_core + system + rbuilder + vapp, scripts=scripts)
-        addToMain.append(rbv)
 
         # add-on groups
         addToMain.append(r.makeZebra('group-ha', [

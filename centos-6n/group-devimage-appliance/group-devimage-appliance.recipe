@@ -167,6 +167,7 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                         'rmake',
                         'entsrv-client',
                         'entsrv-rbuild',
+                        'forester',
                         'testutils',
                       ]),
                 ('base_label', [
@@ -184,7 +185,6 @@ class GroupDevimageAppliance(ApplianceGroupRecipe):
                 ('rpm_label',               ['group-rpm']),
 
                 ('buildtools_label', [
-                        'forester',
                         'jbutler',
                     ]),
               ]:

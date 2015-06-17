@@ -3,7 +3,7 @@
     <productName>App Engine Infrastructure</productName>
     <productShortname>%(project_name)s</productShortname>
     <productDescription/>
-    <productVersion>%(product_version)s</productVersion>
+    <productVersion>rba-%(major_version)s</productVersion>
     <productVersionDescription>SAS App Engine %(major_version)s</productVersionDescription>
     <conaryRepositoryHostname>pdt.cny.sas.com</conaryRepositoryHostname>
     <conaryNamespace>sas</conaryNamespace>

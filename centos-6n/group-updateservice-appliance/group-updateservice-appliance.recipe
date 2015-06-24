@@ -67,6 +67,7 @@ class GroupUpdateServiceAppliance(GroupSetRecipe):
             'openssh-clients',
             'rsync',
             'strace',
+            'tag-usergroup-info:taghandler',
             'tcpdump',
             'vim-enhanced',
             'wget',

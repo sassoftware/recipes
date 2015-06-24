@@ -67,6 +67,7 @@ class GroupRbuilderDist(GroupSetRecipe):
             'sqlite',
             'strace',
             'sysstat',
+            'tag-usergroup-info:taghandler',
             'tcpdump',
             'tinc',
             'unzip',

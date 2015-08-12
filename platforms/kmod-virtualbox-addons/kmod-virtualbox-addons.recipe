@@ -52,7 +52,7 @@ class KmodVirtualboxAddons(VirtualboxAddons):
         r.addArchive('%(tarball)s', dir='%(maindir)s')
 
         r.addPatch('makefile_footer.patch')
-
+        r.addPatch('remove-vboxvideo.patch')
 
     def detectKVers(r):
         """

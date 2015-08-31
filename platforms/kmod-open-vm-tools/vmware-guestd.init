@@ -1,0 +1,116 @@
+#!/bin/sh
+#
+# vmtoolsd:   VMware toolsd
+#
+# chkconfig: 345 98 02
+# description: vmtoold is responsible for automatically starting vmware-user
+#
+# servicename: vmtoolsd
+### BEGIN INIT INFO
+# Provides: vmtoolsd
+# Required-Start: $local_fs
+# Should-Start: 
+# Required-Stop: 
+# Default-Start: 3 4 5
+# Default-Stop: 0 1 2 6
+# Short-Description: Starts the VMware Tools Daemon
+# Description: VMware Tools Daemon
+### END INIT INFO
+#
+
+# Use RPL as default
+DISTRO=rpl
+STARTPROC=daemon
+
+if [ -f "/etc/init.d/functions" ]; then
+    DISTRO=rpl
+    STARTPROC=daemon
+    source /etc/init.d/functions
+elif [ -f /etc/rc.status ]; then
+    DISTRO=sles
+    STARTPROC=startproc
+    source /etc/rc.status
+fi
+if [ "$DISTRO" = "rpl" ]; then
+showstatus() {
+    [ $1 = 0 ] && success || failure
+    echo
+}
+checkstatus() {
+    status $1
+}
+elif [ "$DISTRO" = "sles" ]; then
+showstatus() {
+    [ $1 = 0 ] && true || false
+    rc_status -v
+}
+checkstatus() {
+    echo -n "Checking for $1: "
+    checkproc $1
+    rc_status -v
+}
+fi
+
+servicename=vmtoolsd
+OPTIONS='--background /var/run/vmtoolsd.pid'
+
+RETVAL=0
+
+run_depmod() {
+    modinfo vmmemctl > /dev/null 2>&1 || /sbin/depmod -ae -F /boot/System.map-$( uname -r ) $( uname -r )
+}
+
+start() {
+    # Removed vmmemctl in 9.2x series
+    #run_depmod
+    echo -n $"Starting VMware toolsd: "
+    #modprobe -q vmmemctl
+    modprobe -q vmsync
+    $STARTPROC /usr/bin/vmtoolsd $OPTIONS
+    RETVAL=$?
+    showstatus $RETVAL
+    echo
+    [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$servicename
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping VMware toolsd: "
+
+    killproc $servicename -TERM
+    RETVAL=$?
+    showstatus $RETVAL
+    echo
+    if [ $RETVAL -eq 0 ]; then
+        rm -f /var/lock/subsys/$servicename
+    fi
+    return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        checkstatus $servicename
+        RETVAL=$?
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    condrestart)
+        if [ -f /var/lock/subsys/$servicename ]; then
+            stop
+            start
+        fi
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|status|restart|condrestart}"
+        ;;
+esac
+exit $RETVAL

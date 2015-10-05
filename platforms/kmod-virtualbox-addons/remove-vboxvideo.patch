@@ -1,5 +1,5 @@
---- src/vboxguest-4.3.30/Makefile.orig	2015-10-05 14:35:42.763432856 +0000
-+++ src/vboxguest-4.3.30/Makefile.new	2015-10-05 14:37:46.979432202 +0000
+--- src/vboxguest-4.3.30/Makefile	2015-07-10 11:11:39.000000000 +0000
++++ src/vboxguest-4.3.30/Makefile.new	2015-10-05 15:05:52.572431009 +0000
 @@ -19,7 +19,7 @@ ifneq ($(KBUILD_EXTMOD),)
  
  # DKMS

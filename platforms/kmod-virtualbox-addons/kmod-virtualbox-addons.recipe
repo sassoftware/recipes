@@ -19,7 +19,7 @@ loadRecipe('virtualbox-addons')
 
 class KmodVirtualboxAddons(VirtualboxAddons):
     name = 'kmod-virtualbox-addons'
-    version = '4.3.6_91406'
+    version = '4.3.30_101610'
 
     buildRequires = [ 'gcc:rpm',
                       'glib2-devel:rpm',

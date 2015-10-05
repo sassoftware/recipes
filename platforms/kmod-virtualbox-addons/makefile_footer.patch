@@ -1,5 +1,5 @@
---- src/vboxguest-4.3.6/vboxsf/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
-+++ src/vboxguest-4.3.6/vboxsf/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+--- src/vboxguest-4.3.30/vboxsf/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.30/vboxsf/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
 @@ -82,8 +82,9 @@ endif
  
  install: $(MODULE)
@@ -12,8 +12,8 @@
  
  endif # eq($(MAKECMDGOALS),clean)
  
---- src/vboxguest-4.3.6/vboxguest/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
-+++ src/vboxguest-4.3.6/vboxguest/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+--- src/vboxguest-4.3.30/vboxguest/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.30/vboxguest/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
 @@ -82,8 +82,9 @@ endif
  
  install: $(MODULE)
@@ -26,8 +26,8 @@
  
  endif # eq($(MAKECMDGOALS),clean)
 
---- src/vboxguest-4.3.6/vboxvideo/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
-+++ src/vboxguest-4.3.6/vboxvideo/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
+--- src/vboxguest-4.3.30/vboxvideo/Makefile.include.footer	2014-01-14 13:43:44.906260229 -0500
++++ src/vboxguest-4.3.30/vboxvideo/Makefile.include.footer.orig	2014-01-14 13:45:55.291169219 -0500
 @@ -82,8 +82,9 @@ endif
  
  install: $(MODULE)

@@ -231,6 +231,8 @@ class GroupRbuilderDist(GroupSetRecipe):
     def getAdditionalSearchPath(r):
         # Place new packages in the correct section, sorted alphabetically.
         packageSearchPath = []
+        # libjpeg has the same provides as libjpeg-turbo. who thought this was a good idea?
+        packageSearchPath.append(r.troveFromMacro('distro_label', 'libjpeg-turbo'))
         for macro, packages in [
                 ('master_label', [
                         'amiconfig',

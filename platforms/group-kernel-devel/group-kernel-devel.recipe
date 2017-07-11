@@ -56,6 +56,22 @@ class GroupKernelDevel(GroupSetRecipe):
                 'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.el6-1-1',
                 'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.1.1.el6-1-1',
                 'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.3.1.el6-1-1',
+                'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.7.1.el6-1-1',
+                'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.8.1.el6-1-1',
+                'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.12.1.el6-1-1',
+                'kernel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_573.18.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_573.22.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_573.26.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.3.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.1.1.el6-2-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.4.2.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.6.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.6.2.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.11.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.13.1.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.13.2.el6-1-1',
+                'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_642.15.1.el6-1-1',
                 ]))
 
         r.Group(pkgs, checkPathConflicts=False, scripts=None)

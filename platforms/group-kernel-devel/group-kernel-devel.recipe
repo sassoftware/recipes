@@ -126,6 +126,10 @@ class GroupKernelDevel(GroupSetRecipe):
              'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_696.23.1.el6-1-1',
              'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_696.28.1.el6-1-1',
              'kernel-devel=centos6.rpath.com@rpath:centos-6e/2.6.32_696.30.1.el6-1-1',
+             'kernel-devel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_754.el6-1-1',
+             'kernel-devel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_754.2.1.el6-1-1',
+             'kernel-devel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_754.3.5.el6-1-1',
+             'kernel-devel=centos6.rpath.com@rpath:centos-6e-devel/2.6.32_754.6.3.el6-1-1',
                         ]))
 
         r.Group(pkgs, checkPathConflicts=False, scripts=None)

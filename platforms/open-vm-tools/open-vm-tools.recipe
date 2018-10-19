@@ -65,7 +65,7 @@ class OpenVmTools(CPackageRecipe):
         r.addPatch('ip_route_config.patch')
         r.addPatch('kernel_devel-9.4.6.patch')
         r.addPatch('modules_makefile-9.4.6.patch')
-
+        r.addPatch('fsutil_c.patch')
 
     def prepOpenVMTools(r):
         r.macros.cflags += " -Wno-unused-local-typedefs -Wno-deprecated-declarations -Wno-sizeof-pointer-memaccess -D_DEFAULT_SOURCE"

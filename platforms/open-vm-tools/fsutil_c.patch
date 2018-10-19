@@ -1,0 +1,27 @@
+--- modules/linux/vmhgfs/fsutil.c       2018-10-19 12:43:20.301378808 +0000
++++ modules/linux/vmhgfs/fsutil.c.new   2018-10-19 12:44:48.810454941 +0000
+@@ -62,7 +62,7 @@ static int HgfsPackGetattrRequest(HgfsRe
+  * Private function implementations.
+  */
+
+-#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 2, 0)
++//#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 2, 0)
+ /*
+  *----------------------------------------------------------------------------
+  *
+@@ -79,13 +79,13 @@ static int HgfsPackGetattrRequest(HgfsRe
+  *----------------------------------------------------------------------------
+  */
+
+-static inline void
++/*static inline void
+ set_nlink(struct inode *inode, unsigned int nlink)
+ {
+    inode->i_nlink = nlink;
+ }
+ #endif
+-
++*/
+
+ /*
+  *----------------------------------------------------------------------
